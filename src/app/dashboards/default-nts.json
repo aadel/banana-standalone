@@ -1,4 +1,4 @@
-{
+﻿{
   "title": "New Non-Time Series Dashboard",
   "services": {
     "query": {
@@ -81,7 +81,21 @@
           "tilt": false,
           "labels": true,
           "spyable": true,
-          "title": "Total Hits"
+          "title": "Total Hits",
+          "show_queries": true,
+          "metrics": [
+            {
+              "type": "count",
+              "field": "id",
+              "decimalDigits": 0,
+              "label": "",
+              "value": "0"
+            }
+          ],
+          "refresh": {
+            "enable": false,
+            "interval": 2
+          }
         }
       ]
     },
@@ -181,8 +195,8 @@
     "dropdown_collections": false
   },
   "solr": {
-    "server": "/solr/",
-    "core_name": "searchlogs",
+    "server": "/api/apollo/solr/",
+    "core_name": "logs",
     "core_list": [],
     "global_params": ""
   }

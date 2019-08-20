@@ -3,6 +3,7 @@
  */
 require.config({
   baseUrl: 'app',
+  waitSeconds: 0,
   // urlArgs: 'r=@REV@',
   paths: {
     config:                   '../config',
@@ -25,7 +26,7 @@ require.config({
     'underscore-src':         '../vendor/underscore',
     bootstrap:                '../vendor/bootstrap/bootstrap',
 
-    jquery:                   '../vendor/jquery/jquery-1.8.0',
+    jquery:                   '../vendor/jquery/jquery-1.12.1',
     'jquery-ui':              '../vendor/jquery/jquery-ui-1.10.3',
 
     'extend-jquery':          'components/extend-jquery',
@@ -36,12 +37,25 @@ require.config({
     'jquery.flot.stack':      '../vendor/jquery/jquery.flot.stack',
     'jquery.flot.stackpercent':'../vendor/jquery/jquery.flot.stackpercent',
     'jquery.flot.time':       '../vendor/jquery/jquery.flot.time',
+    'jquery.flot.axislabels': '../vendor/jquery/jquery.flot.axislabels',
     'showdown':               '../vendor/showdown',
 
     modernizr:                '../vendor/modernizr-2.6.1',
     elasticjs:                '../vendor/elasticjs/elastic-angular-client',
     solrjs:                   '../vendor/solrjs/solr-angular-client',
     d3:                       '../vendor/d3',
+    vis:                      '../bower_components/vis/dist/vis',
+    x2js:                     '../bower_components/abdmob/x2js/xml2json',
+    'd3-sankey':              '../vendor/d3-sankey',
+    'd3-array':               '../vendor/d3-array',
+    'd3-collection':          '../vendor/d3-collection',
+    'd3-shape':               '../vendor/d3-shape',
+    'd3-path':                '../vendor/d3-path',
+    'd3-force':               '../vendor/d3-force',
+    'd3-quadtree':            '../vendor/d3-quadtree',
+    'd3-dispatch':            '../vendor/d3-dispatch',
+    'd3-timer':               '../vendor/d3-timer',
+    'd3v5':                   '../vendor/d3v5'
   },
   shim: {
     underscore: {
@@ -72,7 +86,8 @@ require.config({
     'jquery.flot.selection':['jquery', 'jquery.flot'],
     'jquery.flot.stack':    ['jquery', 'jquery.flot'],
     'jquery.flot.stackpercent':['jquery', 'jquery.flot'],
-    'jquery.flot.time':     ['jquery', 'jquery.flot'],
+    'jquery.flot.time':        ['jquery', 'jquery.flot'],
+    'jquery.flot.axislabels':  ['jquery', 'jquery.flot'],
 
     'angular-sanitize':     ['angular'],
     'angular-cookies':      ['angular'],

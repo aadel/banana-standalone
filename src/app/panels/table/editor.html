@@ -12,20 +12,22 @@
   </div>
 </div>
 <!-- 
-<div class="row-fluid">
-  <div class="span4">
-    <form class="input-append">
-      <h6>Add field</h6>
-      <input bs-typeahead="fields.list" type="text" class="input-small" ng-model='newhighlight' ng-change="set_refresh(true)">
-      <button class="btn" ng-click="toggle_highlight(newhighlight);newhighlight=''"><i class="icon-plus"></i></button>
-    </form>
+  <div class="row-fluid">
+    <div class="span4">
+      <form class="input-append">
+        <h6>Add field</h6>
+        <input bs-typeahead="fields.list" type="text" class="input-small" ng-model='newhighlight' ng-change="set_refresh(true)">
+        <button class="btn" ng-click="toggle_highlight(newhighlight);newhighlight=''"><i class="icon-plus"></i></button>
+      </form>
+    </div>
+    <div class="span8">
+      <h6>Highlighted fields <small>Click to remove</small></h6>
+      <span style="margin-left:3px" ng-click="toggle_highlight(field);set_refresh(true)" ng-repeat="field in $parent.panel.highlight" class="label remove pointer">{{field}} </span>
+    </div>
   </div>
-  <div class="span8">
-    <h6>Highlighted fields <small>Click to remove</small></h6>
-    <span style="margin-left:3px" ng-click="toggle_highlight(field);set_refresh(true)" ng-repeat="field in $parent.panel.highlight" class="label remove pointer">{{field}} </span>
-  </div>
-</div>
 -->
+
+<!-- General Options for Settings -->
 <h5>Options</h5>
 <div class="row-fluid">
   <div class="span1">
@@ -50,6 +52,37 @@
   </div>    
 </div>
 
+<!-- Enable Sub-row Settings -->
+<div class="row-fluid">
+  <div class="span2">
+    <h6>Sub-row
+      <tip data-placement="right">
+        Add a sub-row to each event so we have more space to display data from a selected field. For example, we can use
+        the sub-row to show a <pre>message_txt</pre> field which contains long text, making it easier to look through the data.
+      </tip>
+    </h6>
+    <input type="checkbox" ng-model="panel.enableSubrow" ng-checked="panel.enableSubrow">
+  </div>
+  <div class="span3" ng-show="panel.enableSubrow">
+    <h6>Field for sub-row <tip>This field value will be shown in the sub-row of each event.</tip></h6>
+    <input type="text" class="input-medium" ng-model="panel.subrowField" bs-typeahead="fields.list">
+  </div>
+  <div class="span2" ng-show="panel.enableSubrow">
+    <h6>Max characters <tip>Set the maximum number of characters to be shown in the sub-row.</tip></h6>
+    <input type="number" class="input-small" ng-model="panel.subrowMaxChar">
+  </div>
+  <div class="span2" ng-show="panel.enableSubrow">
+    <h6>Character offset
+      <tip>
+        Set the offset (number) from the beginning of the line. For example, 10 means the line will
+        be shown starting from character at offset 10 (e.g. the 11th character). 0 means no offset.
+      </tip>
+    </h6>
+    <input type="number" class="input-small" ng-model="panel.subrowOffset">
+  </div>
+</div>
+
+<!-- Add Hyperlink Settings -->
 <div class="row-fluid">
   <div class="span3">
     <h6>Add Hyperlink Column <tip>Add a column that will contain hyperlinks to access another resources such as URLs.</tip></h6>
@@ -69,6 +102,7 @@
   </div>
 </div>
 
+<!-- Display Images Settings -->
 <div class="row-fluid">
   <div class="span3">
     <h6>Display Images <tip>Display images in column(s) that contain URLs to images.</tip></h6>
@@ -88,21 +122,25 @@
   </div>
 </div>
 
+<!-- Read-time Auto-refresh Settings -->
 <div class="row-fluid">
-  <div class="span3">
-    <h6>Enable Couchbase Lookup <tip>Look up a field value from Couchbase. You have to specify which Couchbase bucket, document, and view to be used for the lookup.</tip></h6>
-    <input type="checkbox" ng-model="panel.enableCouchbase" ng-checked="panel.enableCouchbase">
+  <h5>Real-time (Auto-refresh)</h5>  
+  <div class="span1">
+    <label class="small">Enable</label><input type="checkbox" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">
   </div>
-  <div class="span3" ng-show="panel.enableCouchbase">
-    <h6>Bucket</h6>
-    <input type="text" class="input-medium" placeholder="beer-sample" ng-model="panel.couchbase.bucket">
-  </div>
-  <div class="span3" ng-show="panel.enableCouchbase">
-    <h6>Document</h6>
-    <input type="text" class="input-medium" placeholder="beer" ng-model="panel.couchbase.document">
-  </div>
-  <div class="span3" ng-show="panel.enableCouchbase">
-    <h6>View</h6>
-    <input type="text" class="input-medium" placeholder="brewery_beers" ng-model="panel.couchbase.view">
+  <div class="span2">
+    <label class="small">Interval (seconds) <tip>The minimum value is 2.</tip></label>
+    <input type="number" min="2" class="input-mini" ng-model="panel.refresh.interval">
   </div>
 </div>
+
+<!-- <div class="row-fluid">
+  <div class="span3" ng-show="panel.enableHyperlink && !panel.displayLinkIcon">
+    <h6>Column for Link Text</h6>
+    <input type="text" class="input-small" ng-model="panel.hyperlinkColumnForText" bs-typeahead="fields.list">
+  </div>
+  <div class="span3" ng-show="panel.enableHyperlink && !panel.displayLinkIcon">
+    <h6>Column for Links</h6>
+    <input type="text" class="input-small" ng-model="panel.hyperlinkColumnForURI" bs-typeahead="fields.list">
+  </div>
+</div> -->

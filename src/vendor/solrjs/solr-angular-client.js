@@ -18,6 +18,8 @@ angular.module('solrjs.service', [])
 
     var DEBUG = false; // DEBUG mode
 
+    var useFusion = false; // default to use Solr
+
     var
       // use existing sjs object if it exists
       sjs = window.sjs || {},
@@ -48,9 +50,17 @@ angular.module('solrjs.service', [])
         url = s;
         return this;
       },
+      useFusion: function (flag) {
+        useFusion = flag;
+      },
       post: function (path, data, successcb, errorcb) {
         var config = {};
+
+        // Check if use Fusion or Solr
         var isUpdate = path.indexOf('/update');
+        if (useFusion) {
+          isUpdate = path.indexOf('/index');
+        }
 
         if (DEBUG) { console.debug('solr-angular-client: url=',url,', path=',path,', isUpdate=',isUpdate); }
 
@@ -64,15 +74,30 @@ angular.module('solrjs.service', [])
         if (DEBUG) { console.debug('solr-angular-client: POST url=',url,', path=',path,', data=',data); }
         return promiseThen($http.post(path, data, config), successcb, errorcb);
       },
+      postWithConfig: function (path, data, config, successcb, errorcb) {
+        path = url + path;
+        return promiseThen($http.post(path, data, config), successcb, errorcb);
+      },
+      // This function is only use for Fusion Index Pipeline when deleting a saved dashboard.
+      postDel: function (path, data, successcb, errorcb) {
+        var config = { headers: {'Content-type':'application/vnd.lucidworks-document'} };
+        path = url + path;
+        return promiseThen($http.post(path, data, config), successcb, errorcb);
+      },
       get: function (path, data, successcb, errorcb) {
         path = url + path + '?' + data;
         if (DEBUG) { console.debug('solr-angular-client: GET url=',url,', path=',path,', data=',data); }
         return promiseThen($http.get(path), successcb, errorcb);
       },
+      // PUT is only used for saving a dashboard.
       put: function (path, data, successcb, errorcb) {
         path = url + path;
+
+        if (DEBUG) { console.debug('solr-angular-client: PUT path=',path,', data=',data); }
+
         return promiseThen($http.put(path, data), successcb, errorcb);
       },
+      // DELETE is for deleting a saved dashboard.
       del: function (path, data, successcb, errorcb) {
         path = url + path;
         return promiseThen($http.delete(path, data), successcb, errorcb);

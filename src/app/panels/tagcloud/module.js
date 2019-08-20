@@ -5,6 +5,7 @@
   * size :: top N
   * alignment :: How should I arrange the words in cloud 'horizontal and vertical' or 'Random'
   * fontScale :: Increase the font scale for all words
+  * ignoreStopWords :: Whether to Ignore Stop Words
 */
 define([
     'angular',
@@ -13,9 +14,10 @@ define([
     'jquery',
     'kbn',
     'd3',
+    './stopWords',
     './d3.layout.cloud'
   ],
-  function(angular, app, _, $, kbn, d3) {
+  function(angular, app, _, $, kbn, d3, stopwords) {
     'use strict';
 
     var module = angular.module('kibana.panels.tagcloud', []);
@@ -49,6 +51,7 @@ define([
         size: 10,
         alignment: 'vertical and horizontal',
         fontScale: 1,
+        ignoreStopWords: false,
         spyable: true,
         show_queries: true,
         error: '',
@@ -68,7 +71,7 @@ define([
         if (dashboard.indices.length === 0) {
           return;
         }
-
+        delete $scope.panel.error;
         $scope.panelMeta.loading = true;
         var request, results;
 
@@ -82,7 +85,7 @@ define([
 
         // Build Solr query
         var fq = '';
-        if (filterSrv.getSolrFq() && filterSrv.getSolrFq() != '') {
+        if (filterSrv.getSolrFq()) {
           fq = '&' + filterSrv.getSolrFq();
         }
         var wt_json = '&wt=json';
@@ -90,7 +93,7 @@ define([
         var facet = '&facet=true&facet.field=' + $scope.panel.field + '&facet.limit=' + $scope.panel.size;
 
         // Set the panel's query
-        $scope.panel.queries.query = querySrv.getQuery(0) + wt_json + rows_limit + fq + facet;
+        $scope.panel.queries.query = querySrv.getOPQuery() + wt_json + rows_limit + fq + facet;
 
         // Set the additional custom query
         if ($scope.panel.queries.custom != null) {
@@ -110,7 +113,7 @@ define([
           }
 
           var sum = 0;
-          var k = 0;
+//          var k = 0;
           var missing = 0;
           $scope.panelMeta.loading = false;
           $scope.hits = results.response.numFound;
@@ -125,6 +128,12 @@ define([
               i++;
               var count = v[i];
               sum += count;
+
+              // if ignoreStopWords is enabled, skip this term.
+              if ($scope.panel.ignoreStopWords && stopwords.indexOf(term.toLowerCase()) > -1) {
+                continue;
+              }
+
               if (term === null) {
                 missing = count;
               } else {
@@ -137,8 +146,9 @@ define([
                   data: count,
                   actions: true
                 };
-                if (count / $scope.hits > $scope.maxRatio)
-                  $scope.maxRatio = count / $scope.hits
+                if (count / $scope.hits > $scope.maxRatio) {
+                  $scope.maxRatio = count / $scope.hits;
+                }
                 $scope.data.push(slice);
               }
             }
@@ -164,7 +174,7 @@ define([
       };
     });
 
-    module.directive('tagcloudChart', function(querySrv, dashboard, filterSrv) {
+    module.directive('tagcloudChart', function(/*querySrv, dashboard, filterSrv*/) {
       return {
         restrict: 'A',
         link: function(scope, element) {
@@ -182,45 +192,6 @@ define([
           // Function for rendering panel
           function render_panel() {
 
-            element.html("");
-
-            var el = element[0];
-            var width = element.parent().width();
-            var height = parseInt(scope.row.height);
-
-            var fill = d3.scale.category20();
-            var color = d3.scale.linear()
-              .domain([0, 1, 2, 3, 4, 5, 6, 10, 15, 20, 100])
-              .range(["#7EB26D", "#EAB839", "#6ED0E0", "#EF843C", "#E24D42", "#1F78C1", "#BA43A9", "#705DA0", "#890F02", "#0A437C", "#6D1F62", "#584477"]);
-
-            var scale = d3.scale.linear().domain([0, scope.maxRatio]).range([0, 30]);
-            var randomRotate = d3.scale.linear().domain([0, 1]).range([-90, 90]);
-
-            d3.layout.cloud().size([width - 20, height - 20])
-              .words(scope.data.map(function(d) {
-                return {
-                  text: d.label,
-                  size: 5 + scale(d.data / scope.hits) + parseInt(scope.panel.fontScale)
-                };
-              })).rotate(function() {
-                if (scope.panel.alignment == 'vertical and horizontal')
-                  return~~ (Math.random() * 2) * -90;
-                else if (scope.panel.alignment == 'horizontal')
-                  return 0;
-                else if (scope.panel.alignment == 'vertical(+90)')
-                  return 90;
-                else if (scope.panel.alignment == 'vertical(-90)')
-                  return -90;
-                else
-                  return randomRotate(Math.random());
-              })
-              .font("Impact")
-              .fontSize(function(d) {
-                return d.size;
-              })
-              .on("end", draw)
-              .start();
-
             function draw(words) {
               d3.select(el).append("svg")
                 .attr("width", width)
@@ -233,7 +204,7 @@ define([
                 .style("font-size", function(d) {
                   return d.size + "px";
                 })
-                .style("font-family", "Impact")
+                .style("font-family", "Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', 'Bitstream Vera Sans Bold', 'Arial Black', 'sans-serif'")
                 .style("fill", function(d, i) {
                   //return  color(i);
                   return fill(i);
@@ -246,6 +217,53 @@ define([
                   return d.text;
                 });
             }
+
+            element.html("");
+
+            var el = element[0];
+            var width = element.parent().width();
+            var height = parseInt(scope.row.height);
+
+            var fill = d3.scale.category20();
+/*
+            var color = d3.scale.linear()
+              .domain([0, 1, 2, 3, 4, 5, 6, 10, 15, 20, 100])
+              .range(["#7EB26D", "#EAB839", "#6ED0E0", "#EF843C", "#E24D42", "#1F78C1", "#BA43A9", "#705DA0", "#890F02", "#0A437C", "#6D1F62", "#584477"]);
+*/
+
+            var scale = d3.scale.linear().domain([0, scope.maxRatio]).range([0, 30]);
+            var randomRotate = d3.scale.linear().domain([0, 1]).range([-90, 90]);
+
+            d3.layout.cloud().size([width - 20, height - 20])
+              .words(scope.data.map(function(d) {
+                return {
+                  text: d.label,
+                  size: 5 + scale(d.data / scope.hits) + parseInt(scope.panel.fontScale)
+                };
+              })).rotate(function() {
+                if (scope.panel.alignment === 'vertical and horizontal') {
+                  return~~ (Math.random() * 2) * -90;
+                } else if (scope.panel.alignment === 'horizontal') {
+                  return 0;
+                }
+                else if (scope.panel.alignment === 'vertical(+90)') {
+                  return 90;
+                }
+                else if (scope.panel.alignment === 'vertical(-90)') {
+                  return -90;
+                }
+                else {
+                  return randomRotate(Math.random());
+                }
+              })
+              .font("sans-serif")
+              .fontSize(function(d) {
+                return d.size;
+              })
+              .on("end", draw)
+              .start();
+
+
           }
 
         }

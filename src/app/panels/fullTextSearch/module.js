@@ -195,6 +195,11 @@ define([
         dashboard.refresh();
       };
 
+      $scope.facet_label = function(key) {
+
+        return filterSrv.translateLanguageKey("facet", key, dashboard.current);
+      };
+
       $scope.fieldExists = function(field, mandate) {
         // TODO: Need to take a look here.
         filterSrv.set({
@@ -207,6 +212,7 @@ define([
 
       $scope.get_data = function(segment, query_id) {
         $scope.panel.error = false;
+        delete $scope.panel.error;
 
         // Make sure we have everything for the request to complete
         if (dashboard.indices.length === 0) {
@@ -242,7 +248,7 @@ define([
         $scope.panel_request = request;
 
         var fq = '';
-        if (filterSrv.getSolrFq() && filterSrv.getSolrFq() != '') {
+        if (filterSrv.getSolrFq()) {
           fq = '&' + filterSrv.getSolrFq();
         }
         var query_size = $scope.panel.size * $scope.panel.pages;
@@ -278,7 +284,7 @@ define([
         // Set the panel's query
 
         //var query = $scope.panel.searchQuery == null ? querySrv.getQuery(0) : 'q=' + $scope.panel.searchQuery
-        $scope.panel.queries.basic_query = querySrv.getQuery(0) + fq + facet + facet_fields + sorting;
+        $scope.panel.queries.basic_query = querySrv.getOPQuery() + fq + facet + facet_fields + sorting;
         $scope.panel.queries.query = $scope.panel.queries.basic_query + wt_json + rows_limit + highlight;
 
         // Set the additional custom query
@@ -377,35 +383,17 @@ define([
           }
         }
         var exportQuery = $scope.panel.queries.basic_query + '&wt=' + filetype + omitHeader + rows_limit + fl;
+        // Set the additional custom query
+        if ($scope.panel.queries.custom != null) {
+          exportQuery += $scope.panel.queries.custom;
+        }
+
         var request = $scope.panel_request;
         request = request.setQuery(exportQuery);
         var response = request.doSearch();
 
         response.then(function(response) {
-          var blob; // the file to be written
-          // TODO: manipulating solr requests
-          // pagination (batch downloading)
-          // example: 1,000,000 rows will explode the memory !
-          if (filetype === 'json') {
-            blob = new Blob([angular.toJson(response, true)], {
-              type: "text/json;charset=utf-8"
-            });
-          } else if (filetype === 'csv') {
-            blob = new Blob([response.toString()], {
-              type: "text/csv;charset=utf-8"
-            });
-          } else if (filetype === 'xml') {
-            blob = new Blob([response.toString()], {
-              type: "text/xml;charset=utf-8"
-            });
-          } else {
-            // incorrect file type
-            alert('incorrect file type');
-            return false;
-          }
-          // from filesaver.js
-          window.saveAs(blob, "table" + "-" + new Date().getTime() + "." + filetype);
-          return true;
+          kbn.download_response(response, filetype, 'fulltextsearch');
         });
       };
 
@@ -454,13 +442,13 @@ define([
         dashboard.refresh();
       };
 
-      // return the length of the filters with specific field 
+      // return the length of the filters with specific field
       // that will be used to detect if the filter is present or not to show close icon beside the facet
       $scope.filter_close = function(field) {
         return filterSrv.idsByTypeAndField('terms', field).length > 0;
       };
 
-      // call close filter when click in close icon 
+      // call close filter when click in close icon
       $scope.delete_filter = function(type, field) {
         filterSrv.removeByTypeAndField(type, field);
         dashboard.refresh();

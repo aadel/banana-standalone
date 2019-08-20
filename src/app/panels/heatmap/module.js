@@ -75,6 +75,7 @@ define([
             $scope.get_data = function () {
                 // Show progress by displaying a spinning wheel icon on panel
                 $scope.panelMeta.loading = true;
+                delete $scope.panel.error;
 
                 var request, results;
                 // Set Solr server
@@ -101,7 +102,7 @@ define([
                 // --------------------- END OF ELASTIC SEARCH PART ---------------------------------------
 
                 var fq = '';
-                if (filterSrv.getSolrFq() && filterSrv.getSolrFq() != '') {
+                if (filterSrv.getSolrFq()) {
                     fq = '&' + filterSrv.getSolrFq();
                 }
                 var wt_json = '&wt=json';
@@ -111,7 +112,7 @@ define([
                 var facet_limit = '&facet.limit=' + $scope.panel.row_size;
                 var facet_pivot_mincount = '&facet.pivot.mincount=0';
 
-                $scope.panel.queries.query = querySrv.getQuery(0) + fq + wt_json + rows_limit + facet + facet_pivot + facet_limit + facet_pivot_mincount;
+                $scope.panel.queries.query = querySrv.getOPQuery() + fq + wt_json + rows_limit + facet + facet_pivot + facet_limit + facet_pivot_mincount;
 
                 // Set the additional custom query
                 if ($scope.panel.queries.custom != null) {
@@ -125,6 +126,13 @@ define([
 
                 // Populate scope when we have results
                 results.then(function (results) {
+                    // Check for error and abort if found
+                      if(!(_.isUndefined(results.error))) {
+                        $scope.panel.error = $scope.parse_error(results.error.msg);
+                        $scope.init_arrays();
+                        $scope.render();
+                        return;
+                      }
                     // build $scope.data array
                     var facets = results.facet_counts.facet_pivot;
                     var key = Object.keys(facets)[0];
@@ -154,14 +162,14 @@ define([
                 $scope.init_arrays();
 
                 _.each(facets, function(d, i) {
-                    // build the arrays to be used 
+                    // build the arrays to be used
 
                     if(!flipped) {
                         $scope.row_labels.push(d.value);
                         $scope.hcrow.push($scope.row_labels.length);
                     } else {
                         $scope.col_labels.push(d.value);
-                        $scope.hccol.push($scope.col_labels.length);                    
+                        $scope.hccol.push($scope.col_labels.length);
                     }
 
                     _.each(d.pivot, function(p) {
@@ -185,7 +193,7 @@ define([
 
                             entry.row = i + 1;
                             entry.col = index + 1;
-                        } else {                 
+                        } else {
                             if($scope.row_labels.indexOf(v) === -1) {
                                 $scope.row_labels.push(v);
                                 $scope.hcrow.push($scope.row_labels.length);
@@ -237,7 +245,7 @@ define([
 
             $scope.populate_modal = function (request) {
                 $scope.inspector = angular.toJson(JSON.parse(request.toString()), true);
-            };     
+            };
 
             $scope.validateLimit = function() {
                 var el = $('#rows_limit');
@@ -268,7 +276,7 @@ define([
                     angular.element(window).bind('resize', function () {
                         render_panel();
                     });
-                    
+
                     // Function for rendering panel
                     function render_panel() {
                         element.html('<div id="' + scope.generated_id +'" class="popup hidden"><p><span id="value"></p></div>');
@@ -310,7 +318,7 @@ define([
 
                         function color(shift) {
                             if (shift >= 0) {return d3.hsl(cell_color).darker(brightrange(shift));}
-                            else {return d3.hsl(cell_color).brighter(brightrange(-shift));}             
+                            else {return d3.hsl(cell_color).brighter(brightrange(-shift));}
                         }
 
                         var hcrow, hccol, rowLabel, colLabel;
@@ -334,9 +342,9 @@ define([
                         });
 
                         var colorScale   = d3.scale.quantile().domain([0, 10]).range(colors);
-                        
+
                         var $tooltip = $('<div>');
-                    
+
                         var svg = d3.select(el).append("svg")
                             .attr("width", width + margin.left + margin.right)
                             .attr("height", height + margin.top + margin.bottom)
@@ -375,7 +383,7 @@ define([
                                 d3.select(this).classed("cell-hover", false);
                                 d3.selectAll(".rowLabel_" + scope.generated_id).classed("text-highlight", false);
                                 d3.selectAll(".colLabel_" + scope.generated_id).classed("text-highlight", false);
-                                
+
                                 $tooltip.detach();
                             })
                             .on("click", function (d, i) {
@@ -393,7 +401,7 @@ define([
                                 if(d.length > 6) {
                                     return d.substring(0,6)+'..';
                                 } else {
-                                    return d; 
+                                    return d;
                                 }
                             })
                             .attr("x", 0)
@@ -407,7 +415,7 @@ define([
                             })
                             .on("mouseover", function (d) {
                                 d3.select(this).classed("text-hover", true);
-                                
+
                                 // var offsetX = d3.event.offsetX || d3.event.layerX;
                                 // var p = $('#' + scope.generated_id).parent();
                                 // var scrollLeft = $(p).parent().scrollLeft();
@@ -418,7 +426,7 @@ define([
                                 // var scrollTop = $(p).parent().scrollTop();
 
                                 // var layerY = d3.event.offsetY ? d3.event.layerY : Math.abs(offsetY - scrollTop);
-                                
+
                                 $tooltip.html(d).place_tt(d3.event.pageX, d3.event.pageY);
                             })
                             .on("mouseout", function () {
@@ -434,7 +442,7 @@ define([
                                 colSortOrder = !colSortOrder;
                                 sortbylabel("c", i, colSortOrder);
                             });
-                        
+
                         // Heatmap component
                         var heatMap = svg.append("g").attr("class", "g3") // jshint ignore:line
                             .selectAll(".cellg")
@@ -473,18 +481,18 @@ define([
                                 d3.select(this).classed("cell-hover", false);
                                 d3.selectAll(".rowLabel_" + scope.generated_id).classed("text-highlight", false);
                                 d3.selectAll(".colLabel_" + scope.generated_id).classed("text-highlight", false);
-                                
+
                                 $tooltip.detach();
                             });
-                    
+
                         // Function to sort the cells with respect to selected row or column
                         function sortbylabel(rORc, i, sortOrder) {
                             // rORc .. r for row, c for column
                             var t = svg.transition().duration(1200);
-                            
+
                             var values = []; // holds the values in this specific row
                             for(var j = 0; j < col_number; j++) { values.push(0); }
-                            
+
                             var sorted; // sorted is zero-based index
                             d3.selectAll(".c" + rORc + i + "_" + scope.generated_id)
                             .filter(function (ce) {
@@ -508,7 +516,7 @@ define([
                                     }
                                     return value;
                                 });
-                                
+
                                 t.selectAll(".cell_" + scope.generated_id)
                                 .attr("x", function (d) {
                                     return sorted.indexOf(d.col - 1) * cellSize;

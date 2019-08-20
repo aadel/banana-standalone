@@ -41,7 +41,8 @@ define([
   'jquery.flot.selection',
   'jquery.flot.time',
   'jquery.flot.stack',
-  'jquery.flot.stackpercent'
+  'jquery.flot.stackpercent',
+  'jquery.flot.axislabels'
 ],
 function (angular, app, $, _, kbn, moment, timeSeries) {
   'use strict';
@@ -49,7 +50,7 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
   var module = angular.module('kibana.panels.histogram', []);
   app.useModule(module);
 
-  module.controller('histogram', function($scope, $q, querySrv, dashboard, filterSrv) {
+  module.controller('histogram', function($scope, $q, $timeout, timer, querySrv, dashboard, filterSrv) {
     $scope.panelMeta = {
       modals : [
         {
@@ -81,6 +82,7 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
       max_rows    : 100000,  // maximum number of rows returned from Solr (also use this for group.limit to simplify UI setting)
       value_field : null,
       group_field : null,
+      sum_value   : false,
       auto_int    : true,
       resolution  : 100,
       interval    : '5m',
@@ -101,10 +103,14 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
       percentage  : false,
       interactive : true,
       options     : true,
-      show_queries:true,
+      show_queries: true,
       tooltip     : {
         value_type: 'cumulative',
         query_as_alias: false
+      },
+      refresh: {
+        enable: false,
+        interval: 2
       }
     };
 
@@ -113,12 +119,40 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
     $scope.init = function() {
       // Hide view options by default
       $scope.options = false;
+
+      // Start refresh timer if enabled
+      if ($scope.panel.refresh.enable) {
+        $scope.set_timer($scope.panel.refresh.interval);
+      }
+
       $scope.$on('refresh',function(){
         $scope.get_data();
       });
 
       $scope.get_data();
+    };
 
+    $scope.set_timer = function(refresh_interval) {
+      $scope.panel.refresh.interval = refresh_interval;
+      if (_.isNumber($scope.panel.refresh.interval)) {
+        timer.cancel($scope.refresh_timer);
+        $scope.realtime();
+      } else {
+        timer.cancel($scope.refresh_timer);
+      }
+    };
+
+    $scope.realtime = function() {
+      if ($scope.panel.refresh.enable) {
+        timer.cancel($scope.refresh_timer);
+
+        $scope.refresh_timer = timer.register($timeout(function() {
+          $scope.realtime();
+          $scope.get_data();
+        }, $scope.panel.refresh.interval*1000));
+      } else {
+        timer.cancel($scope.refresh_timer);
+      }
     };
 
     $scope.set_interval = function(interval) {
@@ -199,6 +233,8 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
       var request = $scope.sjs.Request().indices(dashboard.indices[segment]);
       $scope.panel.queries.ids = querySrv.idsByMode($scope.panel.queries);
       
+
+      $scope.panel.queries.query = "";
       // Build the query
       _.each($scope.panel.queries.ids, function(id) {
         var query = $scope.sjs.FilteredQuery(
@@ -218,7 +254,6 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
           facet = facet.keyField(filterSrv.getTimeField()).valueField($scope.panel.value_field);
         }
         facet = facet.interval(_interval).facetFilter($scope.sjs.QueryFilter(query));
-
         request = request.facet(facet).size(0);
       });
 
@@ -227,7 +262,7 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
 
       // Build Solr query
       var fq = '';
-      if (filterSrv.getSolrFq() && filterSrv.getSolrFq() != '') {
+      if (filterSrv.getSolrFq()) {
         fq = '&' + filterSrv.getSolrFq();
       }
       var time_field = filterSrv.getTimeField();
@@ -265,176 +300,157 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
           values_mode_query += '&group=true&group.field=' + $scope.panel.group_field + '&group.limit=' + $scope.panel.max_rows;
         }
       }
-
-      // Set the panel's query
-      $scope.panel.queries.query = querySrv.getQuery(0) + wt_json + rows_limit + fq + facet + values_mode_query;
-
-      // Set the additional custom query
-      if ($scope.panel.queries.custom != null) {
-        request = request.setQuery($scope.panel.queries.query + $scope.panel.queries.custom);
-      } else {
-        request = request.setQuery($scope.panel.queries.query);
-      }
-
-      var results = request.doSearch();
-
-      // ==========================
-      // SOLR - TEST Multiple Queries
-      // ==========================
-      // var mypromises = [];
-      // mypromises.push(results);
-
-      // var temp_q = 'q=' + dashboard.current.services.query.list[1].query + df + wt_json + rows_limit + fq + facet + filter_fq + fl;
-      // request = request.setQuery(temp_q);
-      // mypromises.push(request.doSearch());
-
-      // if (dashboard.current.services.query.ids.length > 1) {
-      //   _.each(dashboard.current.services.query.list, function(v,k) {
-      //     if (DEBUG) { console.log('histogram:\n\tv=',v,', k=',k); }
-      //     // TODO
-      //   });
-      //   $q.all(mypromises).then(function(myresults) {
-      //     if (DEBUG) { console.log('histogram:\n\tmyresults=',myresults); }
-      //     // TODO
-      //   });
-      // }
-      // ========================
-      // END SOLR TEST
-      // ========================
-
-      // Populate scope when we have results
-      results.then(function(results) {
-
-        $scope.panelMeta.loading = false;
-        if(segment === 0) {
-          $scope.hits = 0;
-          $scope.data = [];
-          query_id = $scope.query_id = new Date().getTime();
+      
+      var mypromises = [];
+       _.each($scope.panel.queries.ids, function(id) {
+        var temp_q =  querySrv.getQuery(id) + wt_json + rows_limit + fq + facet + values_mode_query;
+        $scope.panel.queries.query += temp_q + "\n";
+        if ($scope.panel.queries.custom !== null) {
+          request = request.setQuery(temp_q + $scope.panel.queries.custom);
+        } else {
+          request = request.setQuery(temp_q);
         }
+        mypromises.push(request.doSearch());
+      });
 
-        // Check for error and abort if found
-        if(!(_.isUndefined(results.error))) {
-          $scope.panel.error = $scope.parse_error(results.error.msg);
-          return;
-        }
+      if (dashboard.current.services.query.ids.length >= 1) {
+        $q.all(mypromises).then(function(results) {
+          $scope.panelMeta.loading = false;
+          if (segment === 0) {
+            $scope.hits = 0;
+            $scope.data = [];
+            query_id = $scope.query_id = new Date().getTime();
+          }
+          // Convert facet ids to numbers
+          // var facetIds = _.map(_.keys(results.facets),function(k){return parseInt(k, 10);});
+          // TODO: change this, Solr do faceting differently
+          // var facetIds = [0]; // Need to fix this
 
-        // Convert facet ids to numbers
-        // var facetIds = _.map(_.keys(results.facets),function(k){return parseInt(k, 10);});
-        // TODO: change this, Solr do faceting differently
-        var facetIds = [0]; // Need to fix this
+          // Make sure we're still on the same query/queries
+          // TODO: We probably DON'T NEED THIS unless we have to support multiple queries in query module.
+          // if ($scope.query_id === query_id && _.difference(facetIds, $scope.panel.queries.ids).length === 0) {
+            var i = 0,
+              time_series,
+              hits;
 
-        // Make sure we're still on the same query/queries
-        // TODO: We probably DON'T NEED THIS unless we have to support multiple queries in query module.
-        if($scope.query_id === query_id && _.difference(facetIds, $scope.panel.queries.ids).length === 0) {
-          var i = 0,
-            time_series,
-            hits;
-
-          _.each($scope.panel.queries.ids, function(id) {
-
-            // we need to initialize the data variable on the first run,
-            // and when we are working on the first segment of the data.
-            if(_.isUndefined($scope.data[i]) || segment === 0) {
-              time_series = new timeSeries.ZeroFilled({
-                interval: _interval,
-                start_date: _range && _range.from,
-                end_date: _range && _range.to,
-                fill_style: 'minimal'
-              });
-              hits = 0;
-            } else {
-              time_series = $scope.data[i].time_series;
-              // Bug fix for wrong event count:
-              //   Solr don't need to accumulate hits count since it can get total count from facet query.
-              //   Therefore, I need to set hits and $scope.hits to zero.
-              // hits = $scope.data[i].hits;
-              hits = 0;
-              $scope.hits = 0;
-            }
-            
-            // Solr facet counts response is in one big array.
-            // So no need to get each segment like Elasticsearch does.
-            var entry_time, entries, entry_value;
-            if ($scope.panel.mode === 'count') {
-              // Entries from facet_ranges counts
-              entries = results.facet_counts.facet_ranges[time_field].counts;
-              for (var j = 0; j < entries.length; j++) {
-                entry_time = new Date(entries[j]).getTime(); // convert to millisec
-                j++;
-                var entry_count = entries[j];
-                time_series.addValue(entry_time, entry_count);
-                hits += entry_count; // The series level hits counter
-                $scope.hits += entry_count; // Entire dataset level hits counter
+            _.each($scope.panel.queries.ids, function(id,index) {
+              // Check for error and abort if found
+              if (!(_.isUndefined(results[index].error))) {
+                $scope.panel.error = $scope.parse_error(results[index].error.msg);
+                return;
               }
-            } else if ($scope.panel.mode === 'values') {
-              if ($scope.panel.group_field) {
-                // Group By Field is specified
-                var groups = results.grouped[$scope.panel.group_field].groups;
+              // we need to initialize the data variable on the first run,
+              // and when we are working on the first segment of the data.
+              if (_.isUndefined($scope.data[i]) || segment === 0) {
+                time_series = new timeSeries.ZeroFilled({
+                  interval: _interval,
+                  start_date: _range && _range.from,
+                  end_date: _range && _range.to,
+                  fill_style: 'minimal'
+                });
+                hits = 0;
+              } else {
+                time_series = $scope.data[i].time_series;
+                // Bug fix for wrong event count:
+                //   Solr don't need to accumulate hits count since it can get total count from facet query.
+                //   Therefore, I need to set hits and $scope.hits to zero.
+                // hits = $scope.data[i].hits;
+                hits = 0;
+                $scope.hits = 0;
+              }
 
-                for (var j=0; j < groups.length; j++) { // jshint ignore: line
-                  var docs = groups[j].doclist.docs;
-                  var group_time_series = new timeSeries.ZeroFilled({
-                    interval: _interval,
-                    start_date: _range && _range.from,
-                    end_date: _range && _range.to,
-                    fill_style: 'minimal'
-                  });
-                  hits = 0;
+              // Solr facet counts response is in one big array.
+              // So no need to get each segment like Elasticsearch does.
+              var entry_time, entries, entry_value;
+              if ($scope.panel.mode === 'count') {
+                // Entries from facet_ranges counts
+                entries = results[index].facet_counts.facet_ranges[time_field].counts;
+                for (var j = 0; j < entries.length; j++) {
+                  entry_time = new Date(entries[j]).getTime(); // convert to millisec
+                  j++;
+                  var entry_count = entries[j];
+                  time_series.addValue(entry_time, entry_count);
+                  hits += entry_count; // The series level hits counter
+                  $scope.hits += entry_count; // Entire dataset level hits counter
+                }
+              } else if ($scope.panel.mode === 'values') {
+                if ($scope.panel.group_field) {
+                  // Group By Field is specified
+                  var groups = results[index].grouped[$scope.panel.group_field].groups;
 
-                  // loop through each group results
-                  for (var k=0; k < docs.length; k++) {
-                    entry_time = new Date(docs[k][time_field]).getTime(); // convert to millisec
-                    entry_value = docs[k][$scope.panel.value_field];
-                    group_time_series.addValue(entry_time, entry_value);
+                  for (var j = 0; j < groups.length; j++) { // jshint ignore: line
+                    var docs = groups[j].doclist.docs;
+                    // var numFound = groups[j].doclist.numFound;
+                    var group_time_series = new timeSeries.ZeroFilled({
+                      interval: _interval,
+                      start_date: _range && _range.from,
+                      end_date: _range && _range.to,
+                      fill_style: 'minimal'
+                    });
+                    hits = 0;
+
+                    // loop through each group results
+                    for (var k = 0; k < docs.length; k++) {
+                      entry_time = new Date(docs[k][time_field]).getTime(); // convert to millisec
+                      entry_value = docs[k][$scope.panel.value_field];
+                      if($scope.panel.sum_value) {
+                        group_time_series.sumValue(entry_time, entry_value);
+                      }else {
+                        group_time_series.addValue(entry_time, entry_value);
+                      }
+
+                      hits += 1;
+                      $scope.hits += 1;
+                    }
+
+
+                    $scope.data[j] = {
+                      // info: querySrv.list[id],
+                      // Need to define chart info here according to the results, cannot use querySrv.list[id]
+                      info: {
+                        alias: groups[j].groupValue,
+                        color: querySrv.colors[j],
+
+                      },
+                      time_series: group_time_series,
+                      hits: hits
+                    };
+                  }
+
+                } else { // Group By Field is not specified
+                  entries = results[index].response.docs;
+                  for (var j = 0; j < entries.length; j++) { // jshint ignore: line
+                    entry_time = new Date(entries[j][time_field]).getTime(); // convert to millisec
+                    entry_value = entries[j][$scope.panel.value_field];
+                    time_series.addValue(entry_time, entry_value);
                     hits += 1;
                     $scope.hits += 1;
                   }
 
-                  $scope.data[j] = {
-                    // info: querySrv.list[id],
-                    // Need to define chart info here according to the results, cannot use querySrv.list[id]
-                    info: {
-                      alias: groups[j].groupValue,
-                      color: querySrv.colors[j],
-
-                    },
-                    time_series: group_time_series,
+                  $scope.data[i] = {
+                    info: querySrv.list[id],
+                    time_series: time_series,
                     hits: hits
                   };
                 }
-              } else { // Group By Field is not specified
-                entries = results.response.docs;
-                for (var j=0; j < entries.length; j++) { // jshint ignore: line
-                  entry_time = new Date(entries[j][time_field]).getTime(); // convert to millisec
-                  entry_value = entries[j][$scope.panel.value_field];
-                  time_series.addValue(entry_time, entry_value);
-                  hits += 1;
-                  $scope.hits += 1;
-                }
-                
+              }
+
+              if ($scope.panel.mode !== 'values') {
                 $scope.data[i] = {
                   info: querySrv.list[id],
                   time_series: time_series,
                   hits: hits
                 };
               }
-            }
-            
-            if ($scope.panel.mode !== 'values') {
-              $scope.data[i] = {
-                info: querySrv.list[id],
-                time_series: time_series,
-                hits: hits
-              };
-            }
 
-            i++;
-          });
+              i++;
+            });
 
-          // Tell the histogram directive to render.
-          $scope.$emit('render');
-        }
-      });
+            // Tell the histogram directive to render.
+            $scope.$emit('render');
+          // }
+        });
+      }
     };
 
     // function $scope.zoom
@@ -458,6 +474,7 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
       if(factor > 1) {
         filterSrv.removeByType('time');
       }
+
       filterSrv.set({
         type:'time',
         from:moment.utc(_from).toDate(),
@@ -479,17 +496,20 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
     };
 
     $scope.close_edit = function() {
-      if($scope.refresh) {
+      // Start refresh timer if enabled
+      if ($scope.panel.refresh.enable) {
+        $scope.set_timer($scope.panel.refresh.interval);
+      }
+      if ($scope.refresh) {
         $scope.get_data();
       }
-      $scope.refresh =  false;
+      $scope.refresh = false;
       $scope.$emit('render');
     };
 
     $scope.render = function() {
       $scope.$emit('render');
     };
-
   });
 
   module.directive('histogramChart', function(dashboard, filterSrv) {
@@ -555,10 +575,14 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
                 },
                 shadowSize: 1
               },
+               axisLabels: {
+                show: true
+              },
               yaxis: {
                 show: scope.panel['y-axis'],
                 min: null, // TODO - make this adjusted dynamicmally, and add it to configuration panel
                 max: scope.panel.percentage && scope.panel.stack ? 100 : null,
+                axisLabel: scope.panel.mode,
               },
               xaxis: {
                 timezone: scope.panel.timezone,
@@ -568,6 +592,7 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
                 max: _.isUndefined(scope.range.to) ? null : scope.range.to.getTime(),
                 timeformat: time_format(scope.panel.interval),
                 label: "Datetime",
+                axisLabel: filterSrv.getTimeField(),
               },
               grid: {
                 backgroundColor: null,
@@ -653,12 +678,80 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
             } else {
               value = item.datapoint[1];
             }
+
+            var lnLastValue = value;
+
+            var lbPositiveValue = (lnLastValue>0);
+
+            var lsItemTT = group + dashboard.numberWithCommas(value) + " @ " + (scope.panel.timezone === 'utc'? moment.utc(item.datapoint[0]).format('MM/DD HH:mm:ss') : moment(item.datapoint[0]).format('MM/DD HH:mm:ss'));
+
+            var hoverSeries = item.series;
+            var x = item.datapoint[0];
+                // y = item.datapoint[1];
+
+            var lsTT = lsItemTT;
+            var allSeries = scope.plot.getData();
+            var posSerie = -1;
+            for (var i= allSeries.length - 1 ; i>=0; i--) {
+
+              //if stack stop at the first positive value
+              if (scope.panel.stack && lbPositiveValue){
+                break;
+              }
+
+              var s = allSeries[i];
+              i = parseInt(i);
+
+
+              if (s === hoverSeries ) {
+                posSerie = i;
+              }
+
+              //not consider serie "upper" the hover serie
+              if (  i >= posSerie ){
+                continue;
+              }
+
+              //search in current serie a point with de same position.
+              for(var j= 0; j< s.data.length;j++){
+                var p = s.data[j];
+                if (p[0] === x ){
+
+                  if (scope.panel.stack && scope.panel.tooltip.value_type === 'individual' && !isNaN(p[2]))  {
+                    value = p[1] - p[2];
+                  } else {
+                    value = p[1];
+                  }
+
+                  lbPositiveValue = value > 0;
+
+                  if (! scope.panel.stack && value !== lnLastValue){
+                    break;
+                  }
+
+                  posSerie = i;
+                  lnLastValue = value;
+
+
+                  if (s.info.alias || scope.panel.tooltip.query_as_alias) {
+                    group = '<small style="font-size:0.9em;">' +
+                        '<i class="icon-circle" style="color:'+s.color+';"></i>' + ' ' +
+                        (s.info.alias || s.info.query)+
+                        '</small><br>';
+                  } else {
+                    group = kbn.query_color_dot(s.color, 15) + ' ';
+                  }
+
+                  lsItemTT = group + dashboard.numberWithCommas(value) + " @ " + (scope.panel.timezone === 'utc'? moment.utc(p[0]).format('MM/DD HH:mm:ss') : moment(p[0]).format('MM/DD HH:mm:ss'));
+                  lsTT = lsTT +"</br>"+ lsItemTT;
+                  break;
+                }
+              }
+            }
+
+
             $tooltip
-              .html(
-                group + dashboard.numberWithCommas(value) + " @ " + (scope.panel.timezone === 'utc'? moment.utc(item.datapoint[0]).format('MM/DD HH:mm:ss') : moment(item.datapoint[0]).format('MM/DD HH:mm:ss'))
-                // group + dashboard.numberWithCommas(value) + " @ " + moment(item.datapoint[0]).format('MM/DD HH:mm:ss')
-                // group + dashboard.numberWithCommas(value) + " @ " + moment(item.datapoint[0])
-              )
+              .html( lsTT )
               .place_tt(pos.pageX, pos.pageY);
           } else {
             $tooltip.detach();

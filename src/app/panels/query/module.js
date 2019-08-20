@@ -37,16 +37,24 @@ define([
       history : [],
       spyable : true,
       remember: 10, // max: 100, angular strap can't take a variable for items param
+      operator: 'OR'
     };
     _.defaults($scope.panel,_d);
 
     $scope.querySrv = querySrv;
 
     $scope.init = function() {
+      querySrv.operator = $scope.panel.operator;
+    };
+
+    $scope.reset = function() {
+      $scope.querySrv.list[Object.keys($scope.querySrv.list).length - 1].query = _d.query;
+      $rootScope.$broadcast('refresh');
     };
 
     $scope.refresh = function() {
       update_history(_.pluck($scope.querySrv.list,'query'));
+      querySrv.operator = $scope.panel.operator;
       $rootScope.$broadcast('refresh');
     };
 
