@@ -4,8 +4,8 @@
 
 /**
  @namespace
- @name sjs
- @desc All solr.js modules are organized under the sjs namespace.
+ @name ejs
+ @desc All elastic.js modules are organized under the ejs namespace.
  */
 (function () {
   'use strict';
@@ -18,7 +18,7 @@
     // `exports` on server
     root = this,
     
-    // save the previous version of sjs
+    // save the previous version of ejs
     _sjs = root && root.sjs,
 
     // from underscore.js, used in utils
@@ -233,7 +233,7 @@
         </p>
     </div>
 
-    @name sjs.DateHistogramFacet
+    @name ejs.DateHistogramFacet
 
     @desc
     <p>A facet which returns the N most frequent terms within a collection
@@ -249,7 +249,7 @@
 
     /**
         The internal facet object.
-        @member sjs.DateHistogramFacet
+        @member ejs.DateHistogramFacet
         @property {Object} facet
         */
     var facet = {};
@@ -263,7 +263,7 @@
       /**
             Sets the field to be used to construct the this facet.
 
-            @member sjs.DateHistogramFacet
+            @member ejs.DateHistogramFacet
             @param {String} fieldName The field name whose data will be used to construct the facet.
             @returns {Object} returns <code>this</code> so that calls can be chained.
             */
@@ -279,7 +279,7 @@
       /**
             Allows you to specify a different key field to be used to group intervals.
 
-            @member sjs.DateHistogramFacet
+            @member ejs.DateHistogramFacet
             @param {String} fieldName The name of the field to be used.
             @returns {Object} returns <code>this</code> so that calls can be chained.
             */
@@ -18500,19 +18500,6 @@
 
         query.solrquery = q;
         return this;
-      },
-
-      /** Stream expression **/
-
-      streamExpression: function(custom_handler, successcb, errorcb) {
-        if (DEBUG) { console.debug('streamExpression()'); }
-        
-        // make sure the user has set a client
-        if (sjs.client == null) {
-          throw new Error("No Client Set");
-        }
-
-        return sjs.client.get(getRestPath(custom_handler? custom_handler: 'stream'), query.solrquery, successcb, errorcb);
       },
 
       /**
