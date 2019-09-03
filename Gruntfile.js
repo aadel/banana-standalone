@@ -40,8 +40,8 @@ module.exports = function (grunt) {
           yuicompress:true
         },
         files: {
-          "<%= srcDir %>/css/bootstrap.dark.min.css": "<%= srcDir %>/vendor/bootstrap/less/bootstrap.dark.less",
-          "<%= srcDir %>/css/bootstrap.light.min.css": "<%= srcDir %>/vendor/bootstrap/less/bootstrap.light.less"
+          "<%= srcDir %>/css/bootstrap.dark.css": "<%= srcDir %>/vendor/bootstrap/less/bootstrap.dark.less",
+          "<%= srcDir %>/css/bootstrap.light.css": "<%= srcDir %>/vendor/bootstrap/less/bootstrap.light.less"
         }
       }
     },
@@ -89,7 +89,7 @@ module.exports = function (grunt) {
         dest: '<%= tempDir %>'
       }
     },
-    ngmin: {
+    ngAnnotate: {
       build: {
         expand:true,
         cwd:'<%= tempDir %>',
@@ -148,7 +148,7 @@ module.exports = function (grunt) {
         cwd: '<%= destDir %>',
         options: {
           quite: true,
-          compress: true,
+          compress: {},
           preserveComments: false,
           banner: '<%= meta.banner %>'
         }
@@ -276,7 +276,7 @@ module.exports = function (grunt) {
     'copy:everything_but_less_to_temp',
     'htmlmin:build',
     'cssmin:build',
-    'ngmin:build',
+    'ngAnnotate:build',
     'requirejs:build',
     'clean:temp',
     'build:write_revision',
@@ -325,14 +325,14 @@ module.exports = function (grunt) {
 
   // load plugins
   grunt.loadNpmTasks('grunt-s3');
-  grunt.loadNpmTasks('grunt-ngmin');
+  grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-git-describe');
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify-es');
   grunt.loadNpmTasks('grunt-string-replace');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-contrib-requirejs');

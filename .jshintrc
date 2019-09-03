@@ -4,6 +4,7 @@
   "bitwise":false,
   "curly": true,
   "eqnull": true,
+  "esnext": true,
   "globalstrict": true,
   "devel": true,
   "eqeqeq": true,
@@ -28,6 +29,7 @@
 
   "globals": {
     "define": true,
-    "require": true
+    "require": true,
+    "module": true
   }
 }
