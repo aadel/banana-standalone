@@ -32,6 +32,7 @@ module.exports = function (grunt) {
         cwd:'<%= srcDir %>/vendor/bootstrap/less/',
         src: ['bootstrap.dark.less', 'bootstrap.light.less'],
         dest: '<%= tempDir %>/css/',
+        ext: '.css'
       },
       // Compile in place when not building
       src:{
@@ -82,11 +83,21 @@ module.exports = function (grunt) {
       }
     },
     cssmin: {
-      build: {
+      dist: {
         expand: true,
-        cwd: '<%= tempDir %>',
-        src: '**/*.css',
-        dest: '<%= tempDir %>'
+        cwd:'<%= srcDir %>/vendor/bootstrap/less/',
+        src: ['**/*.css', '!**/*.min.css'],
+        dest: '<%= tempDir %>/css/',
+        filter: 'isFile',
+        ext: '.min.css'
+      },
+      src: {
+        expand: true,
+        cwd: '<%= srcDir %>',
+        files: [
+          {src: '<%= srcDir %>/css/bootstrap.light.css', dest: '<%= srcDir %>/css/bootstrap.light.min.css'},
+          {src: '<%= srcDir %>/css/bootstrap.dark.css', dest: '<%= srcDir %>/css/bootstrap.dark.min.css'},
+        ]
       }
     },
     ngAnnotate: {
@@ -146,6 +157,7 @@ module.exports = function (grunt) {
         src: ['**/*.js', '!config.js', '!app/dashboards/*.js'],
         dest: '<%= destDir %>',
         cwd: '<%= destDir %>',
+        filter: 'isFile',
         options: {
           quite: true,
           compress: {},
@@ -266,7 +278,7 @@ module.exports = function (grunt) {
     });
 
   // Run jshint
-  grunt.registerTask('default', ['jshint:source', 'less:src']);
+  grunt.registerTask('default', ['jshint:source', 'less:src', 'cssmin:src']);
 
   // Concat and Minify the src directory into dist
   grunt.registerTask('build', [
@@ -275,7 +287,7 @@ module.exports = function (grunt) {
     'less:dist',
     'copy:everything_but_less_to_temp',
     'htmlmin:build',
-    'cssmin:build',
+    'cssmin:dist',
     'ngAnnotate:build',
     'requirejs:build',
     'clean:temp',
