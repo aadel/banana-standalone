@@ -22,6 +22,9 @@ module.exports = function (grunt) {
     clean: {
       on_start: ['<%= destDir %>', '<%= tempDir %>'],
       temp: ['<%= tempDir %>'],
+      build: {
+        src: ['<%= tempDir %>/css/**/*.css', '!<%= tempDir %>/css/**/*.min.css']
+      }      
     },
     less: {
       // this is the only task, other than copy, that runs on the src directory, since we don't really need
@@ -85,7 +88,7 @@ module.exports = function (grunt) {
     cssmin: {
       dist: {
         expand: true,
-        cwd:'<%= srcDir %>/vendor/bootstrap/less/',
+        cwd:'<%= tempDir %>/css',
         src: ['**/*.css', '!**/*.min.css'],
         dest: '<%= tempDir %>/css/',
         filter: 'isFile',
@@ -156,7 +159,7 @@ module.exports = function (grunt) {
         expand: true,
         src: ['**/*.js', '!config.js', '!app/dashboards/*.js'],
         dest: '<%= destDir %>',
-        cwd: '<%= destDir %>',
+        cwd: '<%= destDir %>/app',
         filter: 'isFile',
         options: {
           quite: true,
@@ -288,6 +291,7 @@ module.exports = function (grunt) {
     'copy:everything_but_less_to_temp',
     'htmlmin:build',
     'cssmin:dist',
+    'clean:build',
     'ngAnnotate:build',
     'requirejs:build',
     'clean:temp',
