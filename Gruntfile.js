@@ -285,7 +285,7 @@ module.exports = function (grunt) {
 
   // Concat and Minify the src directory into dist
   grunt.registerTask('build', [
-    // 'jshint:source',
+    'jshint:source',
     'clean:on_start',
     'less:dist',
     'copy:everything_but_less_to_temp',
