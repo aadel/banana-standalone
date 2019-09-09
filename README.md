@@ -8,6 +8,7 @@ The goal is to create a rich and flexible UI, enabling users to rapidly develop 
 
 * [Apache Solr](https://lucene.apache.org/solr/)
 * [Node.js](https://nodejs.org)
+* [Grunt](https://gruntjs.com/) for building distribution version
 
 ## Installation
 
@@ -24,6 +25,16 @@ npm start
 ```
 
 where `BANANA_HOME` is the directory of the local repository
+
+## Building the distribution
+
+To build the distribution version, clone the repository and run:
+
+```sh
+grunt build
+cd dist
+bin/banana
+```
 
 * In a browser, navigate to [http://localhost:9901](http://localhost:9901)
 
