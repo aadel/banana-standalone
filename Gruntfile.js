@@ -5,7 +5,11 @@ module.exports = function (grunt) {
 
   var config = {
     pkg: grunt.file.readJSON('package.json'),
+    rootDir: '.',
     srcDir: 'src',
+    routesDir: 'routes',
+    viewsDir: 'views',    
+    binDir: 'bin',
     destDir: 'dist',
     tempDir: 'tmp',
     meta: {
@@ -34,7 +38,7 @@ module.exports = function (grunt) {
         expand: true,
         cwd:'<%= srcDir %>/vendor/bootstrap/less/',
         src: ['bootstrap.dark.less', 'bootstrap.light.less'],
-        dest: '<%= tempDir %>/css/',
+        dest: '<%= tempDir %>/src/css/',
         ext: '.css'
       },
       // Compile in place when not building
@@ -52,10 +56,31 @@ module.exports = function (grunt) {
     copy: {
       // copy source to temp, we will minify in place for the dist build
       everything_but_less_to_temp: {
-        cwd: '<%= srcDir %>',
+        options: {
+          mode: true,
+        },
+        cwd: '<%= rootDir %>',
         expand: true,
-        src: ['**/*', '!**/*.less'],
+        src: [
+          '<%= srcDir %>/**/*',
+          '<%= routesDir %>/**/*',
+          '<%= viewsDir %>/**/*',
+          '<%= binDir %>/**/*',
+          'app.js',
+          'index.html',
+          'config.json',
+          '!**/*.less'
+        ],
         dest: '<%= tempDir %>'
+      },
+      everything_to_dist: {
+        options: {
+          mode: true,
+        },
+        cwd: '<%= tempDir %>',
+        expand: true,
+        src: ['**/*'],
+        dest: '<%= destDir %>'
       }
     },
     jshint: {
@@ -76,21 +101,21 @@ module.exports = function (grunt) {
           collapseWhitespace: true
         },
         expand: true,
-        cwd: '<%= tempDir %>',
+        cwd: '<%= tempDir %>/src',
         src: [
           'index.html',
           'app/panels/**/*.html',
           'app/partials/**/*.html'
         ],
-        dest: '<%= tempDir %>'
+        dest: '<%= tempDir %>/src'
       }
     },
     cssmin: {
       dist: {
         expand: true,
-        cwd:'<%= tempDir %>/css',
+        cwd:'<%= tempDir %>/src/css',
         src: ['**/*.css', '!**/*.min.css'],
-        dest: '<%= tempDir %>/css/',
+        dest: '<%= tempDir %>/src/css/',
         filter: 'isFile',
         ext: '.min.css'
       },
@@ -106,7 +131,7 @@ module.exports = function (grunt) {
     ngAnnotate: {
       build: {
         expand:true,
-        cwd:'<%= tempDir %>',
+        cwd:'<%= tempDir %>/src',
         src: [
           'app/controllers/**/*.js',
           'app/directives/**/*.js',
@@ -115,19 +140,18 @@ module.exports = function (grunt) {
           'app/panels/**/*.js',
           'app/app.js',
           'vendor/angular/**/*.js',
-          'vendor/elasticjs/elastic-angular-client.js',
           'vendor/solrjs/solr-angular-client.js'
         ],
-        dest: '<%= tempDir %>'
+        dest: '<%= tempDir %>/src'
       }
     },
     requirejs: {
       build: {
         options: {
-          appDir: '<%= tempDir %>',
-          dir: '<%= destDir %>',
+          appDir: '<%= tempDir %>/src',
+          dir: '<%= destDir %>/src',
 
-          mainConfigFile: '<%= tempDir %>/app/components/require.config.js',
+          mainConfigFile: '<%= tempDir %>/src/app/components/require.config.js',
           modules: [], // populated below
 
           optimize: 'none',
@@ -159,7 +183,7 @@ module.exports = function (grunt) {
         expand: true,
         src: ['**/*.js', '!config.js', '!app/dashboards/*.js'],
         dest: '<%= destDir %>',
-        cwd: '<%= destDir %>/app',
+        cwd: '<%= destDir %>',
         filter: 'isFile',
         options: {
           quite: true,
@@ -211,23 +235,6 @@ module.exports = function (grunt) {
           }
         ]
       }
-    },
-    s3: {
-      dist: {
-        bucket: 'download.elasticsearch.org',
-        access: 'private',
-        // debug: true, // uncommment to prevent actual upload
-        upload: [
-          {
-            src: '<%= tempDir %>/<%= pkg.name %>-latest.zip',
-            dest: 'kibana/kibana/<%= pkg.name %>-latest.zip',
-          },
-          {
-            src: '<%= tempDir %>/<%= pkg.name %>-latest.tar.gz',
-            dest: 'kibana/kibana/<%= pkg.name %>-latest.tar.gz',
-          }
-        ]
-      }
     }
   };
 
@@ -245,7 +252,6 @@ module.exports = function (grunt) {
         'settings',
         'bootstrap',
         'modernizr',
-        'elasticjs',
         'solrjs',
         'timepicker',
         'datepicker',
@@ -294,6 +300,7 @@ module.exports = function (grunt) {
     'clean:build',
     'ngAnnotate:build',
     'requirejs:build',
+    'copy:everything_to_dist',
     'clean:temp',
     'build:write_revision',
     'uglify:dest'
@@ -340,7 +347,6 @@ module.exports = function (grunt) {
   });
 
   // load plugins
-  grunt.loadNpmTasks('grunt-s3');
   grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-less');
