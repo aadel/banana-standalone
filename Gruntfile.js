@@ -87,7 +87,7 @@ module.exports = function (grunt) {
       // just lint the source dir
       source: {
         files: {
-          src: ['Gruntfile.js', '<%= srcDir %>/app/**/*.js']
+          src: ['Gruntfile.js', '<%= srcDir %>/app/**/*.js', '!src/app/panels/bar/d3.tip.js']
         }
       },
       options: {
