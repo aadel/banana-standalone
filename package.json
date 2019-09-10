@@ -38,9 +38,9 @@
     "tmp": "0.0.23"
   },
   "scripts": {
-    "postinstall": "bower install",
-    "prestart": "npm install",
-    "start": "node ./bin/www",
+    "postinstall": "",
+    "prestart": "",
+    "start": "node ./bin/banana",
     "pretest": "npm install",
     "test": "node node_modules/karma/bin/karma start test/karma.conf.js",
     "test-single-run": "node node_modules/karma/bin/karma start test/karma.conf.js --single-run",
