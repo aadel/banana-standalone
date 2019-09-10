@@ -6,14 +6,16 @@ var cookieParser = require('cookie-parser');
 var fs = require("fs");
 var httpProxy = require('http-proxy');
 var url = require('url');
+var solrUrl = require('./modules/solrUrl');
 
 var app = module.exports = express();
 
 // Read settings from config.json
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 var couchbaseUrl = url.parse(config.couchbaseUrl);
+var solrUrl = process.env.BANANA_SOLR_HOST || config.solrUrl
 app.set('serverPort', config.serverPort);
-app.set('solrUrl', config.solrUrl);
+app.set('solrUrl', solrUrl);
 app.set('couchbaseHostname', couchbaseUrl.hostname);
 app.set('couchbasePort', couchbaseUrl.port);
 app.set('proxy',
