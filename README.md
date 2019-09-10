@@ -31,6 +31,8 @@ where `BANANA_HOME` is the directory of the local repository
 To build the distribution version, clone the repository and run:
 
 ```sh
+cd $BANANA_HOME
+npm install
 grunt build
 cd dist
 bin/banana
