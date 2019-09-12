@@ -20,7 +20,7 @@ app.set('couchbaseHostname', couchbaseUrl.hostname);
 app.set('couchbasePort', couchbaseUrl.port);
 app.set('proxy',
     httpProxy.createProxyServer({
-        target: config.solrUrl
+        target: app.get('solrUrl')
     })
     .on('error', function(e) {
         console.log('Error proxy:',e);
