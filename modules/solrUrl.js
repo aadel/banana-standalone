@@ -10,6 +10,6 @@ else if (config.solrUrl)
 else
     solrUrl = 'http://localhost:8983';
 
-console.log('Solr URL: %s', solrUrl)
+console.log('solrUrl: %s', solrUrl);
 
 module.exports = solrUrl;
