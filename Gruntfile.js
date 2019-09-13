@@ -87,11 +87,18 @@ module.exports = function (grunt) {
       // just lint the source dir
       source: {
         files: {
-          src: ['Gruntfile.js', '<%= srcDir %>/app/**/*.js', '!src/app/panels/bar/d3.tip.js']
+          src: ['Gruntfile.js', '<%= srcDir %>/app/**/*.js']
         }
       },
       options: {
-        jshintrc: '.jshintrc'
+        jshintrc: '.jshintrc',
+        ignores: [
+          '<%= srcDir %>/app/panels/bar/d3.tip.js',
+          '<%= srcDir %>/app/panels/tagcloud/d3.layout.cloud.js',
+          '<%= srcDir %>/app/panels/bettermap/leaflet/*',
+          '<%= srcDir %>/app/panels/map/lib/*',
+          '<%= srcDir %>/app/panels/text/lib/showdown.js'
+        ]
       }
     },
     htmlmin:{
