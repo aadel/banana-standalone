@@ -36,7 +36,7 @@ text.text-hover {
     fill: #00C;
 }
 
-g > text {
+heatmap-chart g > text {
     font-size: 12px;
 }
 
@@ -64,10 +64,10 @@ g > text {
     font-size: 12px;
     line-height: 20px;
 }
-.tick {
+heatmap-chart .tick {
     stroke: #C8C8C8;
 }
-.grid {
+heatmap-chart .grid {
     stroke: #C8C8C8;
     stroke-dasharray: 1, 1;
 }
