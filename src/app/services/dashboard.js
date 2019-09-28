@@ -14,7 +14,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
     var DEBUG = false; // DEBUG mode
 
     var module = angular.module('kibana.services');
-    module.service('dashboard', function ($routeParams, $http, $rootScope, $injector, $location,
+    module.service('dashboard', function ($routeParams, $http, $rootScope, $injector, $location, $document,
                                           sjsResource, timer, $timeout, kbnIndex, alertSrv, lucidworksSrv) {
         // Store a reference to this
         var self = this;
@@ -33,6 +33,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
             loader: {
                 dropdown_collections: false,
                 save_gist: true,
+                copy_to_clipboard: true,
                 save_elasticsearch: true,
                 save_local: true,
                 save_default: true,
@@ -578,6 +579,15 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
             }, function () {
                 return false;
             });
+        };
+
+        this.copy_to_clipboard = function () {
+            let document = $document[0];
+            var clipboard_buffer_element = document.getElementById('clipboard-buffer');
+            clipboard_buffer_element.select();
+            clipboard_buffer_element.setSelectionRange(0, 99999); /* For mobile devices */
+
+            return document.execCommand("copy");
         };
 
         this.gist_list = function (id) {

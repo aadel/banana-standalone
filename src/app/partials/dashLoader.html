@@ -129,6 +129,12 @@
             <br>
             <small ng-show="gist.last">Last gist: <a target="_blank" href="{{gist.last}}">{{gist.last}}</a></small>
         </li>
+        <li ng-show="dashboard.current.loader.copy_to_clipboard">
+                <h6>Copy to clipboard</h6>
+                <form class="input-append">
+                    <button class="btn" ng-click="copy_to_clipboard()"><i class="icon-copy"></i></button>
+                </form>
+        </li>
 
         <li ng-show="dashboard.current.loader.save_elasticsearch">
             <h5>Solr</h5>

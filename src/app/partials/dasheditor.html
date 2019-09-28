@@ -153,6 +153,11 @@
                                ng-checked="dashboard.current.loader.save_gist">
             </div>
             <div class="span2">
+                    <label class="small">Copy to clipboard</label>
+                    <input type="checkbox" ng-model="dashboard.current.loader.copy_to_clipboard"
+                                   ng-checked="dashboard.current.loader.copy_to_clipboard">
+            </div>
+            <div class="span2">
                 <label class="small">Solr</label><input type="checkbox"
                                                         ng-model="dashboard.current.loader.save_elasticsearch"
                                                         ng-checked="dashboard.current.loader.save_elasticsearch">

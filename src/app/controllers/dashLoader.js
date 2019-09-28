@@ -80,7 +80,7 @@ function (angular, _, config) {
                 return (_l.load_elasticsearch || _l.load_gist || _l.load_local);
             }
             if (type === 'save') {
-                return (_l.save_elasticsearch || _l.save_gist || _l.save_local || _l.save_default);
+                return (_l.save_elasticsearch || _l.save_gist || _l.copy_to_clipboard || _l.save_local || _l.save_default);
             }
             if (type === 'share') {
                 return (_l.save_temp);
@@ -300,6 +300,15 @@ function (angular, _, config) {
                         alertSrv.set('Save failed', 'Gist could not be saved', 'error', 5000);
                     }
                 });
+        };
+
+        $scope.copy_to_clipboard = function () {
+            let returnValue = dashboard.copy_to_clipboard();
+            if (returnValue) {
+                alertSrv.set('Dashboard copied to clipboard', 'Dashboard copied to clipboard', 'success');
+            } else {
+                alertSrv.set('Copy to clipboard failed', 'Dashboard could not be copied to clipboard', 'error', 5000);
+            }
         };
 
         $scope.gist_dblist = function (id) {
