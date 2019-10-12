@@ -10,6 +10,7 @@ module.exports = function (grunt) {
     routesDir: 'routes',
     viewsDir: 'views',    
     binDir: 'bin',
+    modulesDir: 'modules',
     destDir: 'dist',
     tempDir: 'tmp',
     meta: {
@@ -66,6 +67,7 @@ module.exports = function (grunt) {
           '<%= routesDir %>/**/*',
           '<%= viewsDir %>/**/*',
           '<%= binDir %>/**/*',
+          '<%= modulesDir %>/**/*',
           'app.js',
           'index.html',
           'config.json',
