@@ -46,13 +46,11 @@ define([
             yaxisLabel: '',
             colorField: '',
             bubbleSizeField: '',
-            sortingField: '',
-            sortingDirection: 'asc',
             spyable: true,
             show_queries: true,
             refresh: {
                 enable: false,
-                interval: 30
+                interval: 2
             }
         };
 
@@ -127,7 +125,6 @@ define([
             var wt_json = '&wt=csv';
             var rows_limit = '&rows=' + $scope.panel.max_rows;
             var fl = '&fl=' + $scope.panel.xaxis + ',' + $scope.panel.yaxis;
-            var sort = '';  
 
             if ($scope.panel.colorField) {
                 fl += ',' + $scope.panel.colorField;
@@ -137,11 +134,7 @@ define([
                 fl += ',' + $scope.panel.bubbleSizeField;
             }
 
-            if ($scope.panel.sortingField) {
-                sort = '&sort=' + $scope.panel.sortingField + ' ' + $scope.panel.sortingDirection;
-            }
-
-            $scope.panel.queries.query = querySrv.getORquery() + fq + fl + sort + wt_json + rows_limit;
+            $scope.panel.queries.query = querySrv.getORquery() + fq + fl + wt_json + rows_limit;
 
             // Set the additional custom query
             if ($scope.panel.queries.custom != null) {
@@ -236,8 +229,8 @@ define([
                     var margin = {
                             top: 20,
                             right: 20,
-                            bottom: 40,
-                            left: 60
+                            bottom: 100,
+                            left: 50
                         },
                         width = parent_width - margin.left - margin.right;
 
@@ -383,8 +376,8 @@ define([
                         .attr("transform", "translate(0," + height + ")")
                         .call(xAxis)
                         .append("text")
-                        // .attr("class", "label")
-                        .attr("transform", "translate(" + ((width / 2) - margin.left) + " ," + 35 + ")")
+                        .attr("class", "label")
+                        .attr("transform", "translate(" + ((width / 2) - margin.left) + " ," + 30 + ")")
                         .style("text-anchor", "middle")
                         .text(xaxisLabel);
 
@@ -400,7 +393,7 @@ define([
                         .attr("class", "y axis")
                         .call(yAxis)
                         .append("text")
-                        // .attr("class", "label")
+                        .attr("class", "label")
                         .attr("transform", "rotate(-90)")
                         .attr("y", 0 - margin.left)
                         .attr("x", 0 - ((height - margin.top - margin.bottom) / 2))
