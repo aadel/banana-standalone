@@ -6,24 +6,26 @@ var cookieParser = require('cookie-parser');
 var fs = require("fs");
 var httpProxy = require('http-proxy');
 var url = require('url');
-var solrUrl = require('./modules/solrUrl');
+var solrSettings = require('./modules/solrSettings');
 
 var app = module.exports = express();
 
 // Read settings from config.json
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 var couchbaseUrl = url.parse(config.couchbaseUrl);
+var proxyConf = {target: solrSettings.solrUrl}
+if (solrSettings.basicAuth) {
+    proxyConf.auth = solrSettings.username + ':' + proxyConf.password;
+}
+
 app.set('serverPort', config.serverPort);
-app.set('solrUrl', solrUrl);
 app.set('couchbaseHostname', couchbaseUrl.hostname);
 app.set('couchbasePort', couchbaseUrl.port);
 app.set('proxy',
-    httpProxy.createProxyServer({
-        target: app.get('solrUrl')
-    })
-    .on('error', function(e) {
-        console.log('Error proxy:',e);
-    })
+    httpProxy.createProxyServer(proxyConf)
+        .on('error', function(e) {
+            console.log('Error proxy:',e);
+        })
 );
 
 // view engine setup

@@ -1,5 +1,8 @@
 {
     "serverPort": 9901,
-    "solrUrl": "http://localhost:8983",
+    "solrUrl": "http://solr:8983",
+    "basicAuth": true,
+    "username": "solr",
+    "password": "SolrRocks",
     "couchbaseUrl": "http://localhost:8092"
 }
