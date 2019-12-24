@@ -1,0 +1,10 @@
+<div class="row-fluid">
+    <div class="span4">
+        <label class="small">Algorithm
+            <tip>This is the result clustering algorithm used.</tip>
+        </label>
+        <select class="input-medium" ng-model="panel.algorithm" 
+            ng-options="c as v for (c, v) in {'lingo': 'Lingo', 'stc': 'STC', 'k-means': 'k-Means'}"
+            ng-change="render()"></select>
+    </div>
+</div>

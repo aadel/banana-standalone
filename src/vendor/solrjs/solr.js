@@ -18541,7 +18541,42 @@
         // query string length. So, use POST to allow as long queries as needed.
         // return sjs.client.get(getRestPath('select'), queryData, successcb, errorcb);
         return sjs.client.post(getRestPath('select'), queryData, successcb, errorcb);
-      }
+      },
+
+      /**
+            Result clustering request. 
+
+            @member sjs.Request
+            @param {Function} successcb A callback function that handles the result clustering response.
+            @param {Function} errorcb A callback function that handles errors.
+            @returns {Object} Returns a client specific object.
+            */
+      doClustering: function (successcb, errorcb) {
+            var queryData = query.solrquery;
+    
+            if (query.query !== undefined && query.query.query_string !== undefined) {
+              // For loading dashboard from json files
+              // Check query.size
+              var rowNum = '';
+              if (query.size && query.size > 0) {
+                rowNum = '&rows=' + query.size;
+              }
+
+                queryData = 'q=' + query.query.query_string.query + rowNum + '&wt=json';
+            }
+    
+            if (DEBUG) { console.debug('doClustering():\n\tqueryData = ',queryData); }
+          
+            // make sure the user has set a client
+            if (sjs.client == null) {
+              throw new Error("No Client Set");
+            }
+    
+            // Solr select handler allows both GET and POST, but GET has a limited
+            // query string length. So, use POST to allow as long queries as needed.
+            // return sjs.client.get(getRestPath('select'), queryData, successcb, errorcb);
+            return sjs.client.get(getRestPath('clustering'), queryData, successcb, errorcb);
+          }
     };
   };
 

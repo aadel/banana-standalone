@@ -118,6 +118,7 @@ function (Settings) {
       'query',
       'terms',
       'rangeFacet',
+      'resultCluster',
       'heatmap',
       'scatterplot',
       'fullTextSearch',
