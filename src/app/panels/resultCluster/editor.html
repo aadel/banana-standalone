@@ -1,10 +1,40 @@
 <div class="row-fluid">
     <div class="span4">
         <label class="small">Algorithm
-            <tip>This is the result clustering algorithm used.</tip>
+            <tip>This is the result clustering algorithm used. 
+                If not present, the first declared algorithm configured in Solr will be used.</tip>
         </label>
         <select class="input-medium" ng-model="panel.algorithm" 
-            ng-options="c as v for (c, v) in {'lingo': 'Lingo', 'stc': 'STC', 'k-means': 'k-Means'}"
-            ng-change="render()"></select>
+            ng-options="c as v for (c, v) in {'lingo': 'Lingo', 'stc': 'STC', 'kmeans': 'k-Means'}"
+            ng-change="set_refresh(true)"></select>
+    </div>
+    <div class="span4">
+        <label class="small">Number of Rows
+            <tip>This is the result set size</tip>
+        </label>
+        <input type="number" class='input-small' ng-model="panel.rows" ng-change='set_refresh(true)'/>
+    </div>
+</div>
+<div class="row-fluid">
+    <div class="span4">
+        <label class="small">Title field
+            <tip>The field that should be mapped to the logical document’s title</tip>
+        </label>
+        <input ng-change="set_refresh(true)" placeholder="Start typing" 
+            bs-typeahead="fields.list" type="text" class="input-medium" ng-model="panel.title_field">
+    </div>
+    <div class="span4">
+        <label class="small">Content field*
+            <tip>The field that should be mapped to the logical document’s main content</tip>
+        </label>
+        <input ng-change="set_refresh(true)" placeholder="Start typing"
+            bs-typeahead="fields.list" type="text" class="input-medium" ng-model="panel.content_field">
+    </div>
+    <div class="span4">
+        <label class="small">URL field
+            <tip>The field that should be mapped to the logical document’s content URL</tip>
+        </label>
+        <input ng-change="set_refresh(true)" placeholder="Start typing"
+            bs-typeahead="fields.list" type="text" class="input-medium" ng-model="panel.url_field">
     </div>
 </div>

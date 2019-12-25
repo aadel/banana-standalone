@@ -18572,9 +18572,6 @@
               throw new Error("No Client Set");
             }
     
-            // Solr select handler allows both GET and POST, but GET has a limited
-            // query string length. So, use POST to allow as long queries as needed.
-            // return sjs.client.get(getRestPath('select'), queryData, successcb, errorcb);
             return sjs.client.get(getRestPath('clustering'), queryData, successcb, errorcb);
           }
     };

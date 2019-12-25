@@ -13,7 +13,7 @@ define([
     'd3',
     './d3-voronoi-map'
   ],
-  function(angular, app, _, $, kbn, d3, d3tip, voronoiMapSimulation) {
+  function(angular, app, _, $, kbn, d3, voronoiMapSimulation) {
     'use strict';
 
     var module = angular.module('kibana.panels.resultCluster', []);
@@ -43,7 +43,7 @@ define([
           custom: ''
         },
         field: '',
-        size: 10,
+        rows: 100,
         spyable: true,
         show_queries: true,
         error: '',
@@ -81,10 +81,11 @@ define([
           fq = '&' + filterSrv.getSolrFq();
         }
         var wt_json = '&wt=json';
-        var rows_limit = '&rows=100';
+        var rows_limit = '&rows=' + $scope.panel.rows;
+        var clustering_engine = $scope.panel.algorithm ? '&clustering.engine=' + $scope.panel.algorithm : '';
 
         // Set the panel's query
-        $scope.panel.queries.query = querySrv.getORquery() + wt_json + rows_limit + fq;
+        $scope.panel.queries.query = querySrv.getORquery() + clustering_engine + wt_json + rows_limit + fq;
 
         // Set the additional custom query
         if ($scope.panel.queries.custom) {
@@ -106,18 +107,18 @@ define([
           $scope.data = {clusters: []};
           _.each(results.clusters, (c, i) => {
             $scope.data.clusters.push({id: i, composition: c.labels[0],
-              weight: c.score * c.docs.length,
+              weight: c.score ? c.score * c.docs.length : c.docs.length,
               docs: c.docs});
           });
           $scope.data.docs = results.response.docs;
-
+          $scope.panelMeta.loading = false;
           $scope.$emit('render');
         });
       };
 
       $scope.build_search = function(word) {
         if(word) {
-          filterSrv.set({type:'terms',field:$scope.panel.field,value:word,mandate:'must'});
+          filterSrv.set({type:'terms', field:$scope.panel.content_field, value:word, mandate:'must'});
         } else {
           return;
         }
@@ -176,14 +177,13 @@ define([
             var highlighterClusterId = d => { return "cluster-" + d.id};
             var highlight = (clusterId, highlight) => {
               return () => d3.selectAll(".cluster-" + clusterId).classed("highlight", highlight);
-            };
+            }
             function attachMouseListener (data) {
-              var id;
               data.forEach(d => {
-                id = d.id
-                d3.selectAll(".cluster-" + id)
-                  .on("mouseenter", highlight(id, true))
-                  .on("mouseleave", highlight(id, false));
+                d3.selectAll(".cluster-" + d.id)
+                  .on("mouseenter", highlight(d.id, true))
+                  .on("mouseleave", highlight(d.id, false))
+                  .on("click", () => {return scope.build_search(d.composition)});
               });
             }
             var myColor = d3.scaleSequential().domain([1, 100]).interpolator(d3.interpolateWarm);
@@ -200,32 +200,38 @@ define([
               state = simulation.state();
             }
               
-            attachMouseListener(scope.data.clusters);
             var polygons = state.polygons;
-
+            
             var svg = d3.select(el).append("svg")
-                        .attr("width", width + margin.left + margin.right)
-                        .attr("height", height + margin.top + margin.bottom)
-                        .attr("viewBox", "0 0 " + parent_width + " " + (height + margin.top + margin.bottom))
-                        .attr("preserveAspectRatio", "xMidYMid")
-                        .append("g")
-                        .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
-
+            .attr("width", width + margin.left + margin.right)
+            .attr("height", height + margin.top + margin.bottom)
+            .attr("viewBox", "0 0 " + parent_width + " " + (height + margin.top + margin.bottom))
+            .attr("preserveAspectRatio", "xMidYMid")
+            .append("g")
+            .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+            
             svg.selectAll('.cell').data(polygons)
-              .enter()
-              .append('path')
-              .attr('d', d => { return "M" + d.join(",") + "z"; })
-              .style("stroke", "black")
-              .style('fill', d => { return myColor(d.site.x / width * 100); });
+            .enter()
+            .append('path')
+            .attr('d', d => { return "M" + d.join(",") + "z"; })
+            .style("stroke", "black")
+            .style('fill', d => { return myColor(d.site.x / width * 100); });
             
             svg.selectAll('text').data(polygons)
-              .enter()
-              .append('text')
-              .text(d => d.site.originalObject.data.originalData.composition)
-              .attr("transform", d => {
-          			return "translate(" + [d.site.x, d.site.y] + ")";
-              })
-              .attr("text-anchor", "middle")
+            .enter()
+            .append('text')
+            .text(d => d.site.originalObject.data.originalData.composition)
+            .attr("transform", d => "translate(" + [d.site.x, d.site.y] + ")")
+            .attr("text-anchor", "middle");
+
+            svg.selectAll('.highlighters').data(polygons)
+            .enter()
+            .append('path')
+            .attr('d', d => { return "M" + d.join(",") + "z"; })
+            .attr("class", d => highlighterClusterId(d.site.originalObject.data.originalData))
+            .classed('highlighter', true);
+            
+            attachMouseListener(scope.data.clusters);
           }
         }
       };

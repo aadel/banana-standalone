@@ -51,7 +51,6 @@ require.config({
     'd3-path':                '../vendor/d3-path',
     'd3-polygon':             '../vendor/d3-polygon',
     'd3-weighted-voronoi':    '../vendor/d3-weighted-voronoi',
-    'd3-voronoi-map':         '../vendor/d3-voronoi-map',
     'd3-force':               '../vendor/d3-force',
     'd3-quadtree':            '../vendor/d3-quadtree',
     'd3-dispatch':            '../vendor/d3-dispatch',
