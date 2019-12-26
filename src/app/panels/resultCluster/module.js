@@ -82,10 +82,13 @@ define([
         }
         var wt_json = '&wt=json';
         var rows_limit = '&rows=' + $scope.panel.rows;
+        var title_field = '&carrot.title=' + $scope.panel.title_field;
+        var snippet_field = '&carrot.snippet=' + $scope.panel.content_field;
         var clustering_engine = $scope.panel.algorithm ? '&clustering.engine=' + $scope.panel.algorithm : '';
 
         // Set the panel's query
-        $scope.panel.queries.query = querySrv.getORquery() + clustering_engine + wt_json + rows_limit + fq;
+        $scope.panel.queries.query = querySrv.getORquery() + clustering_engine 
+          + title_field + snippet_field + wt_json + rows_limit + fq;
 
         // Set the additional custom query
         if ($scope.panel.queries.custom) {
