@@ -87,7 +87,7 @@ define([
         var clustering_engine = $scope.panel.algorithm ? '&clustering.engine=' + $scope.panel.algorithm : '';
 
         // Set the panel's query
-        $scope.panel.queries.query = querySrv.getORquery() + clustering_engine 
+        $scope.panel.queries.query = querySrv.getOPQuery() + clustering_engine 
           + title_field + snippet_field + wt_json + rows_limit + fq;
 
         // Set the additional custom query
