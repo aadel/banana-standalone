@@ -18502,6 +18502,19 @@
         return this;
       },
 
+      /** Stream expression **/
+
+      streamExpression: function(custom_handler, successcb, errorcb) {
+        if (DEBUG) { console.debug('streamExpression()'); }
+        
+        // make sure the user has set a client
+        if (sjs.client == null) {
+          throw new Error("No Client Set");
+        }
+
+        return sjs.client.get(getRestPath(custom_handler? custom_handler: 'stream'), query.solrquery, successcb, errorcb);
+      },
+
       /**
             Executes the search. 
 
