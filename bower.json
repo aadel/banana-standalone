@@ -45,7 +45,9 @@
     "animate.css": "~3.2.0",
     "bootstrap-additions": "~0.2.3",
     "showdown": "~0.3.4",
-    "flot-axislabels": "*"
+    "flot-axislabels": "*",
+    "vis": "4.21.0",
+    "x2js": "abdolence/x2js#1.2.0"
   },
   "resolutions": {
     "bootstrap": "~3.3.1",
