@@ -8,7 +8,7 @@ define([
     'underscore',
     'jquery',
     'kbn',
-    'd3v5',
+    'd3',
     'd3-force'
   ],
   function (angular, app, _, $, kbn, d3, d3force) {
