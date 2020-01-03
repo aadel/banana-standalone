@@ -34,7 +34,7 @@ function (angular, app, _, $, vis, X2JS, kbn) {
         {title:'Queries', src:'app/partials/querySelect.html'}
       ],
       status  : "Stable",
-      description : "Displays the results of significant terms as a table."
+      description : "Displays a graph of search results"
     };
 
     // Set and populate defaults
