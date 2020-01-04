@@ -8,7 +8,7 @@ addons:
       - google-chrome-stable
 language: node_js
 node_js:
-  - "6.10.3"
+  - "12.14.0"
 
 before_install:
     # setting the path for phantom.js 2.0.0
