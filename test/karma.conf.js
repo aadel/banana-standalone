@@ -13,11 +13,11 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/test-main.js',
-      {pattern: 'src/**/*.js', included: false},
+      {pattern: 'src/app/**/*.js', included: false},
       // {pattern: 'bower_components/**/*.js', included: false},
 
-      // {pattern: 'test/**/*Spec.js', included: false}
-      {pattern: 'test/unit/tableSpec.js', included: false}
+      {pattern: 'test/**/*Spec.js', included: false}
+      // {pattern: 'test/unit/tableSpec.js', included: false}
     ],
 
 
@@ -63,6 +63,6 @@ module.exports = function(config) {
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: false
+    singleRun: true
   });
 };

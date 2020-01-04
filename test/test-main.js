@@ -9,12 +9,12 @@ Object.keys(window.__karma__.files).forEach(function(file) {
   // TODO: Something is not right here. Need to fix.
 
   // if (TEST_REGEXP.test(file)) {
-    // Normalize paths to RequireJS module names.
-    // allTestFiles.push(pathToModule(file));
+  //   // Normalize paths to RequireJS module names.
+  //   allTestFiles.push(pathToModule(file));
   // }
 
   // List of test files:
-  allTestFiles.push('/base/test/unit/tableSpec.js');
+  allTestFiles.push('/base/test/unit/testSpec.js');
 });
 
 require.config({
@@ -44,7 +44,7 @@ require.config({
     'underscore-src':         '../vendor/underscore',
     bootstrap:                '../vendor/bootstrap/bootstrap',
 
-    jquery:                   '../vendor/jquery/jquery-1.8.0',
+    jquery:                   '../vendor/jquery/jquery-1.12.1',
     'jquery-ui':              '../vendor/jquery/jquery-ui-1.10.3',
 
     'extend-jquery':          'components/extend-jquery',
