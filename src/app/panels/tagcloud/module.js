@@ -17,7 +17,7 @@ define([
     './stopWords',
     './d3.layout.cloud'
   ],
-  function(angular, app, _, $, kbn, d3, stopwords) {
+  function(angular, app, _, $, kbn, d3, stopwords, cloud) {
     'use strict';
 
     var module = angular.module('kibana.panels.tagcloud', []);
@@ -113,13 +113,11 @@ define([
           }
 
           var sum = 0;
-//          var k = 0;
           var missing = 0;
           $scope.panelMeta.loading = false;
           $scope.hits = results.response.numFound;
           $scope.data = [];
           $scope.maxRatio = 0;
-
 
           $scope.yaxis_min = 0;
           _.each(results.facet_counts.facet_fields, function(v) {
@@ -153,6 +151,7 @@ define([
               }
             }
           });
+          $scope.panelMeta.loading = false;
           $scope.$emit('render');
         });
       };
@@ -191,8 +190,10 @@ define([
 
           // Function for rendering panel
           function render_panel() {
-
+            
             function draw(words) {
+              var fill = d3.schemeCategory10;
+              
               d3.select(el).append("svg")
                 .attr("width", width)
                 .attr("height", height)
@@ -204,10 +205,13 @@ define([
                 .style("font-size", function(d) {
                   return d.size + "px";
                 })
-                .style("font-family", "Impact, Haettenschweiler, 'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', 'Bitstream Vera Sans Bold', 'Arial Black', 'sans-serif'")
+                .style("font-family", 
+                    "Impact, Haettenschweiler, "
+                  + "'Franklin Gothic Bold', Charcoal, 'Helvetica Inserat', "
+                  + "'Bitstream Vera Sans Bold', 'Arial Black', 'sans-serif'")
                 .style("fill", function(d, i) {
                   //return  color(i);
-                  return fill(i);
+                  return fill[i % fill.length];
                 })
                 .attr("text-anchor", "middle")
                 .attr("transform", function(d) {
@@ -224,17 +228,10 @@ define([
             var width = element.parent().width();
             var height = parseInt(scope.row.height);
 
-            var fill = d3.scale.category20();
-/*
-            var color = d3.scale.linear()
-              .domain([0, 1, 2, 3, 4, 5, 6, 10, 15, 20, 100])
-              .range(["#7EB26D", "#EAB839", "#6ED0E0", "#EF843C", "#E24D42", "#1F78C1", "#BA43A9", "#705DA0", "#890F02", "#0A437C", "#6D1F62", "#584477"]);
-*/
+            var scale = d3.scaleLinear().domain([0, scope.maxRatio]).range([0, 30]);
+            var randomRotate = d3.scaleLinear().domain([0, 1]).range([-90, 90]);
 
-            var scale = d3.scale.linear().domain([0, scope.maxRatio]).range([0, 30]);
-            var randomRotate = d3.scale.linear().domain([0, 1]).range([-90, 90]);
-
-            d3.layout.cloud().size([width - 20, height - 20])
+            cloud().size([width - 20, height - 20])
               .words(scope.data.map(function(d) {
                 return {
                   text: d.label,
@@ -262,10 +259,7 @@ define([
               })
               .on("end", draw)
               .start();
-
-
           }
-
         }
       };
     });
