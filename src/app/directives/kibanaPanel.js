@@ -78,7 +78,7 @@ function (angular) {
 
           '<span class="row-button extra" ng-show="panelMeta.loading == true">' +
             '<span>'+
-              '<i class="icon-spinner smaller icon-spin icon-large"></i>' +
+              '<i class="icon-spinner icon-spin icon-large"></i>' +
             '</span>'+
           '</span>' +
 
