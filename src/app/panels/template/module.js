@@ -144,7 +144,7 @@ function (angular, app, _, $, d3) {
               width = parent_width - 20,
               barHeight = height / scope.data.length;
 
-          var x = d3.scale.linear()
+          var x = d3.scaleLinear()
                     .domain([0, d3.max(scope.data)])
                     .range([0, width]);
 
