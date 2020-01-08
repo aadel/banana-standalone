@@ -191,21 +191,18 @@ define([
               width = width - margin.left - margin.right;
               height = height - margin.top - margin.bottom;
 
-              var formatPercent = d3.format(".0");
+              var formatPercent = d3.format(".0f");
 
-              var x = d3.scale.ordinal()
-                  .rangeRoundBands([15, width], 0.1);
+              var x = d3.scaleBand()
+                  .rangeRound([15, width])
+                  .padding(0.1);
 
-              var y = d3.scale.linear()
+              var y = d3.scaleLinear()
                   .range([height, 0]);
 
-              var xAxis = d3.svg.axis()
-                  .scale(x)
-                  .orient("bottom");
+              var xAxis = d3.axisBottom(x);
 
-              var yAxis = d3.svg.axis()
-                  .scale(y)
-                  .orient("left")
+              var yAxis = d3.axisLeft(y)
                   .tickFormat(formatPercent);
 
               var svg = d3.select(element[0]).append("svg")
@@ -251,7 +248,7 @@ define([
                 .enter().append("rect")
                   .attr("class", "d3bar")
                   .attr("x", function(d) { return x(d.letter); })
-                  .attr("width", x.rangeBand())
+                  .attr("width", x.bandwidth())
                   .attr("y", function(d) { return y(d.frequency); })
                   .attr("height", function(d) { return height - y(d.frequency); })
                   .on('mouseover', tip.show)
