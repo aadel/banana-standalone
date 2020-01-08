@@ -156,7 +156,7 @@ define([
             // Populate scope when we have results
             results.then(function (results) {
                 // build $scope.data array
-                $scope.data = d3.csv.parse(results, function (d) {
+                $scope.data = d3.csvParse(results, function (d) {
                     var value = {};
                     // Convert string to number
                     value[$scope.panel.xaxis] = +d[$scope.panel.xaxis];
@@ -244,19 +244,29 @@ define([
                     height = height - margin.top - margin.bottom;
 
                     // Scales
-                    var color = d3.scale.category20();
+                    var color = d3.scaleOrdinal([
+                        "#7EB26D", "#EAB839", "#6ED0E0", "#EF843C", "#E24D42", "#1F78C1",
+                        "#BA43A9", "#705DA0", "#508642", "#CCA300", "#447EBC", "#C15C17",
+                        "#890F02", "#0A437C", "#6D1F62", "#584477", "#B7DBAB", "#F4D598",
+                        "#70DBED", "#F9BA8F", "#F29191", "#82B5D8", "#E5A8E2", "#AEA2E0",
+                        "#629E51", "#E5AC0E", "#64B0C8", "#E0752D", "#BF1B00", "#0A50A1",
+                        "#962D82", "#614D93", "#9AC48A", "#F2C96D", "#65C5DB", "#F9934E",
+                        "#EA6460", "#5195CE", "#D683CE", "#806EB7", "#3F6833", "#967302",
+                        "#2F575E", "#99440A", "#58140C", "#052B51", "#511749", "#3F2B5B",
+                        "#E0F9D7", "#FCEACA", "#CFFAFF", "#F9E2D2", "#FCE2DE", "#BADFF4",
+                        "#F9D9F9", "#DEDAF7"]);
                     var rScale;
                     if (scope.panel.bubbleSizeField) {
-                        rScale = d3.scale.linear()
+                        rScale = d3.scaleLinear()
                             .domain(d3.extent(scope.data, function (d) {
                                 return d[scope.panel.bubbleSizeField];
                             }))
                             .range([3, 20])
                             .nice();
                     }
-                    var x = d3.scale.linear()
+                    var x = d3.scaleLinear()
                         .range([0, width - padding * 2]);
-                    var y = d3.scale.linear()
+                    var y = d3.scaleLinear()
                         .range([height, 0]);
 
                     x.domain(d3.extent(scope.data, function (d) {
@@ -302,7 +312,7 @@ define([
                         .on("mouseover", function (d) {
                             var colorField = d[scope.panel.colorField] ? d[scope.panel.colorField] : "";
                             $tooltip
-                                .html('<i class="icon-circle" style="color:' + color(d[scope.panel.colorField]) + ';"></i>' + ' ' +
+                                .html('<i class="icon-circle" style="color:' + color[d[scope.panel.colorField]] + ';"></i>' + ' ' +
                                     colorField + " (" + d[scope.panel.xaxis] + ", " + d[scope.panel.yaxis] + ")<br>")
                                 .place_tt(d3.event.pageX, d3.event.pageY);
                         })
@@ -363,12 +373,8 @@ define([
                     }
 
                     // Axis
-                    var xAxis = d3.svg.axis()
-                        .scale(x)
-                        .orient("bottom");
-                    var yAxis = d3.svg.axis()
-                        .scale(y)
-                        .orient("left");
+                    var xAxis = d3.axisBottom(x);
+                    var yAxis = d3.axisLeft(y);
 
                     // X-axis label
                     var xaxisLabel = '';
