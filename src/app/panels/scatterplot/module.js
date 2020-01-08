@@ -389,8 +389,8 @@ define([
                         .attr("transform", "translate(0," + height + ")")
                         .call(xAxis)
                         .append("text")
-                        // .attr("class", "label")
-                        .attr("transform", "translate(" + ((width / 2) - margin.left) + " ," + 35 + ")")
+                        .attr("class", "axis-label")
+                        .attr("transform", "translate(" + ((width / 2) - margin.left) + " ," + 40 + ")")
                         .style("text-anchor", "middle")
                         .text(xaxisLabel);
 
@@ -406,11 +406,11 @@ define([
                         .attr("class", "y axis")
                         .call(yAxis)
                         .append("text")
-                        // .attr("class", "label")
+                        .attr("class", "axis-label")
                         .attr("transform", "rotate(-90)")
                         .attr("y", 0 - margin.left)
                         .attr("x", 0 - ((height - margin.top - margin.bottom) / 2))
-                        .attr("dy", ".71em")
+                        .attr("dy", "1.5em")
                         .style("text-anchor", "end")
                         .text(yaxisLabel);
                 }
