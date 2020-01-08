@@ -302,7 +302,9 @@ define([
                         
                         var data = jQuery.extend(true, [], scope.data); // jshint ignore:line
                         
-                        var intensity_domain = d3.scale.linear().domain(scope.domain).range([-INTENSITY, INTENSITY]);
+                        var intensity_domain = d3.scaleLinear()
+                            .domain(scope.domain)
+                            .range([-INTENSITY, INTENSITY]);
                         
                         data = _.map(data, function(d){
                             return{
