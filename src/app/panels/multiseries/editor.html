@@ -2,7 +2,8 @@
 <div class="row-fluid">
   <div class="span3">
     <h6>Field Name <tip>Only one field for the x-axis</tip></h6>
-    <input bs-typeahead="fields.list" ng-options="field for field in fields.list" type="text" class="input-medium" ng-model="panel.field" ng-change="set_refresh(true)">
+    <input bs-typeahead="fields.list" ng-options="field for field in fields.list" type="text" 
+      placeholder="timestamp_dt" class="input-medium" ng-model="panel.field" ng-change="set_refresh(true)" />
   </div>
   <div class="span2">
     <h6 class="small">Max Rows <tip>Maximum number of rows to retrieve for the result set.</tip></h6>
@@ -13,7 +14,7 @@
 <div class="row-fluid">
   <div class="span4">
     <h6>Y-Axis Field(s) <tip>Field(s) to be plotted on the chart(comma separated)</tip></h6>
-    <input type="text" class="input-medium" placeholder="open,high,low,close" ng-model="panel.fl" ng-change="set_refresh(true)">
+    <input type="text" class="input-medium" placeholder="open, high, low, close" ng-model="panel.fl" ng-change="set_refresh(true)">
   </div>
   <div class="span2">
     <h6>Y-Axis Label <tip>The label to be viewed on the top of Y-Axis</tip></h6>
@@ -21,7 +22,9 @@
   </div>
   <div class="span4">
     <h6 class="small">Interpolation Method <tip>D3 Interpolation method for missing or NaN values</tip></h6>
-    <select ng-change="set_refresh(true)" placeholder="10000" class="input-medium" ng-model="panel.interpolate" ng-options="f for f in ['linear','step-before','basis','basis-open','basis-closed','cardinal','cardinal-open','cardinal-closed','monotone']"></select> <!-- add ng-model -->
+    <select ng-change="set_refresh(true)" placeholder="10000" 
+      class="input-medium" ng-model="panel.interpolate"
+      ng-options="k as v for (k, v) in {'Linear': 'Linear', 'StepBefore': 'Step before', 'Basis': 'Basis', 'BasisOpen': 'Open basis', 'BasisClosed': 'Closed basis', 'Cardinal': 'Cubic cardinal', 'OpenCardinal': 'Open cubic cardinal', 'ClosedCardinal': 'Closed cubic cardinal', 'MonotoneX': 'Monotone X', 'Natural': 'Natural'}"></select> <!-- add ng-model -->
   </div>
   <div class="span2">
     <h6>Show Legend <tip>Shows legend for this series when checked</tip></h6>
@@ -46,7 +49,9 @@
   </div>
   <div class="span4">
     <h6 class="small">Interpolation Method <tip>D3 Interpolation method for missing or NaN values</tip></h6>
-    <select ng-change="set_refresh(true)" placeholder="10000" class="input-medium" ng-model="panel.right_interpolate" ng-options="f for f in ['linear','step-before','basis','basis-open','basis-closed','cardinal','cardinal-open','cardinal-closed','monotone']"></select> <!-- add ng-model -->
+    <select ng-change="set_refresh(true)" placeholder="10000" 
+      class="input-medium" ng-model="panel.right_interpolate"
+      ng-options="k as v for (k, v) in {'Linear': 'Linear', 'StepBefore': 'Step before', 'Basis': 'Basis', 'BasisOpen': 'Open basis', 'BasisClosed': 'Closed basis', 'Cardinal': 'Cubic cardinal', 'OpenCardinal': 'Open cubic cardinal', 'ClosedCardinal': 'Closed cubic cardinal', 'MonotoneX': 'Monotone X', 'Natural': 'Natural'}"></select> <!-- add ng-model -->
   </div>
   <div class="span2">
     <h6>Show Legend <tip>Shows legend for this series when checked</tip></h6>

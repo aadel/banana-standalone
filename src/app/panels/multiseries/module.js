@@ -41,7 +41,7 @@ define([
       },
       size: 1000,
       max_rows: 10000, // maximum number of rows returned from Solr
-      field: 'timestamp',
+      field: '',
       yAxis: '',
       right_yAxis: '',
       fl: '',
@@ -226,66 +226,58 @@ define([
 
           // The need for two date parsers is that sometimes solr removes the .%L part if it equals 000
           // So double checking to make proper parsing format and cause no error
-          var parseDate = d3.time.format.utc("%Y-%m-%dT%H:%M:%S.%LZ");
-          var parseDate2 = d3.time.format.utc("%Y-%m-%dT%H:%M:%SZ");
+          var parseDate = d3.utcParse("%Y-%m-%dT%H:%M:%S.%LZ");
+          var parseDate2 = d3.utcParse("%Y-%m-%dT%H:%M:%SZ");
 
           var isDate = false;
           // Check if x is date or another type
           if (data && data.length > 0) {
               var sample_date = data[0][scope.panel.field];
-              isDate = parseDate.parse(String(sample_date)) || parseDate2.parse(String(sample_date));
+              isDate = parseDate(String(sample_date)) || parseDate2(String(sample_date));
           }
 
           // d3 stuffs
           var x;
           if (isDate) {
-              x = d3.time.scale().range([0, width]);
+              x = d3.scaleTime().range([0, width]);
           } else {
-              x = d3.scale.linear().range([0, width]);
+              x = d3.scaleLinear().range([0, width]);
           }
 
-          var y = d3.scale.linear().range([height, 0]);
+          var y = d3.scaleLinear().range([height, 0]);
 
-          var color = d3.scale.category10();
-          var xAxis = d3.svg.axis().scale(x).orient("bottom");
-          var yAxis = d3.svg.axis().scale(y).orient("left");
+          var color = d3.scaleOrdinal(d3.schemeCategory10);
+          var xAxis = d3.axisBottom(x);
+          var yAxis = d3.axisLeft(y);
 
-          var line = d3.svg.line()
-              .interpolate(scope.panel.interpolate) // interpolate option
-              .x(function(d) {
-                  return x(d.xValue);
-              })
-              .y(function(d) {
-                  return y(d.yValue);
-              });
+          var line = d3.line()
+              .x(function(d) { return x(d.xValue); })
+              .y(function(d) { return y(d.yValue); })
+              .curve(d3['curve' + scope.panel.interpolate]); // interpolate option
 
           // Colors domain must be the same count of fl
           var fl = scope.panel.fl.split(',');
-          color.domain(d3.keys(data[0]).filter(function(key) {
-              return (fl.indexOf(key) !== -1);
-          }));
+          color.domain(fl);
 
-          var y_right,y_right_color,yAxis_right,line_right;
+          var y_right, y_right_color, yAxis_right, line_right;
 
           if(scope.panel.rightYEnabled) {
-              y_right = d3.scale.linear().range([height, 0]);
-              y_right_color = d3.scale.category20b();
-              yAxis_right = d3.svg.axis().scale(y_right).orient("right");
-              line_right = d3.svg.line()
-                          .interpolate(scope.panel.right_interpolate)
+              y_right = d3.scaleLinear().range([height, 0]);
+              y_right_color = d3.scaleOrdinal(d3.schemeCategory10);
+              yAxis_right = d3.axisRight(y_right);
+              line_right = d3.line()
                           .x(function(d) { return x(d.xValue); })
-                          .y(function(d) { return y_right(d.yValue); });
+                          .y(function(d) { return y_right(d.yValue); })
+                          .curve(d3['curve' + scope.panel.right_interpolate]);
               var rightAxisList = scope.panel.right_fl.split(',');
-              y_right_color.domain(d3.keys(data[0]).filter(function(key){
-                 return (rightAxisList.indexOf(key) !== -1);
-              }));
+              y_right_color.domain(rightAxisList);
           }
 
           if (isDate) {
               // That in case x-axis was date, what if not?
               data.forEach(function(d) {
-                  var newDate = parseDate.parse(String(d[scope.panel.field]));
-                  d[scope.panel.field] = newDate !== null ? newDate : parseDate2.parse(String(d[scope.panel.field]));
+                  var newDate = parseDate(String(d[scope.panel.field]));
+                  d[scope.panel.field] = newDate !== null ? newDate : parseDate2(String(d[scope.panel.field]));
               });
           }
 
