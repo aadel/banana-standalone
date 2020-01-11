@@ -141,7 +141,7 @@ define([
                 sort = '&sort=' + $scope.panel.sortingField + ' ' + $scope.panel.sortingDirection;
             }
 
-            $scope.panel.queries.query = querySrv.getOPQuery() + fq + fl + wt_json + rows_limit;
+            $scope.panel.queries.query = querySrv.getOPQuery() + fq + fl + sort + wt_json + rows_limit;
 
             // Set the additional custom query
             if ($scope.panel.queries.custom != null) {

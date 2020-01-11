@@ -64,7 +64,7 @@
     <div class="span3" ng-show="panel.sortingField">
         <h6>Sorting Direction</h6>
         <select class="input-medium"
-                ng-model="panel.sort"
+                ng-model="panel.sortingDirection"
                 ng-options="k as v for (k, v) in {'asc': 'Ascending', 'desc': 'Descending'}"
                 ng-change="set_refresh(true)"></select>
     </div>
