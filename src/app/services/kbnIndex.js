@@ -70,9 +70,6 @@ function (angular, _, config, moment) {
         // is not yet configurable.
         url: collectionApi,
         method: "GET"
-      }).error(function(data, status) {
-        alertSrv.set('Error',"Could not retrieve collections from Solr (error status = "+status+")");
-        console.debug('kbnIndex: error data = ',data);
       });
 
       return promise.then(function (p) {
@@ -92,6 +89,9 @@ function (angular, _, config, moment) {
         }
         if (DEBUG) { console.debug('kbnIndex: all_collections response p = ',p,'collections = ',collections); }
         return collections;
+      }, error => {
+        alertSrv.set('Error',"Could not retrieve collections from Solr (error status = "+status+")");
+        console.log('Error data = ', error.data);
       });
     }
 

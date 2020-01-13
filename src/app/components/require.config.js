@@ -19,6 +19,7 @@ require.config({
     'angular-dragdrop':       '../vendor/angular/angular-dragdrop',
     'angular-strap':          '../vendor/angular/angular-strap',
     'angular-sanitize':       '../vendor/angular/angular-sanitize',
+    'angular-route':          '../vendor/angular/angular-route',
     timepicker:               '../vendor/angular/timepicker',
     datepicker:               '../vendor/angular/datepicker',
 
@@ -97,8 +98,9 @@ require.config({
     'angular-resource':     ['angular'],
     'angular-route':        ['angular'],
     'angular-touch':        ['angular'],
+    'angular-route':        ['angular'],
 
-    'angular-strap':        ['angular', 'bootstrap','timepicker', 'datepicker'],
+    'angular-strap':        ['angular', 'bootstrap', 'timepicker', 'datepicker'],
 
     timepicker:             ['jquery', 'bootstrap'],
     datepicker:             ['jquery', 'bootstrap'],
