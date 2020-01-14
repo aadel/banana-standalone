@@ -15,11 +15,11 @@ require.config({
     moment:                   '../vendor/moment',
     filesaver:                '../vendor/filesaver',
 
-    angular:                  '../vendor/angular/angular',
+    angular:                  '../vendor/angular/angular.min',
     'angular-dragdrop':       '../vendor/angular/angular-dragdrop',
     'angular-strap':          '../vendor/angular/angular-strap',
-    'angular-sanitize':       '../vendor/angular/angular-sanitize',
-    'angular-route':          '../vendor/angular/angular-route',
+    'angular-sanitize':       '../vendor/angular/angular-sanitize.min',
+    'angular-route':          '../vendor/angular/angular-route.min',
     timepicker:               '../vendor/angular/timepicker',
     datepicker:               '../vendor/angular/datepicker',
 

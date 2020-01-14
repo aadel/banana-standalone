@@ -177,14 +177,14 @@ define([
                     function click(d) {
                         var parents = getAncestors(d);
                         var out = parents.map(function (a) {
-                            return a.name;
+                            return a.data.name;
                         });
                         scope.set_filters(out);
                     }
 
                     function stash(d) {
-                        d.x0 = d.x;
-                        d.dx0 = d.dx;
+                        d.x0 = d.x0;
+                        d.dx0 = d.x1 - d.x0;
                     }
 
                     function mouseover(d) {
@@ -197,7 +197,7 @@ define([
                             })
                             .style("opacity", 1);
                         $tooltip
-                            .html(d['name'] + ' (' + scope.dash.numberWithCommas(d['size']) + ')')
+                            .html(d.data['name'] + ' (' + scope.dash.numberWithCommas(d.value) + ')')
                             .place_tt(d3.event.pageX, d3.event.pageY);
                     }
 
@@ -233,57 +233,75 @@ define([
                     d3.selectAll("#sunbursttooltip").remove();
                     height = height - margin.top - margin.bottom;
 
-                    var color = d3.scale.category20c();
-                    var radius = Math.min(width, height) / 2;
+                    var color = d3.scaleOrdinal(d3.schemeCategory10);
+                    var radius = Math.min(width, height) / 6;
                     var svg = d3.select(el).append("svg")
-                        .attr('height', height)
-                        .attr('width', width)
+                        .attr("viewBox", [0, 0, width, height])
                         .append("g")
                         .attr("transform", "translate(" + width / 2 + "," + height * 0.50 + ")");
 
-                    var partition = d3.layout.partition()
-                        .sort(null)
-                        .size([2 * Math.PI, radius * radius])
-                        .value(function (d) {
-                            return d.size;
-                        })
-                        .children(function (d) {
-                            return d.children;
-                        });
+                    var partition = data => {
+                        const root = d3.hierarchy(scope.data)
+                            .sum(d => d.size)
+                            .sort((a, b) => b.value - a.value);
+                        return d3.partition()
+                            .size([2 * Math.PI, root.height + 1])
+                            (root);
+                    }
 
-                    var arc = d3.svg.arc()
-                        .startAngle(function (d) {
-                            return d.x;
-                        })
-                        .endAngle(function (d) {
-                            return d.x + d.dx;
-                        })
-                        .innerRadius(function (d) {
-                            return Math.sqrt(d.y);
-                        })
-                        .outerRadius(function (d) {
-                            return Math.sqrt(d.y + d.dy);
-                        });
+                    const root = partition(scope.data);
+                    root.each(d => d.current = d);
+                    
+                    const arc = d3.arc()
+                        .startAngle(d => d.x0)
+                        .endAngle(d => d.x1)
+                        .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
+                        .padRadius(radius * 1.5)
+                        .innerRadius(d => d.y0 * radius)
+                        .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1))
 
-                    svg.datum(scope.data).selectAll("path")
-                        .data(partition.nodes)
-                        .enter().append("path")
-                        .attr("display", function (d) {
-                            return d.depth ? null : "none";
-                        }) // hide inner ring
-                        .attr("d", arc)
-                        .attr("bs-tooltip", function () {
-                            return "'hello'";
-                        })
-                        .style("stroke", "#fff")
-                        .style("fill", function (d) {
-                            if (d.depth > 0) {
-                                return color(d.name);
-                            }
-                        }).each(stash)
-                        .on("mouseover", mouseover)
-                        .on("mouseleave", mouseleave)
-                        .on("click", click);
+                    function arcVisible(d) {
+                        return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
+                    }
+    
+                    const path = svg.append("g")
+                        .selectAll("path")
+                        .data(root.descendants().slice(1))
+                        .enter()
+                        .append("path")
+                            .attr("fill", d => { while (d.depth > 1) d = d.parent; return color(d.data.name); })
+                            .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
+                            .attr("d", d => arc(d.current))
+                            .each(stash)
+                                .on("mouseover", mouseover)
+                                .on("mouseleave", mouseleave)
+                                .on("click", click);
+                
+                    const parent = svg.append("circle")
+                        .datum(root)
+                        .attr("r", radius)
+                        .attr("fill", "none")
+                        .attr("pointer-events", "all");
+
+                    // svg.datum(scope.data).selectAll("path")
+                    //     .data(partition().children)
+                    //     .enter().append("path")
+                    //     .attr("display", function (d) {
+                    //         return d.depth ? null : "none";
+                    //     }) // hide inner ring
+                    //     .attr("d", arc)
+                    //     .attr("bs-tooltip", function () {
+                    //         return "'hello'";
+                    //     })
+                    //     .style("stroke", "#fff")
+                    //     .style("fill", function (d) {
+                    //         if (d.depth > 0) {
+                    //             return color(d.data.name);
+                    //         }
+                    //     }).each(stash)
+                    //     .on("mouseover", mouseover)
+                    //     .on("mouseleave", mouseleave)
+                    //     .on("click", click);
 
                     svg.selectAll("text.label").data(partition(scope.data));
 
