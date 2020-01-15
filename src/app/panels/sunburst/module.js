@@ -39,6 +39,7 @@ define([
             },
             facet_limit: 1000, // maximum number of rows returned from Solr
             spyable: true,
+            style: { "font-size": "10pt" },
             show_queries: true
         };
         _.defaults($scope.panel, _d);
@@ -263,6 +264,16 @@ define([
                     function arcVisible(d) {
                         return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
                     }
+
+                    function labelVisible(d) {
+                        return d.y1 <= 3 && d.y0 >= 1 && (d.y1 - d.y0) * (d.x1 - d.x0) > 0.03;
+                    }
+
+                    function labelTransform(d) {
+                        const x = (d.x0 + d.x1) / 2 * 180 / Math.PI;
+                        const y = (d.y0 + d.y1) / 2 * radius;
+                        return `rotate(${x - 90}) translate(${y},0) rotate(${x < 180 ? 0 : 180})`;
+                    }
     
                     const path = svg.append("g")
                         .selectAll("path")
@@ -282,26 +293,20 @@ define([
                         .attr("r", radius)
                         .attr("fill", "none")
                         .attr("pointer-events", "all");
-
-                    // svg.datum(scope.data).selectAll("path")
-                    //     .data(partition().children)
-                    //     .enter().append("path")
-                    //     .attr("display", function (d) {
-                    //         return d.depth ? null : "none";
-                    //     }) // hide inner ring
-                    //     .attr("d", arc)
-                    //     .attr("bs-tooltip", function () {
-                    //         return "'hello'";
-                    //     })
-                    //     .style("stroke", "#fff")
-                    //     .style("fill", function (d) {
-                    //         if (d.depth > 0) {
-                    //             return color(d.data.name);
-                    //         }
-                    //     }).each(stash)
-                    //     .on("mouseover", mouseover)
-                    //     .on("mouseleave", mouseleave)
-                    //     .on("click", click);
+                    
+                    const label = svg.append("g")
+                        .attr("pointer-events", "none")
+                        .attr("text-anchor", "middle")
+                        .style("user-select", "none")
+                      .selectAll("text")
+                      .data(root.descendants().slice(1))
+                      .enter()
+                      .append("text")
+                        .attr("dy", "0.35em")
+                        .attr("fill-opacity", d => +labelVisible(d.current))
+                        .attr("transform", d => labelTransform(d.current))
+                        .attr("font-size", scope.panel.style['font-size'])
+                        .text(d => d.data.name);
 
                     svg.selectAll("text.label").data(partition(scope.data));
 
