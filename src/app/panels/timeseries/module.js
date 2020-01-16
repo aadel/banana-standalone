@@ -250,7 +250,7 @@ define([
 
         var promises = [];
         _.each($scope.panel.queries.ids, function (id) {
-          var temp_q = querySrv.getQuery(id) /* + fq // fq seems not supported by timeseries */
+          var temp_q = querySrv.getQuery(id) + fq
             + timeseries_params + timeseries_metric;
           temp_q = $scope.build_expression(temp_q);
           $scope.panel.queries.query += temp_q + "\n";
