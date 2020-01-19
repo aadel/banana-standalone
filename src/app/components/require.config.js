@@ -98,7 +98,6 @@ require.config({
     'angular-resource':     ['angular'],
     'angular-route':        ['angular'],
     'angular-touch':        ['angular'],
-    'angular-route':        ['angular'],
 
     'angular-strap':        ['angular', 'bootstrap', 'timepicker', 'datepicker'],
 
