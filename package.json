@@ -1,5 +1,5 @@
 {
-  "version": "1.6.25",
+  "version": "latest",
   "name": "banana",
   "description": "Banana for Solr - A Port of Kibana",
   "repository": "https://github.com/LucidWorks/banana",

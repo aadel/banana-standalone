@@ -32,6 +32,8 @@ function (Settings) {
      * @type {String}
      */
 
+    REV: "latest",
+    
     // Specify Solr server and core to store the data.
     solr: "/solr/",
     solr_core: "logs",

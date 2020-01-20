@@ -10,6 +10,7 @@ function (_) {
      * @type {Object}
      */
     var defaults = {
+      REV: "latest",
       solr: "http://"+window.location.hostname+":8983/solr/",
       solr_core: "logs",
       timefield: "timestamp_tdt",
