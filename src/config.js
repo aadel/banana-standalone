@@ -32,7 +32,7 @@ function (Settings) {
      * @type {String}
      */
 
-    REV: "latest",
+    REV: "1.8.0-beta",
     
     // Specify Solr server and core to store the data.
     solr: "/solr/",

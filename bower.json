@@ -1,6 +1,6 @@
 {
   "name": "banana",
-  "version": "latest",
+  "version": "1.8.0-beta",
   "description": "The Banana project was forked from Kibana, and works with all kinds of time series (and non-time series) data stored in Apache Solr.",
   "main": "app.js",
   "moduleType": [
