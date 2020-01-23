@@ -31,10 +31,11 @@ require.config({
     moment:                   '../vendor/moment',
     filesaver:                '../vendor/filesaver',
 
-    angular:                  '../vendor/angular/angular',
+    angular:                  '../vendor/angular/angular.min',
+    'angular-route':          '../vendor/angular/angular-route.min',
     'angular-dragdrop':       '../vendor/angular/angular-dragdrop',
     'angular-strap':          '../vendor/angular/angular-strap',
-    'angular-sanitize':       '../vendor/angular/angular-sanitize',
+    'angular-sanitize':       '../vendor/angular/angular-sanitize.min',
     'angular-mocks':          '../vendor/angular/angular-mocks',
 
     timepicker:               '../vendor/angular/timepicker',
@@ -42,6 +43,7 @@ require.config({
 
     underscore:               'components/underscore.extended',
     'underscore-src':         '../vendor/underscore',
+    'showdown':               '../vendor/showdown',
     bootstrap:                '../vendor/bootstrap/bootstrap',
 
     jquery:                   '../vendor/jquery/jquery-1.12.1',
@@ -59,9 +61,9 @@ require.config({
     modernizr:                '../vendor/modernizr-2.6.1',
     elasticjs:                '../vendor/elasticjs/elastic-angular-client',
     solrjs:                   '../vendor/solrjs/solr-angular-client',
-    d3:                       '../vendor/d3',
+    d3:                       '../vendor/d3/d3',
 
-    tablePanel: 'panels/table/module'
+    tablePanel:               '../app/panels/table/module'
   },
 
   shim: {
@@ -110,7 +112,7 @@ require.config({
     datepicker:             ['jquery', 'bootstrap'],
 
     elasticjs:              ['angular', '../vendor/elasticjs/elastic'],
-    solrjs:                 ['angular', '../vendor/solrjs/solr']
+    solrjs:                 ['angular', '../vendor/solrjs/solr'],
   },
 
   // dynamically load all test files
