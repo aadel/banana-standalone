@@ -1,7 +1,8 @@
-define(['angular', 'jquery', 'underscore','showdown'], function(angular, $, _,Showdown) {
-  'use strict';
+'use strict';
 
-  var module = angular.module('kibana.filters');
+define(['angular', 'jquery', 'underscore','showdown'], function(angular, $, _,Showdown) {
+
+  var module = angular.module('kibana.filters', []);
 
   module.filter('stringSort', function() {
     return function(input) {
