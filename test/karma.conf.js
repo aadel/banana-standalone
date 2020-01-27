@@ -13,29 +13,17 @@ module.exports = function(config) {
     // list of files / patterns to load in the browser
     files: [
       'test/test-main.js',
-      {pattern: 'src/vendor/*.js', included: false},
-      {pattern: 'src/vendor/jquery/jquery-ui-1.10.3.js', included: false},
-      {pattern: 'src/vendor/solrjs/*.js', included: false},
-      {pattern: 'src/vendor/bootstrap/bootstrap.js', included: false},
-      {pattern: 'src/vendor/angular/*.js', included: false},
-      {pattern: 'src/vendor/elasticjs/*.js', included: false},
+
       {pattern: 'src/vendor/jquery/jquery-1.12.1.js', included: false},
-      {pattern: 'src/app/components/extend-jquery.js', included: false},
-      {pattern: 'src/app/components/*.js', included: false},
-      {pattern: 'src/app/app.js', included: false},
-      {pattern: 'src/app/controllers/*.js', included: false},
-      {pattern: 'src/app/directives/*.js', included: false},
-      {pattern: 'src/app/filters/*.js', included: false},
-      {pattern: 'src/app/services/*.js', included: false},
-      {pattern: 'src/config.js', included: false},
-      {pattern: 'src/app/panels/table/module.js', included: false},
-      {pattern: 'src/app/partials/*.html', included: true},
-      {pattern: 'src/app/dashboards/*.json', included: false},
+      {pattern: 'src/vendor/underscore.js', included: false},
+      {pattern: 'src/app/components/underscore.extended.js', included: false},
+      {pattern: 'src/vendor/angular/angular.min.js', included: false},
+      {pattern: 'src/vendor/angular/angular-mocks.js', included: false},
+      {pattern: 'src/vendor/angular/angular-route.min.js', included: false},
+      {pattern: 'src/vendor/showdown.js', included: false},
+      {pattern: 'src/app/filters/all.js', included: false},
 
-      // {pattern: 'bower_components/**/*.js', included: false},
-
-      {pattern: 'test/**/*Spec.js', included: false}
-      // {pattern: 'test/unit/tableSpec.js', included: false}
+      {pattern: 'test/spec/**/*.js', included: false}
     ],
 
 
@@ -71,7 +59,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_INFO,
+    logLevel: config.LOG_DEBUG,
 
 
     // enable / disable watching file and executing tests whenever any file changes
@@ -80,11 +68,11 @@ module.exports = function(config) {
 
     // start these browsers
     // available browser launchers: https://npmjs.org/browse/keyword/karma-launcher
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
 
 
     // Continuous Integration mode
     // if true, Karma captures browsers, runs the tests and exits
-    singleRun: true
+    singleRun: false
   });
 };
