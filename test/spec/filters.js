@@ -91,7 +91,7 @@ function() {
     }));
 
     it("should do digit grouping", inject(function($filter) {
-      expect($filter('thousandSeparator')(-1234.5678)).toEqual('-1,234.5678');
+      expect($filter('thousandSeparator')(-1234.567)).toEqual('-1,234.567');
     }));
 
     it("should make a fragment safe by replacing dots with underscores", inject(function($filter) {

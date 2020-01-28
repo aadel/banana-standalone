@@ -189,7 +189,7 @@ define(['angular', 'jquery', 'underscore','showdown'], function(angular, $, _,Sh
   module.filter('thousandSeparator', function() {
     return function(number) {
       if (number) {
-        return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        return new Intl.NumberFormat(navigator.language).format(number);
       } else {
         return number;
       }
