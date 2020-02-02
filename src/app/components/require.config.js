@@ -56,7 +56,37 @@ require.config({
     'd3-quadtree':            '../vendor/d3/d3-quadtree',
     'd3-dispatch':            '../vendor/d3/d3-dispatch',
     'd3-timer':               '../vendor/d3/d3-timer',
-    'd3-scale-chromatic':     '../vendor/d3/d3-scale-chromatic'
+    'd3-scale-chromatic':     '../vendor/d3/d3-scale-chromatic',
+
+    addPanel:                 'directives/addPanel',
+    arrayJoin:                'directives/arrayJoin',
+    dashUpload:               'directives/dashUpload',
+    kibanaPanel:              'directives/kibanaPanel',
+    ngBlur:                   'directives/ngBlur',
+    ngModelOnBlur:            'directives/ngModelOnBlur',
+    confirmClick:             'directives/confirmClick',
+    tip:                      'directives/tip',
+    'banana-directives':      'directives/banana-directives',
+
+    alertSrv:                 'services/alertSrv',
+    dashboard:                'services/dashboard',
+    fields:                   'services/fields',
+    filterSrv:                'services/filterSrv',
+    kbnIndex:                 'services/kbnIndex',
+    querySrv:                 'services/querySrv',
+    timer:                    'services/timer',
+    panelMove:                'services/panelMove',
+    solrSrv:                  'services/solrSrv',
+    lucidworksSrv:            'services/lucidworksSrv',
+    
+    dash:                     'controllers/dash',
+    dashLoader:               'controllers/dashLoader',
+    row:                      'controllers/row',
+
+    'all-controllers':        'controllers/all',
+    'all-directives':         'directives/all',
+    'all-services':           'services/all',
+    'all-filters':            'filters/all'
   },
   shim: {
     underscore: {

@@ -2,7 +2,7 @@ define([
     'angular',
     'config',
     'underscore',
-    'services/all'
+    'all-services'
 ],
 function (angular, config, _) {
     "use strict";
