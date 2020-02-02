@@ -2,7 +2,7 @@
 
 define(['angular', 'jquery', 'underscore','showdown'], function(angular, $, _,Showdown) {
 
-  var module = angular.module('kibana.filters', []);
+  var module = angular.module('kibana.filters');
 
   module.filter('stringSort', function() {
     return function(input) {
