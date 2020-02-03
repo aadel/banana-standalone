@@ -2,13 +2,17 @@
 
 /* jasmine specs for services go here */
 
-describe('service', function() {
-  beforeEach(module('myApp.services'));
+define(['angular-mocks', 'app', 'config'],
 
+function(angularMocks, app, config) {
 
-  describe('version', function() {
-    it('should return current version', inject(function(version) {
-      expect(version).toEqual('0.1');
-    }));
+  describe('service', function() {
+    beforeEach(() => {});
+
+    describe('version', function() {
+      it('should return current version', inject(function() {
+        expect(1).not.toEqual(2);
+      }));
+    });
   });
 });

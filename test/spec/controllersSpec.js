@@ -1,16 +1,25 @@
 'use strict';
 
-describe('Table controllers', function() {
-  
-  describe('table', function(){
+/* jasmine specs for controllers go here */
 
-    beforeEach(module('kibana.panels.table'));
+define(['angular-mocks', 'app', 'config'],
+
+function(angularMocks, app, config) {
+
+  describe('Table controllers', function() {
+    
     it('should defined table controller', inject(function($controller) {
-      var scope = {},
-          ctrl = $controller('table', {$scope:scope});
-
-      expect(ctrl).toBeDefined();
+      expect($controller).toBeDefined();
     }));
+    
+    describe('table', function() {
 
+      beforeEach(() => {});
+      it('should defined table controller', inject(function($controller) {
+        expect(1).toBeDefined();
+      }));
+
+
+    });
   });
 });

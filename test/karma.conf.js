@@ -14,16 +14,29 @@ module.exports = function(config) {
     files: [
       'test/test-main.js',
 
-      {pattern: 'src/vendor/jquery/jquery-1.12.1.js', included: false},
-      {pattern: 'src/vendor/underscore.js', included: false},
-      {pattern: 'src/app/components/underscore.extended.js', included: false},
-      {pattern: 'src/vendor/angular/angular.min.js', included: false},
+      {pattern: 'src/vendor/jquery/jquery-1.12.1.js', included: true},
+      {pattern: 'src/vendor/*.js', included: false},
+      {pattern: 'src/vendor/angular/angular.min.js', included: true},
       {pattern: 'src/vendor/angular/angular-mocks.js', included: false},
       {pattern: 'src/vendor/angular/angular-route.min.js', included: false},
-      {pattern: 'src/vendor/showdown.js', included: false},
+      {pattern: 'src/vendor/angular/angular-sanitize.min.js', included: false},
+      {pattern: 'src/vendor/angular/angular-strap.js', included: false},
+      {pattern: 'src/vendor/angular/angular-dragdrop.js', included: false},
+      {pattern: 'src/vendor/bootstrap/bootstrap.js', included: false},
+      {pattern: 'src/vendor/solrjs/solr.js', included: false},
+      {pattern: 'src/vendor/elasticjs/elastic-angular-client.js', included: false},
+      {pattern: 'src/app/components/underscore.extended.js', included: false},
+      {pattern: 'src/app/components/extend-jquery.js', included: false},
+      {pattern: 'src/app/components/kbn.js', included: false},
+      {pattern: 'src/app/app.js', included: false},
       {pattern: 'src/app/filters/all.js', included: false},
+      {pattern: 'src/app/directives/*.js', included: false},
+      {pattern: 'src/app/controllers/*.js', included: false},
+      {pattern: 'src/app/services/*.js', included: false},
+      {pattern: 'src/config.js', included: false},
+      {pattern: 'src/app/components/settings.js', included: false},
 
-      {pattern: 'test/spec/**/*.js', included: false}
+      {pattern: 'test/spec/**/*Spec.js', included: false}
     ],
 
 
@@ -59,7 +72,7 @@ module.exports = function(config) {
 
     // level of logging
     // possible values: config.LOG_DISABLE || config.LOG_ERROR || config.LOG_WARN || config.LOG_INFO || config.LOG_DEBUG
-    logLevel: config.LOG_DEBUG,
+    logLevel: config.LOG_INFO,
 
 
     // enable / disable watching file and executing tests whenever any file changes

@@ -13,7 +13,7 @@ function() {
     });
 
     beforeEach(function() {
-      module('banana.filters');
+      module('kibana.filters');
     });
 
     it('should sort a string', inject(function($filter) {
