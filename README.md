@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/aadel/banana/develop/src/img/banana.png"/>
+</p>
+
 # Banana
 
 [![Build Status](https://travis-ci.org/aadel/banana-standalone.svg?branch=latest)](https://travis-ci.org/aadel/banana-standalone) [![Known Vulnerabilities](https://snyk.io/test/github/aadel/banana-standalone/badge.svg?targetFile=package.json)](https://snyk.io/test/github/aadel/banana-standalone?targetFile=package.json)
