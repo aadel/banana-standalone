@@ -93,7 +93,9 @@ function (angular, _, config) {
         };
 
         $scope.create_new = function (type) {
-            $http.get('app/dashboards/' + type + '.json?' + new Date().getTime()).success(function (data) {
+            $http.get('app/dashboards/' + type + '.json?' + new Date().getTime())
+            .then(response => {
+                let data = response.data;
                 data.solr.server = $scope.new.server;
                 data.solr.core_name = $scope.new.core_name;
                 // If time series dashboard, update all timefield references in the default dashboard
@@ -115,7 +117,8 @@ function (angular, _, config) {
 
                 // Reset new dashboard defaults
                 $scope.resetNewDefaults();
-            }).error(function () {
+            },
+            response => {
                 alertSrv.set('Error', 'Unable to load default dashboard', 'error');
             });
         };
@@ -136,8 +139,8 @@ function (angular, _, config) {
             }
         };
 
-        $scope.elasticsearch_save = function (type, ttl) {
-            dashboard.elasticsearch_save(
+        $scope.solr_save = function (type, ttl) {
+            dashboard.solr_save(
                 type,
                 ($scope.elasticsearch.title || dashboard.current.title),
                 ($scope.loader.save_temp_ttl_enable ? ttl : false)

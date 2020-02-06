@@ -26,7 +26,7 @@ function (angular, app, _, moment, kbn, $) {
   var module = angular.module('kibana.panels.timepicker', []);
   app.useModule(module);
 
-  module.controller('timepicker', function($scope, $rootScope, $timeout, timer, $http, dashboard, filterSrv) {
+  module.controller('timepicker', function($scope, $rootScope, $timeout, timer, dashboard, filterSrv) {
     $scope.panelMeta = {
       modals: [{
         description: "Inspect",

@@ -39,16 +39,9 @@ function (angular, _) {
         var request = $http({
           method: 'GET',
           url: dashboard.current.solr.server + dashboard.current.solr.core_name + query,
-        }).error(function(data, status) {
-          if(status === 0) {
-            alertSrv.set('Error', 'Could not contact Solr at '+dashboard.current.solr.server+
-              '. Please ensure that Solr is reachable from your system.' ,'error');
-          } else {
-            alertSrv.set('Error','Could not retrieve facet data from Solr (Error status = '+status+')','error');
-          }
         });
 
-        request.then(function(results) {
+        request.then(response => {
           // var topFieldValues = {
           //   counts: [],
           //   totalcount: results.data.response.numFound
@@ -64,12 +57,12 @@ function (angular, _) {
 
           // self.topFieldValues[field] = topFieldValues;
 
-          var facetFields = results.data.facet_counts.facet_fields;
+          var facetFields = response.data.facet_counts.facet_fields;
 
           _.each(facetFields, function(values, field) {
             var topFieldValues = {
               counts: [],
-              totalcount: results.data.response.numFound
+              totalcount: response.data.response.numFound
               // hasArrays: undefined // Not sure what hasArrays does
             };
             // Need to parse topFieldValues.counts like this:
@@ -81,6 +74,13 @@ function (angular, _) {
             self.topFieldValues[field] = topFieldValues;
           });
 
+        }, response => {
+          if(response.status === 0) {
+            alertSrv.set('Error', 'Could not contact Solr at '+dashboard.current.solr.server+
+              '. Please ensure that Solr is reachable from your system.' ,'error');
+          } else {
+            alertSrv.set('Error','Could not retrieve facet data from Solr (Error status = '+status+')','error');
+          }          
         });
       // }); // each loop
     };

@@ -103,13 +103,13 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
 
                 switch (_type) {
                     case ('elasticsearch'):
-                        self.elasticsearch_load('dashboard', _id);
+                        self.solr_load('dashboard', _id);
                         break;
                     case ('solr'):
-                        self.elasticsearch_load('dashboard', _id);
+                        self.solr_load('dashboard', _id);
                         break;
                     case ('temp'):
-                        self.elasticsearch_load('temp', _id);
+                        self.solr_load('temp', _id);
                         break;
                     case ('file'):
                         self.file_load(_id);
@@ -370,7 +370,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
         // };
 
         // Load a saved dashboard from Solr
-        this.elasticsearch_load = function (type, id) {
+        this.solr_load = function (type, id) {
           // For dashboard field, Fusion uses 'banana_dashboard_s', but Solr uses 'dashboard'
           var server = $routeParams.server + config.banana_index || config.solr + config.banana_index;
           var url = server + '/select?wt=json&q=' + self.TITLE_FIELD + ':"' + id + '"';
@@ -406,21 +406,22 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
               // return renderTemplate(JSON.stringify(source_json.dashboard), $routeParams);
               return renderTemplate(JSON.stringify(source_json), $routeParams);
             }
-          }).error(function (data, status) {
-            if (status === 0) {
-              alertSrv.set('Error', "Could not contact Solr at " + config.solr +
-                ". Please ensure that Solr is reachable from your system.", 'error');
-            } else {
-              alertSrv.set('Error', 'Could not find dashboard named "' + id + '". Please ensure that the dashboard name is correct or exists in the system.', 'error');
-            }
-            return false;
-          }).success(function (data) {
-            self.dash_load(data);
+          }).then(
+            response => {
+              self.dash_load(response.data);
+          }, response => {
+              if (response.status === 0) {
+                alertSrv.set('Error', "Could not contact Solr at " + config.solr +
+                  ". Please ensure that Solr is reachable from your system.", 'error');
+              } else {
+                alertSrv.set('Error', 'Could not find dashboard named "' + id + '". Please ensure that the dashboard name is correct or exists in the system.', 'error');
+              }
+              return false;
           });
         };
 
         // Save a dashboard to Fusion or Solr
-        this.elasticsearch_save = function (type, title, ttl) {
+        this.solr_save = function (type, title, ttl) {
             // Clone object so we can modify it without influencing the existing obejct
             var save = _.clone(self.current);
             var id;
