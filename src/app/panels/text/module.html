@@ -1,5 +1,5 @@
 <div ng-controller='text' ng-init="init()">
-  <!--<p ng-style="panel.style" ng-bind-html-unsafe="panel.content | striphtml | newlines"></p>-->
+  <!--<p ng-style="panel.style" ng-bind-html="panel.content | striphtml | newlines"></p>-->
   <markdown ng-show="ready && panel.mode == 'markdown'">
     {{panel.content}}
   </markdown>
