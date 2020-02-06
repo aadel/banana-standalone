@@ -60,7 +60,9 @@ function (angular, $, _, appLevelRequire) {
     }
   };
 
-  app.config(function ($routeProvider, $controllerProvider, $compileProvider, $filterProvider, $provide) {
+  app.config(function ($routeProvider, $controllerProvider, $compileProvider, 
+    $locationProvider, $filterProvider, $provide) {
+
     $routeProvider
       .when('/dashboard', {
         templateUrl: 'app/partials/dashboard.html',
@@ -74,6 +76,9 @@ function (angular, $, _, appLevelRequire) {
       .otherwise({
         redirectTo: 'dashboard'
       });
+    
+    $locationProvider.hashPrefix('');
+
     // this is how the internet told me to dynamically add modules :/
     register_fns.controller = $controllerProvider.register;
     register_fns.directive  = $compileProvider.directive;
