@@ -227,6 +227,9 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
             }
 
             self.current = _.clone(dashboard);
+            /* Deprecate core_list since collections are being used 
+                and saved instead */
+            self.current.solr.core_list = [];
 
             // Ok, now that we've setup the current dashboard, we can inject our services
             querySrv = $injector.get('querySrv');
