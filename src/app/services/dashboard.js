@@ -614,7 +614,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
 
         this.numberWithCommas = function (x) {
             if (x) {
-                return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+                return Intl.NumberFormat(navigator.language).format(x);
             } else {
                 return x;
             }
