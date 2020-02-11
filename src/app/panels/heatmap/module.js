@@ -348,7 +348,7 @@ define([
                             .append("g");
 
                         // Row Labels
-                        var rowLabels = svg.append("g") // jshint ignore:line
+                        svg.append("g") // jshint ignore:line
                             .selectAll(".rowLabelg")
                             .data(rowLabel)
                             .enter()
@@ -571,7 +571,9 @@ define([
 
                         var legend = svg.append("svg");
                         legend.attr("x", parseInt((svg_width - LEGEND.width) / 2))
-                            .attr("y", svg_height - LEGEND.margin - LEGEND.height - LEGEND.text_height).append("g"); 
+                            .attr("y", svg_height - LEGEND.margin - LEGEND.height - LEGEND.text_height)
+                            .style("overflow", "visible")
+                            .append("g");
 
                         legend.append("rect")
                             .attr("width", LEGEND.width)
