@@ -1,3 +1,5 @@
+'use strict';
+
 /*
   ## Graph
 
@@ -11,8 +13,7 @@ define([
   './xml2json',
   'kbn'
 ],
-function (angular, app, _, $, vis, X2JS, kbn) {
-  'use strict';
+function (angular, app, _, $, vis, X2JS) {
 
   var module = angular.module('kibana.panels.graph', []);
   app.useModule(module);
@@ -156,7 +157,7 @@ function (angular, app, _, $, vis, X2JS, kbn) {
         .replace(/%%LABEL_FIELD%%/, $scope.panel.label_field);
 
       return base_expression;
-    }
+    };
 
     $scope.get_data = function() {
       // Make sure we have everything for the request to complete
@@ -213,9 +214,9 @@ function (angular, app, _, $, vis, X2JS, kbn) {
           var x2js = new X2JS();
           $scope.graphML = x2js.xml_str2json(graph_response);
 
-          base_reponse['result-set'].docs.filter(d => d[$scope.panel.label_field] != undefined).map(d => {
+          base_reponse['result-set'].docs.filter(d => d[$scope.panel.label_field] !== undefined).map(d => {
             var node = $scope.graphML.graphml.graph.node.filter(n => n._id === d[$scope.panel.join_field])
-              .map(n => n.title = d[$scope.panel.label_field])
+              .map(n => n.title = d[$scope.panel.label_field]);
           });
 
           $scope.panelMeta.loading = false;
@@ -295,24 +296,28 @@ function (angular, app, _, $, vis, X2JS, kbn) {
           var network = new vis.Network(element[0], data, options);
 
           if (scope.graphML.graphml.graph.node) {
-            if (!(scope.graphML.graphml.graph.node instanceof Array))
+            if (!(scope.graphML.graphml.graph.node instanceof Array)) {
               nodes.add({id: scope.graphML.graphml.graph.node._id, 
                 label: scope.graphML.graphml.graph.node.title? scope.graphML.graphml.graph.node.title.trunc(scope.TRUNC_LENGTH) :
                   scope.graphML.graphml.graph.node._id,
                 title: scope.graphML.graphml.graph.node.title});
-            else
-              scope.graphML.graphml.graph.node.forEach(function(n) {
-                nodes.add({id: n._id, label: n.title? n.title.trunc(scope.TRUNC_LENGTH) : n._id, title: n.title});
-            });
+              }
+              else {
+                scope.graphML.graphml.graph.node.forEach(function(n) {
+                  nodes.add({id: n._id, label: n.title? n.title.trunc(scope.TRUNC_LENGTH) : n._id, title: n.title});
+              });
+            }
           }
 
           if (scope.graphML.graphml.graph.edge) {
-            if (scope.graphML.graphml.graph.edge && !(scope.graphML.graphml.graph.edge instanceof Array))
+            if (scope.graphML.graphml.graph.edge && !(scope.graphML.graphml.graph.edge instanceof Array)) {
               edges.add({from: scope.graphML.graphml.graph.edge._source, to: scope.graphML.graphml.graph.edge._target});
-            else
+            }
+            else {
               scope.graphML.graphml.graph.edge.forEach(function(e) {
                 edges.add({from: e._source, to: e._target});
-            });
+              });
+            }
           }
         }
       }
