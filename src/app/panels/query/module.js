@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
   ## query
@@ -13,7 +15,6 @@ define([
   'underscore',
   'css!./query.css'
 ], function (angular, app, _) {
-  'use strict';
 
   var module = angular.module('kibana.panels.query', []);
   app.useModule(module);

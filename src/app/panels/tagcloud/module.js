@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## tagcloud
 
@@ -18,7 +20,6 @@ define([
     './d3.layout.cloud'
   ],
   function(angular, app, _, $, kbn, d3, stopwords, cloud) {
-    'use strict';
 
     var module = angular.module('kibana.panels.tagcloud', []);
     app.useModule(module);

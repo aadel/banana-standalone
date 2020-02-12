@@ -1,6 +1,7 @@
+"use strict";
+
 define(['jquery'],
 function ($) {
-  'use strict';
 
   /**
    * jQuery extensions

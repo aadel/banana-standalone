@@ -1,8 +1,9 @@
+"use strict";
+
 /*global angular */
 
 define(['jquery', 'underscore'],
 function($, _) {
-  'use strict';
 
   var kbn = {};
 

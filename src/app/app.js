@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * main app level module
  */
@@ -17,7 +19,6 @@ define([
   'extend-jquery'
 ],
 function (angular, $, _, appLevelRequire) {
-  "use strict";
 
   var app = angular.module('kibana', ['ngRoute']),
     // we will keep a reference to each module defined before boot, so that we can
@@ -112,8 +113,9 @@ function (angular, $, _, appLevelRequire) {
             goto = goto.replace(/#/g, '%23');  
             window.location = goto;
             return;
-          } else if ( rejection.status === 404 )
+          } else if ( rejection.status === 404 ) {
             console.log("http 404 encounter!");
+          }
           
           return $q.reject(rejection);
         }

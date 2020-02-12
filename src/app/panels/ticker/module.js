@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
   ## Trends
@@ -14,7 +16,6 @@ define([
     'kbn'
   ],
   function(angular, app, _, kbn) {
-    'use strict';
 
     var module = angular.module('kibana.panels.ticker', []);
     app.useModule(module);

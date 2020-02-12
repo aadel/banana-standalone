@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
   ## Timepicker
@@ -21,7 +23,6 @@ define([
   'jquery'
 ],
 function (angular, app, _, moment, kbn, $) {
-  'use strict';
 
   var module = angular.module('kibana.panels.timepicker', []);
   app.useModule(module);

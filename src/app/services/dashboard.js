@@ -1,3 +1,5 @@
+"use strict";
+
 define([
     'angular',
     'jquery',
@@ -9,7 +11,6 @@ define([
     'filesaver'
 ],
 function (angular, $, kbn, _, config, moment, Modernizr) {
-    'use strict';
 
     var DEBUG = false; // DEBUG mode
 

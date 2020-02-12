@@ -1,9 +1,10 @@
+"use strict";
+
 define([
   'underscore',
   './interval'
 ],
 function (_, Interval) {
-  'use strict';
 
   var ts = {};
 

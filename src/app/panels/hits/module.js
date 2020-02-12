@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
  ## Hits
@@ -21,7 +23,6 @@ define([
     'jquery.flot',
     'jquery.flot.pie'
 ], function (angular, app, _) {
-    'use strict';
 
     var module = angular.module('kibana.panels.hits', []);
     app.useModule(module);

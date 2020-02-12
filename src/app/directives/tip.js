@@ -1,9 +1,10 @@
+"use strict";
+
 define([
   'angular',
   'kbn'
 ],
 function (angular, kbn) {
-  'use strict';
 
   angular
     .module('kibana.directives')

@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## Docviewer module
   *
@@ -10,7 +12,6 @@ define([
   'jquery'*/
 ],
 function (angular, app, kbn, _/*, $*/) {
-  'use strict';
 
   var module = angular.module('kibana.panels.docviewer', []);
   app.useModule(module);

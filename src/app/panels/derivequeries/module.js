@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## Derivequeries
 
@@ -17,7 +19,6 @@ define([
   'underscore'
 ],
 function (angular, app, _) {
-  'use strict';
 
   var module = angular.module('kibana.panels.derivequeries', []);
   app.useModule(module);

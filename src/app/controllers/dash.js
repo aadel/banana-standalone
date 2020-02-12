@@ -1,3 +1,5 @@
+"use strict";
+
 define([
     'angular',
     'config',
@@ -5,7 +7,6 @@ define([
     'all-services'
 ],
 function (angular, config, _) {
-    "use strict";
 
     var module = angular.module('kibana.controllers');
 

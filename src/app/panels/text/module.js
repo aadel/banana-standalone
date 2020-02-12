@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## Text
   ### Parameters
@@ -12,7 +14,6 @@ define([
   'require'
 ],
 function (angular, app, _, require) {
-  'use strict';
 
   var module = angular.module('kibana.panels.text', []);
   app.useModule(module);

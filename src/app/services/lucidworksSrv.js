@@ -1,10 +1,11 @@
+"use strict";
+
 define([
     'angular',
     'config',
     'underscore'
   ],
   function (angular, config, _) {
-    'use strict';
 
     var module = angular.module('kibana.services');
 

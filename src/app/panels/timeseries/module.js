@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
   ## Timeseries
@@ -45,7 +47,6 @@ define([
     'jquery.flot.axislabels'
   ],
   function (angular, app, $, _, kbn, moment, timeSeries) {
-    'use strict';
 
     var module = angular.module('kibana.panels.timeseries', []);
     app.useModule(module);

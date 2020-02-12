@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
   ## filtering
@@ -9,7 +11,6 @@ define([
   'underscore'
 ],
 function (angular, app, _) {
-  'use strict';
 
   var module = angular.module('kibana.panels.filtering', []);
   app.useModule(module);

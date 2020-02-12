@@ -1,6 +1,7 @@
+"use strict";
+
 define(['underscore'],
 function (_) {
-  "use strict";
 
   return function Settings (options) {
     /**

@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Bootstrap require with the needed config, then load the app.js module.
  */

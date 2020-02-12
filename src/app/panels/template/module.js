@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## Bar module
   * For tutorial on how to create a custom Banana module.
@@ -10,7 +12,6 @@ define([
   'd3'
 ],
 function (angular, app, _, $, d3) {
-  'use strict';
 
   var module = angular.module('kibana.panels.bar', []);
   app.useModule(module);

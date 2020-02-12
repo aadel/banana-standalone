@@ -1,4 +1,4 @@
-'use strict';
+"use strict";
 
 define(['angular', 'jquery', 'underscore','showdown'], function(angular, $, _,Showdown) {
 

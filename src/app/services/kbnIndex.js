@@ -1,3 +1,5 @@
+"use strict";
+
 define([
   'angular',
   'underscore',
@@ -5,7 +7,6 @@ define([
   'moment'
 ],
 function (angular, _, config, moment) {
-  'use strict';
 
   var DEBUG = false; // DEBUG mode
 

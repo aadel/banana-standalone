@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## D3 Cluster with Tooltip Integrated with Banana.
 
@@ -14,7 +16,6 @@ define([
     './d3-voronoi-map'
   ],
   function(angular, app, _, $, kbn, d3, voronoiMapSimulation) {
-    'use strict';
 
     var module = angular.module('kibana.panels.resultCluster', []);
     app.useModule(module);

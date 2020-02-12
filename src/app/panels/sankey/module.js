@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## Sankey Diagram Integrated with Banana.
 */
@@ -11,7 +13,6 @@ define([
     'd3-sankey'
   ],
   function (angular, app, _, $, kbn, d3, d3sankey) {
-    'use strict';
 
     var module = angular.module('kibana.panels.sankey', []);
     app.useModule(module);

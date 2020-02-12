@@ -1,9 +1,10 @@
+"use strict";
+
 define([
   'angular',
   'underscore',
   'config'
 ], function (angular, _, config) {
-  'use strict';
 
   var DEBUG = false; // DEBUG mode
 

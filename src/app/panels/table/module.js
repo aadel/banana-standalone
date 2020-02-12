@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
  ## Table
@@ -27,7 +29,6 @@ define([
     // 'text!partials/querySelect.html'
 ],
 function (angular, app, _, kbn, moment) {
-    'use strict';
 
     var module = angular.module('kibana.panels.table', []);
     app.useModule(module);

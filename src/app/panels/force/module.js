@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## D3 Force Diagram Integrated with Banana.
 */
@@ -12,7 +14,6 @@ define([
     'd3-force'
   ],
   function (angular, app, _, $, kbn, d3, d3force) {
-    'use strict';
 
     var FORCE_SEARCH_FOR_NODE_EVENT = "force-search-for-node";
 

@@ -1,8 +1,9 @@
+"use strict";
+
 define([
   'underscore-src'
 ],
 function () {
-  'use strict';
 
   var _ = window._;
 

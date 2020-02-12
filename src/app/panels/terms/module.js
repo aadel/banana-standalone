@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## Terms
 
@@ -18,7 +20,6 @@ define([
   'kbn'
 ],
 function (angular, app, _, $, kbn) {
-  'use strict';
 
   var module = angular.module('kibana.panels.terms', []);
   app.useModule(module);

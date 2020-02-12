@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 ## HeatMap D3 Panel
 */
@@ -11,7 +13,6 @@ define([
     'css!./module.css'
 ],
     function (angular, app, _, $, d3, localRequire) {
-        'use strict';
 
         var module = angular.module('kibana.panels.heatmap', []);
         app.useModule(module);

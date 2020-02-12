@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
   ## Better maps
@@ -21,7 +23,6 @@ define([
   'css!./leaflet/plugins.css'
 ],
 function (angular, app, _, L, localRequire) {
-  'use strict';
 
   var DEBUG = false; // DEBUG mode
   var fitBoundsFlag = true;

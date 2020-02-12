@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## Map
 
@@ -21,7 +23,6 @@ define([
   './lib/jquery.jvectormap.min'
 ],
 function (angular, app, _, $, worldmap) {
-  'use strict';
 
   var module = angular.module('kibana.panels.map', []);
   app.useModule(module);

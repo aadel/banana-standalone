@@ -1,3 +1,5 @@
+"use strict";
+
 /*
   ## D3 Bar Chart with Tooltip Integrated with Banana.
   ## Demo URL: bl.ocks.org/Caged/6476579
@@ -16,7 +18,6 @@ define([
     './d3.tip'
   ],
   function(angular, app, _, $, kbn, d3, d3tip) {
-    'use strict';
 
     var module = angular.module('kibana.panels.bar', []);
     app.useModule(module);

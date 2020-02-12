@@ -1,3 +1,5 @@
+"use strict";
+
 /**
  * Sunburst panel
  */
@@ -8,7 +10,6 @@ define([
     'jquery',
     'd3'
 ], function (angular, app, _, $, d3) {
-    'use strict';
 
     var module = angular.module('kibana.panels.sunburst', []);
     app.useModule(module);

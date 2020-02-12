@@ -1,10 +1,11 @@
+"use strict";
+
 /**
  * This file contains the basic configuration settings for the banana webapp. 
  */
  
 define(['settings'],
 function (Settings) {
-  "use strict";
 
   return new Settings({
 

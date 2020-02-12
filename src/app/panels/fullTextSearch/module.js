@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
   ## Full Text Search
@@ -27,7 +29,6 @@ define([
     'bootstrap'
   ],
   function(angular, app, _, kbn, moment) {
-    'use strict';
 
     var module = angular.module('kibana.panels.fullTextSearch', []);
     app.useModule(module);

@@ -1,8 +1,9 @@
+"use strict";
+
 define([
   'kbn'
 ],
 function (kbn) {
-  'use strict';
 
   /**
    * manages the interval logic

@@ -1,3 +1,5 @@
+"use strict";
+
 /*
 
   ## Facet Panel
@@ -16,7 +18,6 @@ define([
     'bootstrap',
   ],
   function(angular, app, _, kbn) {
-    'use strict';
 
     var module = angular.module('kibana.panels.facet',[]);
     app.useModule(module);

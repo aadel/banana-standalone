@@ -1,10 +1,11 @@
+"use strict";
+
 define([
   'angular',
   'app',
   'underscore'
 ],
 function (angular, app, _) {
-  'use strict';
 
   angular
     .module('kibana.directives')
