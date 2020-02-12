@@ -17,7 +17,7 @@ define([
     'kbn',
     'd3',
     './stopWords',
-    './d3.layout.cloud'
+    './lib/d3.layout.cloud'
   ],
   function(angular, app, _, $, kbn, d3, stopwords, cloud) {
 

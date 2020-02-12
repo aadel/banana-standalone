@@ -13,7 +13,7 @@ define([
     'jquery',
     'kbn',
     'd3',
-    './d3-voronoi-map'
+    './lib/d3-voronoi-map'
   ],
   function(angular, app, _, $, kbn, d3, voronoiMapSimulation) {
 

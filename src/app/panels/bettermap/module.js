@@ -14,13 +14,13 @@ define([
   'angular',
   'app',
   'underscore',
-  './leaflet/leaflet-src',
+  './lib/leaflet/leaflet-src',
   'require',
   // './leaflet/plugins', // moving it here causing error in the app, fallback to the old Kibana way.
 
   'css!./module.css',
-  'css!./leaflet/leaflet.css',
-  'css!./leaflet/plugins.css'
+  'css!./lib/leaflet/leaflet.css',
+  'css!./lib/leaflet/plugins.css'
 ],
 function (angular, app, _, L, localRequire) {
 
@@ -103,7 +103,7 @@ function (angular, app, _, L, localRequire) {
     };
 
     $scope.get_data = function(segment,query_id) {
-      $scope.require(['./leaflet/plugins'], function () {
+      $scope.require(['./lib/leaflet/plugins'], function () {
         $scope.panel.error =  false;
         delete $scope.panel.error;
 
@@ -253,10 +253,10 @@ function (angular, app, _, L, localRequire) {
         var map, layerGroup;
 
         function render_panel() {
-          scope.require(['./leaflet/plugins'], function () {
+          scope.require(['./lib/leaflet/plugins'], function () {
             scope.panelMeta.loading = false;
 
-            L.Icon.Default.imagePath = 'app/panels/bettermap/leaflet/images';
+            L.Icon.Default.imagePath = 'app/panels/bettermap/lib/leaflet/images';
             if(_.isUndefined(map)) {
               map = L.map(attrs.id, {
                 scrollWheelZoom: true,

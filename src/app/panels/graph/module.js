@@ -9,8 +9,8 @@ define([
   'app',
   'underscore',
   'jquery',
-  './vis',
-  './xml2json',
+  './lib/vis',
+  './lib/xml2json',
   'kbn'
 ],
 function (angular, app, _, $, vis, X2JS) {

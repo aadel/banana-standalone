@@ -15,7 +15,7 @@ define([
     'jquery',
     'kbn',
     'd3',
-    './d3.tip'
+    './lib/d3.tip'
   ],
   function(angular, app, _, $, kbn, d3, d3tip) {
 

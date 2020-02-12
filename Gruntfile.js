@@ -93,14 +93,7 @@ module.exports = function (grunt) {
         }
       },
       options: {
-        jshintrc: '.jshintrc',
-        ignores: [
-          '<%= srcDir %>/app/panels/bar/d3.tip.js',
-          '<%= srcDir %>/app/panels/tagcloud/d3.layout.cloud.js',
-          '<%= srcDir %>/app/panels/bettermap/leaflet/*',
-          '<%= srcDir %>/app/panels/map/lib/*',
-          '<%= srcDir %>/app/panels/text/lib/showdown.js'
-        ]
+        jshintrc: '.jshintrc'
       }
     },
     htmlmin:{
