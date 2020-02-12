@@ -248,7 +248,7 @@ define([
                         return d3.partition()
                             .size([2 * Math.PI, root.height + 1])
                             (root);
-                    }
+                    };
 
                     const root = partition(scope.data);
                     root.each(d => d.current = d);
@@ -260,7 +260,7 @@ define([
                         .padAngle(d => Math.min((d.x1 - d.x0) / 2, 0.005))
                         .padRadius(radius * 1.5)
                         .innerRadius(d => d.y0 * radius)
-                        .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1))
+                        .outerRadius(d => Math.max(d.y0 * radius, d.y1 * radius - 1));
 
                     function arcVisible(d) {
                         return d.y1 <= 3 && d.y0 >= 1 && d.x1 > d.x0;
@@ -314,7 +314,7 @@ define([
                         .data(root.descendants().slice(1))
                         .enter()
                         .append("path")
-                            .attr("fill", d => { while (d.depth > 1) d = d.parent; return color(d.data.name); })
+                            .attr("fill", d => { while (d.depth > 1) { d = d.parent; } return color(d.data.name); })
                             .attr("fill-opacity", d => arcVisible(d.current) ? (d.children ? 0.6 : 0.4) : 0)
                             .attr("d", d => arc(d.current))
                             .each(stash)

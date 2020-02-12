@@ -13,7 +13,7 @@ define([
   'jquery',
   'kbn'
 ],
-function (angular, app, _, $, kbn) {
+function (angular, app, _, $) {
   
   var module = angular.module('kibana.panels.significantTerms', []);
   app.useModule(module);
@@ -216,7 +216,9 @@ function (angular, app, _, $, kbn) {
           // In count mode, the y-axis min should be zero because count value cannot be negative.
           $scope.yaxis_min = 0;
           _.each(results['result-set'].docs, function(v) {
-            if (v.EOF) return;
+            if (v.EOF) {
+              return;
+            }
             
             var term = v.term;
             if (term === null) {

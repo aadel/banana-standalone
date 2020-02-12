@@ -170,8 +170,9 @@ define([
       };
 
       $scope.metric_changed = function () {
-        if ($scope.panel.metric === 'count')
+        if ($scope.panel.metric === 'count') {
           $scope.panel.field = '*';
+        }
       };
 
       $scope.build_expression = function (q) {
@@ -307,8 +308,9 @@ define([
               for (var j = 0; j < entries.length; j++) {
                 entry_time = new Date(entries[j][time_field]).getTime(); // convert to millisec
                 var entry_count = entries[j][$scope.panel.metric + '(' + $scope.panel.field + ')'];
-                if (!entry_count)
+                if (!entry_count) {
                   entry_count = 0;
+                }
                 time_series.addValue(entry_time, entry_count);
                 hits += entry_count; // The series level hits counter
                 $scope.hits += entry_count; // Entire dataset level hits counter

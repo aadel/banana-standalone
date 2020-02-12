@@ -199,7 +199,7 @@ define([
       var filter_fq = '';
       var filter_either = [];
 
-      if (sep) {} else { sep = '&' }
+      if (sep) {} else { sep = '&'; }
 
       // Loop through the list to find the time field, usually it should be in self.list[0]
       _.each(self.list, function(v, k) {
@@ -267,10 +267,11 @@ define([
       // For undefined time field, return filter_fq and strip-off the prefix '&'.
       // This will enable the dashboard without timepicker to function properly.
       if (!start_time || !end_time || !time_field) {
-        if (sep)
+        if (sep) {
           return filter_fq.replace(/^,/,'');
-      else
-        return filter_fq.replace(/^&/,'');
+        } else {
+          return filter_fq.replace(/^&/,'');
+        }
       }
 
       // parse filter_either array values, if exists

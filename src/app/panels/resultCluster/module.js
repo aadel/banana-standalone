@@ -178,16 +178,16 @@ define([
             
             var formatPercent = d3.format(".0");
             
-            var highlighterClusterId = d => { return "cluster-" + d.id};
+            var highlighterClusterId = d => "cluster-" + d.id;
             var highlight = (clusterId, highlight) => {
               return () => d3.selectAll(".cluster-" + clusterId).classed("highlight", highlight);
-            }
+            };
             function attachMouseListener (data) {
               data.forEach(d => {
                 d3.selectAll(".cluster-" + d.id)
                   .on("mouseenter", highlight(d.id, true))
                   .on("mouseleave", highlight(d.id, false))
-                  .on("click", () => {return scope.build_search(d.composition)});
+                  .on("click", () => scope.build_search(d.composition));
               });
             }
             var myColor = d3.scaleSequential().domain([1, 100]).interpolator(d3.interpolateWarm);
