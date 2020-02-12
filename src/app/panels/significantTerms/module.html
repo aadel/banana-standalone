@@ -1,45 +1,5 @@
 <div ng-controller='significantTerms' ng-init="init()">
 
-<style>
-    table.significantTermsTableSection {
-        display: table;
-        width: 100%;
-    }
-    table.significantTermsTableSection thead, table.significantTermsTableSection tbody {
-        float: left;
-        width: 100%;
-    }
-    table.significantTermsTableSection tbody {
-        overflow: auto;
-        /*height: 150px;*/
-    }
-    table.significantTermsTableSection tr {
-        width: 100%;
-        display: table;
-        text-align: left;
-    }
-    table.significantTermsTableSection th, table.significantTermsTableSection td {
-        width: 20%;
-    }
-    .floatleft{
-      float:left;
-    }
-    .floatright{
-      float:right;
-    }
-
-    .below{
-      display: inline-block !important;
-    }
-
-    .leftRightLegend {
-      margin-left: 10px;
-      margin-right: 10px; 
-      overflow:overlay; 
-      padding-right:10px 
-    }
-    </style>
-
   <!-- START Table -->
   <table ng-style="panel.style" class="table significantTermsTableSection table-striped table-condensed">
     <thead>

@@ -1,9 +1,4 @@
 <div ng-controller='timepicker' ng-init="init()">
-  <style>
-    .timepicker-block {
-      display: inline-block;
-    }
-  </style>
   <div class="row-fluid form-horizontal" ng-switch="panel.mode" ng-show="filterSrv.idsByType('time').length > 0">
     <!-- Absolute  mode -->
     <div ng-switch-when="absolute" >

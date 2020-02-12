@@ -30,7 +30,8 @@ function (angular) {
             // load the panels module file, then render it in the dom.
             $scope.require([
               'jquery',
-              'text!panels/'+name+'/module.html'
+              'text!panels/'+name+'/module.html',
+              'css!panels/' + name + '/module.css'
             ], function ($, moduleTemplate) {
               var $module = $(moduleTemplate);
               // top level controllers

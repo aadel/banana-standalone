@@ -10,7 +10,7 @@ define([
     'app',
     'underscore',
     'jquery',
-    'd3',
+    'd3'
 ], function (angular, app, _, $, d3) {
 
     var module = angular.module('kibana.panels.scatterplot', []);

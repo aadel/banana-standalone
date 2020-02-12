@@ -18,7 +18,6 @@ define([
   'require',
   // './leaflet/plugins', // moving it here causing error in the app, fallback to the old Kibana way.
 
-  'css!./module.css',
   'css!./lib/leaflet/leaflet.css',
   'css!./lib/leaflet/plugins.css'
 ],

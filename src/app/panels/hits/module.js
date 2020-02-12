@@ -21,7 +21,7 @@ define([
     'kbn',
 
     'jquery.flot',
-    'jquery.flot.pie'
+    'jquery.flot.pie',
 ], function (angular, app, _) {
 
     var module = angular.module('kibana.panels.hits', []);

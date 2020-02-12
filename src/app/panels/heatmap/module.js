@@ -9,8 +9,7 @@ define([
     'underscore',
     'jquery',
     'd3',
-    'require',
-    'css!./module.css'
+    'require'
 ],
     function (angular, app, _, $, d3, localRequire) {
 

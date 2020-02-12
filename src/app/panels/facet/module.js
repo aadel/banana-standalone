@@ -15,7 +15,7 @@ define([
     'app',
     'underscore',
     'kbn',
-    'bootstrap',
+    'bootstrap'
   ],
   function(angular, app, _, kbn) {
 
