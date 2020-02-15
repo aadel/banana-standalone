@@ -29,8 +29,8 @@ require.config({
     'underscore-src':         '../vendor/underscore',
     bootstrap:                '../vendor/bootstrap/bootstrap',
 
-    jquery:                   '../vendor/jquery/jquery-1.12.1',
-    'jquery-ui':              '../vendor/jquery/jquery-ui-1.10.3',
+    jquery:                   '../vendor/jquery/jquery-3.4.1',
+    'jquery-ui':              '../vendor/jquery/jquery-ui-1.12.1',
 
     'extend-jquery':          'components/extend-jquery',
 
