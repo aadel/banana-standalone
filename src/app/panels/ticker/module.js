@@ -190,23 +190,6 @@ define([
           $scope.panel.queries.query += "-----------\n" ;
         });
 
-        // var first_request = querySrv.getQuery(0) + wt_json + rows_limit + fq + facet_first_range;
-        // var second_request = querySrv.getQuery(0) + wt_json + rows_limit + fq + facet_second_range;
-        // $scope.panel.queries.query = first_request + "\n\n" + second_request;
-
-        // request = request.setQuery(first_request);
-        // var results_new = request.doSearch();
-
-        // results_new.then(function(results_new) {
-        //   // Second Query
-        //   request = request.setQuery(second_request);
-        //   var results_old = request.doSearch();
-
-        //   results_old.then(function(results_old) {
-        //     processSolrResults(results_new, results_old);
-        //     $scope.$emit('render');
-        //   });
-        // });
         $scope.data = [];
         if (dashboard.current.services.query.ids.length >= 1) {
           $q.all(mypromises).then(function(results) {
