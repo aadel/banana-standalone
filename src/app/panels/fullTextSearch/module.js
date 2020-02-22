@@ -146,9 +146,7 @@ define([
       };
 
       $scope.remove_facet_field = function(field) {
-        if (_.contains(fields.list, field) && _.indexOf($scope.panel.fields, field) > -1) {
-          $scope.panel.fields = _.without($scope.panel.fields, field);
-        }
+        $scope.panel.fields = _.without($scope.panel.fields, field);
       };
 
       $scope.toggle_highlight = function(field) {
