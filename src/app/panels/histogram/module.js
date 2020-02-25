@@ -39,7 +39,6 @@ define([
   './timeSeries',
 
   'jquery.flot',
-  'jquery.flot.pie',
   'jquery.flot.selection',
   'jquery.flot.time',
   'jquery.flot.stack',
@@ -564,7 +563,7 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
                 bars:   {
                   show: scope.panel.bars,
                   fill: 1,
-                  barWidth: barwidth/1.8,
+                  barWidth: [barwidth/1.8, true],
                   zero: false,
                   lineWidth: 0
                 },

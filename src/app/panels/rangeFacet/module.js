@@ -535,7 +535,7 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
                 bars:   {
                   show: scope.panel.bars,
                   fill: 1,
-                  barWidth: barwidth/(1.8*scope.range_count),
+                  barWidth: [barwidth/(1.8*scope.range_count), true],
                   zero: false,
                   lineWidth: 0
                 },
