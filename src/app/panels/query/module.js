@@ -12,8 +12,7 @@
 define([
   'angular',
   'app',
-  'underscore',
-  'css!./query.css'
+  'underscore'
 ], function (angular, app, _) {
 
   var module = angular.module('kibana.panels.query', []);
