@@ -20,11 +20,10 @@ define([
   'underscore',
   'moment',
   'kbn',
-  'jquery'
 ],
 function (angular, app, _, moment, kbn, $) {
 
-  var module = angular.module('kibana.panels.timepicker', []);
+  var module = angular.module('kibana.panels.timepicker', ['mgcrea.ngStrap.helpers.dateParser']);
   app.useModule(module);
 
   module.controller('timepicker', function($scope, $rootScope, $timeout, timer, dashboard, filterSrv) {
@@ -115,6 +114,7 @@ function (angular, app, _, moment, kbn, $) {
 
     $scope.set_interval = function (refresh_interval) {
       $scope.panel.refresh.interval = refresh_interval;
+      $scope.refresh_interval = $scope.panel.refresh.interval;
       if(_.isNumber($scope.panel.refresh.interval)) {
         if($scope.panel.refresh.interval < $scope.panel.refresh.min) {
           $scope.panel.refresh.interval = $scope.panel.refresh.min;
