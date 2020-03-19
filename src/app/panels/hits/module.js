@@ -20,8 +20,7 @@ define([
     'jquery',
     'kbn',
 
-    'jquery.flot',
-    'jquery.flot.pie',
+    'jquery.flot'
 ], function (angular, app, _) {
 
     var module = angular.module('kibana.panels.hits', []);

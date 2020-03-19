@@ -515,6 +515,12 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
 
           // Set barwidth based on specified interval
           var barwidth = scope.panel.chart_maximum - scope.panel.chart_minimum;
+          console.log('rangefacet', {chart_maximum: scope.panel.chart_maximum,
+            chart_minimum: scope.panel.chart_minimum,
+            barwidth: barwidth, 
+            range_count: scope.range_count, 
+            barWidth: barwidth/(1.8*scope.range_count)});
+
           var stack = scope.panel.stack ? true : null;
           var facet_range = scope.get_facet_range();
 

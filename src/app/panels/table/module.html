@@ -1,31 +1,31 @@
 <div ng-controller='table' ng-init='init()'>
-  <div class="row-fluid">
-    <div ng-class="{'span3':panel.field_list}" ng-show="panel.field_list">
+  <div class="row">
+    <div ng-class="{'col-md-3':panel.field_list}" ng-show="panel.field_list">
       <div class="sidebar-nav">
         <h5>Fields <i class=" icon-chevron-sign-left pointer " ng-click="panel.field_list = !panel.field_list" bs-tooltip="'Hide field list'" ng-show="panel.field_list"></i></h5>
-        <ul class="unstyled" style="{{panel.overflow}}:{{panel.height || row.height}};overflow-y:auto;overflow-x:hidden;">
+        <ul class="list-unstyled" style="{{panel.overflow}}:{{panel.height || row.height}};overflow-y:auto;overflow-x:hidden;">
           <li ng-style="panel.style" ng-repeat="field in fields.list" ng-show="_.isUndefined(panel.important_fields) || _.contains(panel.important_fields,field)">
             <i class="pointer" ng-class="{'icon-check': _.contains(panel.fields,field),'icon-check-empty': !_.contains(panel.fields,field)}" ng-click="toggle_field(field)"></i>
-            <a class="pointer" data-unique="1" bs-popover="'app/panels/table/micropanel.html'" data-placement="right" ng-click="toggle_micropanel(field,true)" ng-class="{label: _.contains(panel.fields,field)}">{{facet_label(field)}}</a>
+            <a class="pointer" data-unique="1" bs-popover data-template-url="app/panels/table/micropanel.html" data-placement="right" ng-click="toggle_micropanel(field,true)" ng-class="{label: _.contains(panel.fields,field)}">{{facet_label(field)}}</a>
           </li>
         </ul>
       </div>
     </div>
 
-    <div style="{{panel.overflow}}:{{panel.height || row.height}};" ng-class="{'span9':panel.field_list,'span12':!panel.field_list}" class="table-doc-table">
+    <div style="{{panel.overflow}}:{{panel.height || row.height}};" ng-class="{'col-md-9':panel.field_list,'col-md-12':!panel.field_list}" class="table-doc-table">
       <i class="pull-left icon-chevron-sign-right pointer" ng-click="panel.field_list = !panel.field_list" bs-tooltip="'Show field list'" ng-show="!panel.field_list"></i>
 
       <!-- Paging at the top of table -->
-      <div class="row-fluid" ng-show="panel.paging">
-        <div class="span1 offset1" style="text-align:right">
+      <div class="row" ng-show="panel.paging">
+        <div class="col-md-1 col-md-offset-1" style="text-align:right">
           <i ng-click="panel.offset = 0" ng-show="panel.offset > 0" class='icon-circle-arrow-left pointer'></i>
           <i ng-click="panel.offset = (panel.offset - panel.size)" ng-show="panel.offset > 0" class='icon-arrow-left pointer'></i>
         </div>
-        <div class="span8" style="text-align:center">
+        <div class="col-md-8" style="text-align:center">
           <strong ng-show="hits > 0" ng-hide="hits == 0">{{panel.offset + 1}}</strong><strong ng-show="hits == 0" ng-hide="hits > 0">{{panel.offset}}</strong> to <strong>{{dashboard.numberWithCommas(panel.offset + data.slice(panel.offset,panel.offset+panel.size).length)}}</strong>
           <small> of {{dashboard.numberWithCommas(data.length)}} available for paging</small>
         </div>
-        <div class="span1" style="text-align:left">
+        <div class="col-md-1" style="text-align:left">
           <i ng-click="panel.offset = (panel.offset + panel.size)" ng-show="data.length > panel.offset+panel.size" class='icon-arrow-right pointer'></i>
         </div>
       </div>
@@ -110,16 +110,16 @@
       </table>
 
       <!-- Paging at the bottom of table -->
-      <div class="row-fluid" ng-show="panel.paging">
-        <div class="span1 offset3" style="text-align:right">
+      <div class="row" ng-show="panel.paging">
+        <div class="col-md-1 col-md-offset-3" style="text-align:right">
           <i ng-click="panel.offset = 0" ng-show="panel.offset > 0" class='icon-circle-arrow-left pointer'></i>
           <i ng-click="panel.offset = (panel.offset - panel.size)" ng-show="panel.offset > 0" class='icon-arrow-left pointer'></i>
         </div>
-        <div class="span4" style="text-align:center">
+        <div class="col-md-4" style="text-align:center">
           <strong ng-show="hits > 0" ng-hide="hits == 0">{{panel.offset + 1}}</strong><strong ng-show="hits == 0" ng-hide="hits > 0">{{panel.offset}}</strong> to <strong>{{dashboard.numberWithCommas(panel.offset + data.slice(panel.offset,panel.offset+panel.size).length)}}</strong>
           <small> of {{dashboard.numberWithCommas(data.length)}} available for paging</small>
         </div>
-        <div class="span1" style="text-align:left">
+        <div class="col-md-1" style="text-align:left">
           <i ng-click="panel.offset = (panel.offset + panel.size)" ng-show="data.length > panel.offset+panel.size" class='icon-arrow-right pointer'></i>
         </div>
       </div>

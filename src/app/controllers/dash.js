@@ -4,6 +4,7 @@ define([
     'angular',
     'config',
     'underscore',
+    'angular-strap',
     'all-services'
 ],
 function (angular, config, _) {
@@ -14,6 +15,27 @@ function (angular, config, _) {
         $scope.editor = {
             index: 0
         };
+
+        $scope.editor_tabs = {
+            general: {
+                title: "General",
+                src: 'app/partials/dasheditor/general.html'
+            },
+            rows: {
+                title: "Rows",
+                src: 'app/partials/dasheditor/rows.html'
+            },
+            controls: {
+                title: "Controls",
+                src: 'app/partials/dasheditor/controls.html'
+            },
+            solr: {
+                title: "Solr",
+                src: 'app/partials/dasheditor/solr.html'
+            }
+        };
+
+        $scope.panelsTabs = {};
 
         // For moving stuff around the dashboard. Needs better names
         $scope.panelMove = panelMove;
@@ -72,12 +94,17 @@ function (angular, config, _) {
             }
         };
 
-        $scope.setEditorTabs = function (panelMeta) {
-            $scope.editorTabs = ['General', 'Panel', 'Info'];
-            if (!_.isUndefined(panelMeta.editorTabs)) {
-                $scope.editorTabs = _.union($scope.editorTabs, _.pluck(panelMeta.editorTabs, 'title'));
+        $scope.setEditorTabs = function (panelMeta, panel) {
+            if (_.isUndefined($scope.panelsTabs[panel.type])) {
+                let editorTabs = [{title: 'General', src: 'app/partials/panelgeneral.html'},
+                {title: 'Panel', src: $scope.edit_path(panel.type)},
+                {title: 'Info', src: 'app/partials/panelinfo.html'}];
+                if (!_.isUndefined(panelMeta.editorTabs)) {
+                    editorTabs = _.union(editorTabs, panelMeta.editorTabs, 'title');
+                }
+                $scope.panelsTabs[panel.type] = editorTabs;
             }
-            return $scope.editorTabs;
+            return $scope.panelsTabs[panel.type];
         };
 
         // This is whoafully incomplete, but will do for now

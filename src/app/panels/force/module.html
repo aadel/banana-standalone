@@ -4,7 +4,7 @@
 
   <form ng-submit="searchForNode()" class="form-inline force-search-box">
     <div class="form-group">
-      <input type="text" bs-typeahead="taList" ng-model="searchQuery" class="form-control" data-delay="500" data-limit="15" on-select="searchForNode()"/>
+      <input type="text" bs-typeahead bs-options="field for field in taList" ng-model="searchQuery" class="form-control" data-delay="500" data-limit="15" on-select="searchForNode()"/>
       <button class="btn btn-primary">Search</button>
       <button type="button" class="btn btn-secondary" ng-click="clearSearchForNode()">Clear</button>
     </div>

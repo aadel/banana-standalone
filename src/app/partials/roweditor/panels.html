@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-md-12">
+      <h4>Panels <i class="icon-plus-sign link" bs-tooltip="'Add panel'" ng-click="editor.index = 2"></i></h4>
+      <table class="table table-condensed table-striped">
+        <thead>
+          <th>Title</th>
+          <th>Type</th>
+          <th>Span <span>({{rowSpan(row)}}/12)</span></th>
+          <th>Delete</th>
+          <th>Move</th>
+          <th></th>
+          <th>Hide</th>
+        </thead>
+        <tr ng-repeat="panel in row.panels">
+          <td>{{panel.title}}</td>
+          <td>{{panel.type}}</td>
+          <td><select ng-hide="panel.sizeable == false" class="form-control input-mini" ng-model="panel.span"
+              ng-options="size for size in [0,1,2,3,4,5,6,7,8,9,10,11,12]"></select></td>
+          <td><i ng-click="row.panels = _.without(row.panels,panel)" class="pointer icon-remove"></i></td>
+          <td><i ng-click="_.move(row.panels,$index,$index-1)" ng-hide="$first" class="pointer icon-arrow-up"></i>
+          </td>
+          <td><i ng-click="_.move(row.panels,$index,$index+1)" ng-hide="$last"
+              class="pointer icon-arrow-down"></i></td>
+          <td><input type="checkbox" class="form-control" ng-model="panel.hide" ng-checked="panel.hide"></td>
+        </tr>
+      </table>
+    </div>
+</div>

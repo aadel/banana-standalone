@@ -125,7 +125,7 @@ define([
       };
 
       $scope.micropanelColor = function(index) {
-        var _c = ['bar-success', 'bar-warning', 'bar-danger', 'bar-info', 'bar-primary'];
+        var _c = ['progress-bar-success', 'progress-bar-warning', 'progress-bar-danger', 'progress-bar-info', 'progress-bar-primary'];
         return index > _c.length ? '' : _c[index];
       };
 

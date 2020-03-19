@@ -18,16 +18,20 @@ require.config({
     filesaver:                '../vendor/filesaver',
 
     angular:                  '../vendor/angular/angular.min',
+    'angular-animate':        '../vendor/angular/angular-animate.min',
     'angular-dragdrop':       '../vendor/angular/angular-dragdrop',
-    'angular-strap':          '../vendor/angular/angular-strap',
     'angular-sanitize':       '../vendor/angular/angular-sanitize.min',
     'angular-route':          '../vendor/angular/angular-route.min',
+    'angular-strap':          '../vendor/angular/angular-strap.min',
+    'angular-strap-tpl':      '../vendor/angular/angular-strap.tpl.min',
     timepicker:               '../vendor/angular/timepicker',
     datepicker:               '../vendor/angular/datepicker',
+    dateparser:               '../vendor/angular/date-parser',
 
     underscore:               'components/underscore.extended',
     'underscore-src':         '../vendor/underscore',
-    bootstrap:                '../vendor/bootstrap/bootstrap',
+    'popper':                 '../vendor/bootstrap/popper.min',
+    bootstrap:                '../vendor/bootstrap/bootstrap.min',
 
     jquery:                   '../vendor/jquery/jquery-3.4.1',
     'jquery-ui':              '../vendor/jquery/jquery-ui-1.12.1',
@@ -123,6 +127,7 @@ require.config({
     'jquery.flot.axislabels':  ['jquery', 'jquery.flot'],
 
     'angular-sanitize':     ['angular'],
+    'angular-animate':      ['angular'],
     'angular-cookies':      ['angular'],
     'angular-dragdrop':     ['jquery','jquery-ui','angular'],
     'angular-loader':       ['angular'],
@@ -131,10 +136,12 @@ require.config({
     'angular-route':        ['angular'],
     'angular-touch':        ['angular'],
 
-    'angular-strap':        ['angular', 'bootstrap', 'timepicker', 'datepicker'],
+    'angular-strap':        ['angular', 'angular-animate', 'bootstrap', 'timepicker', 'datepicker'],
+    'angular-strap-tpl':    ['angular', 'angular-animate', 'angular-strap'],
 
     timepicker:             ['jquery', 'bootstrap'],
     datepicker:             ['jquery', 'bootstrap'],
+    dateparser:             ['angular', 'angular-strap'],
 
     elasticjs:              ['angular', '../vendor/elasticjs/elastic'],
     solrjs:                 ['angular', '../vendor/solrjs/solr']

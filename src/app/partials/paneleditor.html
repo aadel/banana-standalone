@@ -1,27 +1,20 @@
-<div class="modal-body">
-  <div class="pull-right editor-title">{{panel.type}} settings</div>
-  <div ng-model="editor.index" bs-tabs>
-    <div ng-repeat="tab in setEditorTabs(panelMeta)" data-title="{{tab}}">
+<div class="modal" tabindex="0" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="editor-title modal-header pull-right">{{panel.type}} settings</div>
+      <div class="modal-body">
+        <div bs-tabs data-bs-active-pane="editor.index">
+          <div ng-repeat="tab in setEditorTabs(panelMeta, panel)" data-title="{{tab.title}}" 
+            bs-pane>
+            <div ng-include src="tab.src"></div>
+          </div>
+        </div>
+      </div>
+      
+      <div class="modal-footer">
+        <!-- close_edit() is provided here to allow for a scope to perform action on $hide() -->
+        <button type="button" class="btn btn-danger" ng-click="editor.index=0;close_edit();$hide()()">Close</button>
+      </div>
     </div>
   </div>
-  <div ng-show="editorTabs[editor.index] == 'General'">
-    <div ng-include src="'app/partials/panelgeneral.html'"></div>
-  </div>
-
-  <div ng-show="editorTabs[editor.index] == 'Panel'">
-    <div ng-include src="edit_path(panel.type)"></div>
-  </div>
-
-  <div ng-show="editorTabs[editor.index] == 'Info'">
-    <div ng-include src="'app/partials/panelinfo.html'"></div>
-  </div>
-
-  <div ng-repeat="tab in panelMeta.editorTabs" ng-show="editorTabs[editor.index] == tab.title">
-    <div ng-include src="tab.src"></div>
-  </div>
-</div>
-
-<div class="modal-footer">
-  <!-- close_edit() is provided here to allow for a scope to perform action on dismiss -->
-  <button type="button" class="btn btn-danger" ng-click="editor.index=0;close_edit();dismiss()">Close</button>
 </div>

@@ -19,7 +19,7 @@ define([
                   dashboard.dash_load(JSON.parse(e.target.result));
                   scope.$apply();
                 } catch (err) {
-                  alertSrv.set('Loading Error', 'The file isn\'t valid JSON file', 'error',5000);
+                  alertSrv.set('Loading Error', 'The file isn\'t valid JSON file', 'danger', 5000);
                   dashboard.refresh();
                 }
               };
@@ -36,7 +36,7 @@ define([
             // Something
             document.getElementById('dashupload').addEventListener('change', file_selected, false);
           } else {
-            alertSrv.set('Oops', 'Sorry, the HTML5 File APIs are not fully supported in this browser.', 'error');
+            alertSrv.set('Oops', 'Sorry, the HTML5 File APIs are not fully supported in this browser.', 'danger');
           }
         }
       };

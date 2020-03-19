@@ -91,8 +91,7 @@ function (angular, _, config, moment) {
         if (DEBUG) { console.debug('kbnIndex: all_collections response p = ',p,'collections = ',collections); }
         return collections;
       }, error => {
-        alertSrv.set('Error',"Could not retrieve collections from Solr (error status = "+status+")");
-        console.log('Error data = ', error.data);
+        alertSrv.set('Error', "Could not retrieve collections from Solr (error status = " + error.status + ")", 'danger');
       });
     }
 
@@ -124,10 +123,10 @@ function (angular, _, config, moment) {
       }).error(function(data, status) {
         if(status === 0) {
           alertSrv.set('Error',"Could not contact Solr at "+config.solr+
-            ". Please ensure that Solr is reachable from your system." ,'error');
+            ". Please ensure that Solr is reachable from your system." ,'danger');
         } else {
           alertSrv.set('Error',"Could not reach "+config.solr+". If you"+
-          " are using a proxy, ensure it is configured correctly",'error');
+          " are using a proxy, ensure it is configured correctly",'danger');
         }
       });
 

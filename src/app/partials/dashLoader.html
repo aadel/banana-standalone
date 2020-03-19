@@ -1,7 +1,7 @@
 <!-- This file is responsible for nav bar of the dashboard -->
 <li class="dropdown" bs-tooltip="'Collections'" data-placement="bottom" style="padding-top:5px;"
     ng-show="dashboard.current.loader.dropdown_collections">
-    <select class="span2" ng-model="dashboard.current.solr.core_name" ng-change="dashboard.refresh()"
+    <select class="form-control col-md-2" ng-model="dashboard.current.solr.core_name" ng-change="dashboard.refresh()"
             ng-options="c as c for c in dashboard.current.solr.core_list | orderBy:'toString()'"></select>
 </li>
 
@@ -13,9 +13,9 @@
         <i class='icon-file'></i>
     </a>
     <ul class="dropdown-menu" style="padding:10px">
-        <li><a href="" alt="Time-series dashboard" title="Time-series dashboard" class="link" bs-modal="'app/partials/solrSettings.html'" ng-click="$scope.type='default-ts'"><i
+        <li><a href="" alt="Time-series dashboard" title="Time-series dashboard" class="link" bs-modal="modal" data-template-url="app/partials/solrSettings.html" data-container="body" ng-click="$scope.type='default-ts'"><i
             class="icon-time"></i> Time-series dashboard </a></li>
-        <li><a href="" alt="Non time-series dashboard" title="Non time-series dashboard" class="link" bs-modal="'app/partials/solrSettings.html'" ng-click="$scope.type='default-nts'"><i
+        <li><a href="" alt="Non time-series dashboard" title="Non time-series dashboard" class="link" bs-modal="modal" data-template-url="app/partials/solrSettings.html" data-container="body" ng-click="$scope.type='default-nts'"><i
             class="icon-th-large"></i> Non time-series dashboard </a></li>
     </ul>
 </li>
@@ -41,7 +41,7 @@
             </h5>
             <form>
                 <input type="text" ng-model="gist.url" placeholder="Gist number or URL"><br>
-                <button class="btn" ng-click="gist_dblist(dashboard.gist_id(gist.url))"
+                <button class="btn btn-default" ng-click="gist_dblist(dashboard.gist_id(gist.url))"
                         ng-show="dashboard.is_gist(gist.url)"><i class="icon-github-alt"></i> Get gist:{{gist.url |
                     gistid}}
                 </button>
@@ -81,8 +81,8 @@
                 <!-- Saved dashboard list -->
                 <table class="table table-condensed table-striped">
                     <tr ng-repeat="row in elasticsearch.dashboards | orderBy:['id'] | limitTo:dashboard.current.loader.load_elasticsearch_size">
-                      <td class="span11" style="vertical-align: middle;"><a href="#/dashboard/solr/{{row.id}}?server={{ getBananaServer(row.server) }}">{{row.id}}</a></td>
-                        <td class="span1" ng-show="dashboard.current.loader.save_elasticsearch">
+                      <td class="col-md-11" style="vertical-align: middle;"><a href="#/dashboard/solr/{{row.id}}?server={{ getBananaServer(row.server) }}">{{row.id}}</a></td>
+                        <td class="col-md-1" ng-show="dashboard.current.loader.save_elasticsearch">
                             <a class="btn btn-danger" confirm-click="elasticsearch_delete(row.id)"
                                confirmation="Are you sure you want to delete {{row.id}} dashboard?">
                                 <i class="icon-remove"></i></a>
@@ -103,7 +103,7 @@
     <ul class="dropdown-menu" style="padding:10px">
         <li ng-show="dashboard.current.loader.save_default || dashboard.current.loader.save_local">
             <h5>Locally</h5>
-            <ul class="unstyled">
+            <ul class="list-unstyled">
                 <li ng-show="dashboard.current.loader.save_local">
                   <a href="" alt="Export to File" title="Export to File" class="link" ng-click="dashboard.to_file()">
                     <i class="icon-download"></i> Export to File</a>
@@ -121,33 +121,40 @@
         </li>
         <li ng-show="dashboard.current.loader.save_gist">
             <h6>Gist</h6>
-            <form class="input-append">
-                <input class='input-medium' placeholder='Title' type="text" ng-model="gist.title"/>
-                <button class="btn" ng-click="save_gist()"><i class="icon-github-alt"></i></button>
+            <form class="form-inline">
+                <div class="input-group">
+                    <input class='form-control' placeholder='Title' type="text" ng-model="gist.title"/>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default" ng-click="save_gist()"><i class="icon-github-alt"></i></button>
+                    </span>
+                </div>
             </form>
-            <br>
             <small ng-show="gist.last">Last gist: <a target="_blank" href="{{gist.last}}">{{gist.last}}</a></small>
         </li>
         <li ng-show="dashboard.current.loader.copy_to_clipboard">
                 <h6>Copy to clipboard</h6>
-                <form class="input-append">
-                    <button class="btn" ng-click="copy_to_clipboard()"><i class="icon-copy"></i></button>
+                <form class="form-inline">
+                    <button class="btn btn-default" ng-click="copy_to_clipboard()"><i class="icon-copy"></i></button>
                 </form>
         </li>
 
         <li ng-show="dashboard.current.loader.save_elasticsearch">
             <h5>Solr</h5>
-            <form>
-                <ul class="unstyled">
+            <form class="form-inline">
+                <ul class="list-unstyled">
                     <li>
-                        <label class="checkbox"><input type="checkbox" ng-model="dashboard.current.loader.save_as_public">
+                        <label class="checkbox"><input type="checkbox" class="form-control" ng-model="dashboard.current.loader.save_as_public">
                             Make Public? <tip>If checked, the dashboard will be shared with everyone.</tip>
                         </label>
                     </li>
-                    <li class="input-append">
-                        <input class='input-medium' placeholder="{{dashboard.current.title}}" type="text"
+                    <li>
+                        <div class="input-group">
+                            <input class='form-control' placeholder="{{dashboard.current.title}}" type="text"
                                ng-model="elasticsearch.title"/>
-                        <button class="btn" ng-click="solr_save('dashboard', null)"><i class="icon-save"></i></button>
+                            <span class="input-group-btn">
+                                <button class="btn btn-default" ng-click="solr_save('dashboard', null)"><i class="icon-save"></i></button>
+                            </span>
+                        </div>
                     </li>
                 </ul>
             </form>
@@ -156,6 +163,10 @@
 </li>
 
 <!-- Configure menu -->
-<li ng-show="dashboard.current.editable " bs-tooltip="'Configure dashboard'" data-placement="bottom">
-    <a title="Configuration" alt="Configuration" href='#' bs-modal="'app/partials/dasheditor.html'"><i class='icon-cog pointer'></i></a>
+<li ng-show="dashboard.current.editable">
+    <span></span>
+    <a title="Configuration" alt="Configuration" bs-modal="modal"
+        data-template-url="app/partials/dasheditor.html" data-container="body">
+        <i class='icon-cog pointer' bs-tooltip data-title="Configure dashboard" data-placement="bottom"></i>
+    </a>
 </li>

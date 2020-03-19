@@ -7,7 +7,7 @@
         <span ng-show="!filterSrv.list[id].editing" class="filter-mandate" ng-click="filterSrv.list[id].editing = true">{{filterSrv.list[id].mandate}}</span>
 
         <span ng-show="filterSrv.list[id].editing">
-          <select class="input-small" ng-model="filterSrv.list[id].mandate" ng-options="f for f in ['must','mustNot','either']"></select>
+          <select class="form-control input-small" ng-model="filterSrv.list[id].mandate" ng-options="f for f in ['must','mustNot','either']"></select>
         </span>
 
         <i class="filter-action pointer icon-remove" bs-tooltip="'Remove'" ng-click="remove(id)"></i>
@@ -17,20 +17,20 @@
 
       <!-- Show filter keys and values -->
       <div ng-hide="filterSrv.list[id].editing && isEditable(filterSrv.list[id])" class="filter-values">
-        <ul class="unstyled">
+        <ul class="list-unstyled">
           <li ng-repeat="(key,value) in filterSrv.list[id]" ng-show="show_key(key)"><strong>{{key}}</strong> : {{ decodeFilterValue(value) | truncate }}</li>
         </ul>
       </div>
 
       <!-- When in Edit mode -->
       <div ng-show="filterSrv.list[id].editing && isEditable(filterSrv.list[id])">
-        <ul class="unstyled">
+        <ul class="list-unstyled">
           <li ng-repeat="key in _.keys(filterSrv.list[id])" ng-show="show_key(key)"><strong>{{key}}</strong> : <input type='text' ng-model="filterSrv.list[id][key]"></li>
         </ul>
       </div>
       <div class="filter-apply" ng-show="filterSrv.list[id].editing">
-        <button ng-click="filterSrv.list[id].editing=undefined" class="btn btn-mini" bs-tooltip="'Save without refresh'">Save</button>
-        <button ng-click="filterSrv.list[id].editing=undefined;refresh()" class="btn btn-success btn-mini" bs-tooltip="'Save and refresh'">Apply</button>
+        <button ng-click="filterSrv.list[id].editing=undefined" class="btn btn-xs" bs-tooltip="'Save without refresh'">Save</button>
+        <button ng-click="filterSrv.list[id].editing=undefined;refresh()" class="btn btn-success btn-xs" bs-tooltip="'Save and refresh'">Apply</button>
       </div>
     </div>
     <!-- <span bs-modal="'app/partials/paneleditor.html'" data-toggle="modal"> -->

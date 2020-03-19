@@ -20,10 +20,12 @@ define([
   'underscore',
   'moment',
   'kbn',
+  'jquery',
+  'dateparser'
 ],
 function (angular, app, _, moment, kbn, $) {
 
-  var module = angular.module('kibana.panels.timepicker', ['mgcrea.ngStrap.helpers.dateParser']);
+  var module = angular.module('kibana.panels.timepicker', []);
   app.useModule(module);
 
   module.controller('timepicker', function($scope, $rootScope, $timeout, timer, dashboard, filterSrv) {

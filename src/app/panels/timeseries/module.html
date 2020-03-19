@@ -13,43 +13,43 @@
       <i class='icon-circle' ng-style="{color: series.info.color}"></i>
       <span class='small timeseries-legend-item'>{{series.info.alias}} ({{dashboard.numberWithCommas(series.hits)}})</span>
     </span>
-    <span ng-show="panel.legend" class="small"><span ng-show="panel.value_field && panel.mode != 'count'">{{panel.value_field}}</span> {{panel.mode}} per <strong>{{panel.interval}}</strong> | (<strong>{{dashboard.numberWithCommas(hits)}}</strong> hits) | Time correction : {{panel.timezone}}</span>
+    <span ng-show="panel.legend"><span ng-show="panel.value_field && panel.mode != 'count'">{{panel.value_field}}</span> {{panel.mode}} per <strong>{{panel.interval}}</strong> | (<strong>{{dashboard.numberWithCommas(hits)}}</strong> hits) | Time correction : {{panel.timezone}}</span>
   </div>
   <form class="form-inline bordered timeseries-options" ng-show="options">
     <span class="checkbox">
-      <label class="small">
-        <input type="checkbox" ng-model="panel.bars" ng-checked="panel.bars" ng-change="render()">
+      <label>
+        <input type="checkbox" class="form-control" ng-model="panel.bars" ng-checked="panel.bars" ng-change="render()">
         Bars
       </label>
     </span>
     <span class="checkbox">
-      <label class="small">
-        <input type="checkbox" ng-model="panel.lines" ng-checked="panel.lines" ng-change="render()">
+      <label>
+        <input type="checkbox" class="form-control" ng-model="panel.lines" ng-checked="panel.lines" ng-change="render()">
         Lines
       </label>
     </span>
     <span class="checkbox">
-      <label class="small">
-        <input type="checkbox" ng-model="panel.points" ng-checked="panel.points" ng-change="render()">
+      <label>
+        <input type="checkbox" class="form-control" ng-model="panel.points" ng-checked="panel.points" ng-change="render()">
         Points
       </label>
     </span>
     <span class="checkbox">
-      <label class="small">
-        <input type="checkbox" ng-model="panel.stack" ng-checked="panel.stack" ng-change="render()">
+      <label>
+        <input type="checkbox" class="form-control" ng-model="panel.stack" ng-checked="panel.stack" ng-change="render()">
         Stack
       </label>
     </span>
     <span ng-show="panel.stack">
       <div class="checkbox">
-        <label style="white-space:nowrap" class="small">
-          <input type="checkbox"  ng-model="panel.percentage" ng-checked="panel.percentage" ng-change="render()">
+        <label style="white-space:nowrap">
+          <input type="checkbox" class="form-control"  ng-model="panel.percentage" ng-checked="panel.percentage" ng-change="render()">
           Percent
         </label>
       </div>
     </span>
     <span>
-      <label class="small">Interval</label> <select ng-change="set_interval(panel.interval);get_data();" class="input-small" ng-model="panel.interval" ng-options="interval_label(time) for time in _.union([panel.interval],panel.intervals)"></select>
+      <label>Interval</label> <select ng-change="set_interval(panel.interval);get_data();" class="form-control input-small" ng-model="panel.interval" ng-options="interval_label(time) for time in _.union([panel.interval],panel.intervals)"></select>
     </span>
   </form>
   <center><img ng-show='panel.loading && _.isUndefined(data)' src="img/load_big.gif"></center>

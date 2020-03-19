@@ -1,0 +1,37 @@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table table-condensed table-striped">
+            <thead>
+                <th>Title</th>
+                <th>Delete</th>
+                <th>Move</th>
+            </thead>
+            <tr ng-repeat="row in dashboard.current.rows">
+                <td>{{row.title}}</td>
+                <td><i ng-click="dashboard.current.rows = _.without(dashboard.current.rows,row)"
+                        class="pointer icon-remove"></i></td>
+                <td><i ng-click="_.move(dashboard.current.rows,$index,$index-1)" ng-hide="$first"
+                        class="pointer icon-arrow-up"></i></td>
+                <td><i ng-click="_.move(dashboard.current.rows,$index,$index+1)" ng-hide="$last"
+                        class="pointer icon-arrow-down"></i></td>
+            </tr>
+        </table>
+    </div>
+</div>
+<div class="row">
+    <form>
+        <div class="col-md-5">
+            <label>Title</label>
+            <input id="newRowTitleInput" type="text" class="form-control input-large" ng-model='row.title'
+                placeholder="New row">
+        </div>
+        <div class="col-md-2">
+            <label>Height</label>
+            <input type="text" class="form-control input-mini" ng-model='row.height'>
+        </div>
+        <div class="col-md-1">
+            <label> Editable </label>
+            <input type="checkbox" class="form-control" ng-model="row.editable" ng-checked="row.editable" />
+        </div>
+    </form>
+</div>

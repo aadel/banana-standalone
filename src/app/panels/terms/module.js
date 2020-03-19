@@ -478,8 +478,8 @@ function (angular, app, _, $, kbn) {
                   xaxis: scope.panel.bar_chart_arrangement === 'horizontal' ? labelAxisConfig : { show: false },
                   grid: {
                     borderWidth: 0,
-                    borderColor: '#eee',
-                    color: "#eee",
+                    borderColor: '#c8c8c8',
+                    color: "#c8c8c8",
                     hoverable: true,
                     clickable: true
                   },

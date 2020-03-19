@@ -1,0 +1,14 @@
+<div>
+    <h4>Select Panel Type</h4>
+    <form class="form-inline">
+      <select class="form-control input-medium" ng-model="panel.type"
+        ng-options="panelType for panelType in config.panel_names|stringSort"></select>
+      <small ng-show="rowSpan(row) > 11">
+        Note: This row is full, new panels will wrap to a new line. You should add another row.
+      </small>
+    </form>
+
+    <div ng-show="!(_.isUndefined(panel.type))">
+      <div add-panel="{{panel.type}}"></div>
+    </div>
+  </div>

@@ -8,7 +8,7 @@ function (angular) {
   angular
     .module('kibana.directives')
     .directive('kibanaPanel', function($compile) {
-      var container = '<div class="panelCont"></div>';
+      var container = '<div class="panel panel-default"></div>';
 
       return {
         restrict: 'E',
@@ -22,6 +22,17 @@ function (angular) {
             elem.wrap(container);
             /* jshint indent:false */
             $compile(elem.contents())($scope);
+            // inject panel-body !fragile!
+            if ($(elem[0].querySelector('.panel-heading')).siblings().length === 0) {
+              $('<div class="panel-body"></div>')
+                .insertAfter(elem[0].querySelector('.panel-heading'));
+            } else {
+              $(elem[0].querySelector('.panel-heading')).siblings()
+                .wrapAll('<div class="panel-body"></div>');
+            }
+            $(elem[0].querySelector('.panel-body'))
+              .append($(elem[0].querySelector('[ng-controller]')).contents()
+                .filter(function () {return this.nodeType === 8;}));
             elem.removeClass("ng-cloak");
           }
 

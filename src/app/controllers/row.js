@@ -10,6 +10,24 @@ function (angular, app, _) {
     var module = angular.module('kibana.controllers');
 
     module.controller('RowCtrl', function ($scope, $rootScope, $timeout, ejsResource, sjsResource, querySrv) {
+        
+        $scope.rowEditorTabs = {
+            general: {
+                title: "General",
+                src: 'app/partials/roweditor/general.html'
+            },
+            rows: {
+                title: "Panels",
+                src: 'app/partials/roweditor/panels.html'
+            },
+            controls: {
+                title: "Add Panel",
+                src: 'app/partials/roweditor/addPanel.html'
+            }
+        };
+
+        $scope.rowEditorTabs.activePane = 0;
+        
         var _d = {
             title: "Row",
             height: "150px",

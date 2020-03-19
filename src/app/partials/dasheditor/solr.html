@@ -1,0 +1,55 @@
+<div style="margin-bottom: 10px;">
+    You can configure the dashboard to send queries directly to Solr (<em>e.g. /api/apollo/solr/</em>)
+    or use Fusion
+    Query Pipeline (<em>e.g. /api/apollo/query-pipelines/&lt;pipeline&gt;/collections/</em>).
+    To use Fusion, please select the checkbox below. In addition, you can use Global Query Parameters to
+    append
+    extra parameters to all dashboard queries. For example, if you want to set the default search field
+    to a
+    field named, <em>message</em>, then you can specify it like this: <em>&amp;df=message</em>.
+</div>
+<form name="solrForm">
+    <div>
+        <strong>Use Fusion?</strong><input type="checkbox" class="form-control" ng-model="config.USE_FUSION" style="vertical-align: top;">
+    </div>
+    <div class="row">
+        <div class="col-md-7">
+            <h6>Solr Server / Fusion Query Pipeline
+                <tip>Specify a Solr addresss or Fusion Query Pipeline, ending with /</tip>
+            </h6>
+            <input type="text" name="solrServer" ng-model="dashboard.current.solr.server"
+                class="form-control" placeholder="e.g. /api/apollo/query-pipelines/default/collections/"
+                ng-pattern="/\/$/" required>
+        </div>
+        <div class="col-md-5">
+            <h6>Collection Name</h6>
+            <input type="text" class="form-control input-medium" name="solrCollection"
+                ng-model="dashboard.current.solr.core_name" placeholder="e.g. logs"
+                bs-typeahead bs-options="collection for collection in dashboard.current.solr.core_list" required>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-9">
+            <h6>Global Query Parameters (optional)
+                <tip>Specify query parameters to be appended to all queries of the dashboard panels.
+                </tip>
+            </h6>
+            <input type="text" class="form-control input-xxlarge"
+                placeholder="e.g. &defType=lucid&qt=lucid&df=message&..."
+                ng-model="dashboard.current.solr.global_params">
+        </div>
+    </div>
+    <div class="row">
+        <!-- Validation error messages -->
+        <div class="col-md-12">
+            <ul>
+                <li ng-show="solrForm.solrServer.$error.pattern"><span class="input-error">Solr Server
+                        needs to end with a trailing forward slash (/).</span></li>
+                <li ng-show="solrForm.solrServer.$error.required"><span class="input-error">Please input
+                        Solr Server address.</span></li>
+                <li ng-show="solrForm.solrCollection.$error.required"><span class="input-error">Please
+                        input Collection name.</span></li>
+            </ul>
+        </div>
+    </div>
+</form>

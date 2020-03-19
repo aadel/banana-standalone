@@ -42,8 +42,7 @@ define([
   'jquery.flot.selection',
   'jquery.flot.time',
   'jquery.flot.stack',
-  'jquery.flot.stackpercent',
-  'jquery.flot.axislabels'
+  'jquery.flot.stackpercent'
 ],
 function (angular, app, $, _, kbn, moment, timeSeries) {
 
@@ -543,6 +542,7 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
 
           // Set barwidth based on specified interval
           var barwidth = kbn.interval_to_ms(scope.panel.interval);
+          console.table('histogram', {barwidth: barwidth, barWidth: barwidth/1.8});
 
           var stack = scope.panel.stack ? true : null;
 
@@ -588,9 +588,10 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
                 timezone: scope.panel.timezone,
                 show: scope.panel['x-axis'],
                 mode: "time",
-                min: _.isUndefined(scope.range.from) ? null : scope.range.from.getTime(),
-                max: _.isUndefined(scope.range.to) ? null : scope.range.to.getTime(),
+                // min: _.isUndefined(scope.range.from) ? null : scope.range.from.getTime(),
+                // max: _.isUndefined(scope.range.to) ? null : scope.range.to.getTime(),
                 timeformat: time_format(scope.panel.interval),
+                timeBase: 'milliseconds',
                 label: "Datetime",
                 axisLabel: filterSrv.getTimeField(),
               },

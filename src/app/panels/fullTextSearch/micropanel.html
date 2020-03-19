@@ -32,13 +32,13 @@
             overflow: visible;
           }
         </style>
-        <div bs-tooltip="percent(field[1],data.length)" class="bar" ng-class="micropanelColor($index)" ng-style="{width: percent(field[1],data.length)}"></div>
+        <div bs-tooltip="percent(field[1],data.length)" class="progress-bar" role="progressbar" ng-class="micropanelColor($index)" ng-style="{width: percent(field[1],data.length)}"></div>
         <span style="position:absolute;right:20px;">{{field[1]}}</span>
       </td>
     </tr>
   </tbody>
 </table>
 <div class="progress" ng-show="micropanel.grouped">
-  <div ng-repeat='field in micropanel.values' bs-tooltip="field[0]+' ('+percent(field[1],data.length)+')'" class="bar {{micropanelColor($index)}}" ng-style="{width: percent(field[1],data.length)};"></div>
+  <div ng-repeat='field in micropanel.values' bs-tooltip="field[0]+' ('+percent(field[1],data.length)+')'" class="progress-bar {{micropanelColor($index)}}" ng-style="{width: percent(field[1],data.length)};"></div>
 </div>
 <span ng-repeat='(field,count) in micropanel.related'><a ng-click="toggle_field(field)">{{field}}</a> ({{Math.round((count / micropanel.count) * 100)}}%), </span>

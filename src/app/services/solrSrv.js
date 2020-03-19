@@ -78,9 +78,10 @@ function (angular, _) {
         }, response => {
           if(response.status === 0) {
             alertSrv.set('Error', 'Could not contact Solr at '+dashboard.current.solr.server+
-              '. Please ensure that Solr is reachable from your system.' ,'error');
+              '. Please ensure that Solr is reachable from your system.' ,'danger');
           } else {
-            alertSrv.set('Error','Could not retrieve facet data from Solr (Error status = '+status+')','error');
+            alertSrv.set('Error','Could not retrieve facet data from Solr (Error status = ' 
+              + response.status + ')', 'danger');
           }          
         });
       // }); // each loop

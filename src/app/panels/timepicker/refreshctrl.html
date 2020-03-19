@@ -1,5 +1,13 @@
-<form name="refreshPopover" class='form-inline input-append' style="margin:0px">
-    <label><small>Interval (seconds)</small></label><br>
-    <input type="number" min="2" class="input-mini" ng-model="refresh_interval">
-    <button type="button" class="btn" ng-click="set_interval(refresh_interval);dismiss()"><i class="icon-ok"></i></button>
-</form>
+<div class="popover container-fuid">
+    <form name="refreshPopover" class='form-inline' style="margin:0px">
+        <h3 class="popover-title">Interval (seconds)</h3>
+        <div class="popover-content">
+            <input type="number" min="2" class="form-control input-mini" ng-model="refresh_interval">
+            <span class="input-group-button">
+                <button type="button" class="btn btn-default" ng-click="set_interval(refresh_interval);$hide()">
+                    <i class="icon-ok"></i>
+                </button>
+            </span>
+        </div>
+    </form>
+</div>

@@ -1,11 +1,11 @@
-  <div class="row-fluid">
-    <div class="span4">
-      <label class="small">Title</label><input type="text" class="input-medium" ng-model='panel.title'></input>
+  <div class="row">
+    <div class="col-md-4">
+      <label>Title</label><input type="text" class="form-control input-medium" ng-model='panel.title'></input>
     </div>
-    <div class="span2">
-      <label class="small">Height</label> <input type="text" class="input-mini" ng-model='panel.height'></input>
+    <div class="col-md-2">
+      <label>Height</label> <input type="text" class="form-control input-mini" ng-model='panel.height'></input>
     </div>
-    <div class="span1"> 
-      <label class="small"> Editable </label><input type="checkbox" ng-model="panel.editable" ng-checked="panel.editable">
+    <div class="col-md-1"> 
+      <label> Editable </label><input type="checkbox" class="form-control" ng-model="panel.editable" ng-checked="panel.editable">
     </div>
   </div>

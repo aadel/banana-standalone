@@ -1,0 +1,29 @@
+<div class="row">
+    <div class="col-md-4">
+        <label>Title</label><input type="text" class="form-control input-large"
+            ng-model='dashboard.current.title' />
+    </div>
+    <div class="col-md-3">
+        <label>Style</label><select class="form-control input-small" ng-model="dashboard.current.style"
+            ng-options="f for f in ['dark','light']"></select>
+    </div>
+    <div class="col-md-5">
+        <label>Version</label><div>Banana <span app-version /></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-2">
+        <label> Editable </label><input type="checkbox" class="form-control"
+            ng-model="dashboard.current.editable" ng-checked="dashboard.current.editable" />
+    </div>
+    <div class="col-md-2">
+        <label> Home </label><input type="checkbox" class="form-control" ng-model="dashboard.current.home"
+            ng-checked="dashboard.current.home" />
+    </div>
+    <div class="col-md-2">
+        <label> Hints
+            <tip>Show 'Add panel' hints in empty spaces</tip>
+        </label><input type="checkbox" class="form-control" ng-model="dashboard.current.panel_hints"
+            ng-checked="dashboard.current.panel_hints" />
+    </div>
+</div>

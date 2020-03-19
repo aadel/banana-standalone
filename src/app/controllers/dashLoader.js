@@ -120,7 +120,7 @@ function (angular, _, config) {
                 $scope.resetNewDefaults();
             },
             response => {
-                alertSrv.set('Error', 'Unable to load default dashboard', 'error');
+                alertSrv.set('Error', 'Unable to load default dashboard', 'danger');
             });
         };
 
@@ -128,7 +128,7 @@ function (angular, _, config) {
             if (dashboard.set_default()) {
                 alertSrv.set('Local Default Set', dashboard.current.title + ' has been set as your local default', 'success', 5000);
             } else {
-                alertSrv.set('Incompatible Browser', 'Sorry, your browser is too old for this feature', 'error', 5000);
+                alertSrv.set('Incompatible Browser', 'Sorry, your browser is too old for this feature', 'danger', 5000);
             }
         };
 
@@ -136,7 +136,7 @@ function (angular, _, config) {
             if (dashboard.purge_default()) {
                 alertSrv.set('Local Default Clear', 'Your local default dashboard has been cleared', 'success', 5000);
             } else {
-                alertSrv.set('Incompatible Browser', 'Sorry, your browser is too old for this feature', 'error', 5000);
+                alertSrv.set('Incompatible Browser', 'Sorry, your browser is too old for this feature', 'danger', 5000);
             }
         };
 
@@ -154,7 +154,7 @@ function (angular, _, config) {
                 $scope.elasticsearch.title = '';
             }, function (error) {
                 console.log('ERROR: ' + error);
-                alertSrv.set('Save failed', 'Dashboard could not be saved to Solr', 'error', 5000);
+                alertSrv.set('Save failed', 'Dashboard could not be saved to Solr', 'danger', 5000);
             });
         };
 
@@ -179,7 +179,7 @@ function (angular, _, config) {
                             alertSrv.set('Dashboard Not Found', 'Could not find ' + id + ' in Solr', 'warning', 5000);
                         }
                     } else {
-                        alertSrv.set('Dashboard Not Deleted', 'An error occurred deleting the dashboard', 'error', 5000);
+                        alertSrv.set('Dashboard Not Deleted', 'An error occurred deleting the dashboard', 'danger', 5000);
                     }
                 }
             );
@@ -301,7 +301,7 @@ function (angular, _, config) {
                         alertSrv.set('Gist saved', 'You will be able to access your exported dashboard file at ' +
                             '<a href="' + link + '">' + link + '</a> in a moment', 'success');
                     } else {
-                        alertSrv.set('Save failed', 'Gist could not be saved', 'error', 5000);
+                        alertSrv.set('Save failed', 'Gist could not be saved', 'danger', 5000);
                     }
                 });
         };
@@ -311,7 +311,7 @@ function (angular, _, config) {
             if (returnValue) {
                 alertSrv.set('Dashboard copied to clipboard', 'Dashboard copied to clipboard', 'success');
             } else {
-                alertSrv.set('Copy to clipboard failed', 'Dashboard could not be copied to clipboard', 'error', 5000);
+                alertSrv.set('Copy to clipboard failed', 'Dashboard could not be copied to clipboard', 'danger', 5000);
             }
         };
 
@@ -321,7 +321,7 @@ function (angular, _, config) {
                     if (files && files.length > 0) {
                         $scope.gist.files = files;
                     } else {
-                        alertSrv.set('Gist Failed', 'Could not retrieve dashboard list from gist', 'error', 5000);
+                        alertSrv.set('Gist Failed', 'Could not retrieve dashboard list from gist', 'danger', 5000);
                     }
                 });
         };

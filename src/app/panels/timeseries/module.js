@@ -38,13 +38,7 @@ define([
     'moment',
     './timeSeries',
 
-    'jquery.flot',
-    'jquery.flot.pie',
-    'jquery.flot.selection',
-    'jquery.flot.time',
-    'jquery.flot.stack',
-    'jquery.flot.stackpercent',
-    'jquery.flot.axislabels'
+    'jquery.flot'
   ],
   function (angular, app, $, _, kbn, moment, timeSeries) {
 

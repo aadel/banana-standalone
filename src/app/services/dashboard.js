@@ -326,7 +326,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
                 self.dash_load(dash_defaults(result.data));
                 return true;
             }, function () {
-                alertSrv.set('Error', "Could not load <i>dashboards/" + file + "</i>. Please make sure it exists", 'error');
+                alertSrv.set('Error', "Could not load <i>dashboards/" + file + "</i>. Please make sure it exists", 'danger');
                 return false;
             });
         };
@@ -349,7 +349,7 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
             }, function () {
                 alertSrv.set('Error',
                     "Could not load <i>scripts/" + file + "</i>. Please make sure it exists and returns a valid dashboard",
-                    'error');
+                    'danger');
                 return false;
             });
         };
@@ -416,9 +416,9 @@ function (angular, $, kbn, _, config, moment, Modernizr) {
           }, response => {
               if (response.status === 0) {
                 alertSrv.set('Error', "Could not contact Solr at " + config.solr +
-                  ". Please ensure that Solr is reachable from your system.", 'error');
+                  ". Please ensure that Solr is reachable from your system.", 'danger');
               } else {
-                alertSrv.set('Error', 'Could not find dashboard named "' + id + '". Please ensure that the dashboard name is correct or exists in the system.', 'error');
+                alertSrv.set('Error', 'Could not find dashboard named "' + id + '". Please ensure that the dashboard name is correct or exists in the system.', 'danger');
               }
               return false;
           });
