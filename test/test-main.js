@@ -16,14 +16,16 @@ require.config({
     'angular-mocks':       'vendor/angular/angular-mocks',
     'angular-route':       'vendor/angular/angular-route.min',
     'angular-dragdrop':    'vendor/angular/angular-dragdrop',
-    'angular-strap':       'vendor/angular/angular-strap',
+    'angular-animate':     'vendor/angular/angular-animate.min',
+    'angular-strap':       'vendor/angular/angular-strap.min',
+    'angular-strap-tpl':   'vendor/angular/angular-strap.tpl.min',
     'angular-sanitize':    'vendor/angular/angular-sanitize.min',
     'underscore-src':      'vendor/underscore',
-    'jquery':              'vendor/jquery/jquery-1.12.1',
+    'jquery':              'vendor/jquery/jquery-3.4.1',
     'extend-jquery':       'app/components/extend-jquery',
     'showdown':            'vendor/showdown',
     'underscore':          'app/components/underscore.extended',
-    'bootstrap':           'vendor/bootstrap/bootstrap',
+    'bootstrap':           'vendor/bootstrap/bootstrap.min',
 
     app:                   'app/app',
     kbn:                   'app/components/kbn',
@@ -72,6 +74,7 @@ require.config({
   shim: {
     angular:                { exports: 'angular' },
     'angular-mocks':        { deps: ['angular'] },
+    'angular-strap-tpl':    { deps: ['angular-strap'] },
     jquery:                 { exports: '$'},
     'underscore':           { exports: '_' },
     'banana-filters':       { deps: ['angular', 'jquery', 'underscore', 'showdown']}
