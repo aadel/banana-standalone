@@ -40,7 +40,7 @@
                 <tip>Enter a gist number or url</tip>
             </h5>
             <form>
-                <input type="text" ng-model="gist.url" placeholder="Gist number or URL"><br>
+                <input type="text" ng-model="gist.url" class="form-control" placeholder="Gist number or URL"><br>
                 <button class="btn btn-default" ng-click="gist_dblist(dashboard.gist_id(gist.url))"
                         ng-show="dashboard.is_gist(gist.url)"><i class="icon-github-alt"></i> Get gist:{{gist.url |
                     gistid}}
@@ -60,32 +60,34 @@
             <h5 ng-show="elasticsearch.dashboards.length">Saved Dashboards ({{hits}})</h5>
             <h5 ng-hide="elasticsearch.dashboards.length">No dashboards matching your query found</h5>
             <form style="margin-bottom: 0;">                
-                <input type="text" ng-model="elasticsearch.query"
+                <input type="text" ng-model="elasticsearch.query" class="form-control"
                        ng-change="elasticsearch_dblist(elasticsearch.query)"
                        placeholder="Type to filter"/>
             </form>
 
-            <!-- Pagination for the dashboard list -->
-            <div class="pagination pagination-centered" style="margin-top: 0;" ng-show="elasticsearch.dashboards.length">
-                <ul>
-                    <li ng-class="loadMenu.backwardButtonState">
-                        <a ng-click="getPrevSavedDashboard($event)" ng-class="loadMenu.backwardButtonState"><i class="icon-backward"></i></a>
-                    </li>
-                    <li ng-repeat="page in loadMenu.pages.slice(loadMenu.firstPageShown-1, loadMenu.lastPageShown)" ng-class="page.state">
-                        <a ng-click="getSavedDashboard($event, elasticsearch.query, page.offset, page.number)">{{page.number}}</a>
-                    </li>
-                    <li ng-class="loadMenu.forwardButtonState">
-                      <a ng-click="getNextSavedDashboard($event)" ng-class="loadMenu.forwardButtonState"><i class="icon-forward"></i></a>
-                    </li>
-                </ul>
+            <div ng-show="elasticsearch.dashboards.length">                
+                <!-- Pagination for the dashboard list -->
+                <nav aria-label="Page navigation" class="text-center">
+                    <ul class="pagination pagination-sm">
+                        <li ng-class="loadMenu.backwardButtonState">
+                            <a ng-click="getPrevSavedDashboard($event)" ng-class="loadMenu.backwardButtonState"><i class="icon-backward"></i></a>
+                        </li>
+                        <li ng-repeat="page in loadMenu.pages.slice(loadMenu.firstPageShown-1, loadMenu.lastPageShown)" ng-class="page.state">
+                            <a ng-click="getSavedDashboard($event, elasticsearch.query, page.offset, page.number)">{{page.number}}</a>
+                        </li>
+                        <li ng-class="loadMenu.forwardButtonState">
+                        <a ng-click="getNextSavedDashboard($event)" ng-class="loadMenu.forwardButtonState"><i class="icon-forward"></i></a>
+                        </li>
+                    </ul>
+                </nav>
                 <!-- Saved dashboard list -->
                 <table class="table table-condensed table-striped">
                     <tr ng-repeat="row in elasticsearch.dashboards | orderBy:['id'] | limitTo:dashboard.current.loader.load_elasticsearch_size">
-                      <td class="col-md-11" style="vertical-align: middle;"><a href="#/dashboard/solr/{{row.id}}?server={{ getBananaServer(row.server) }}">{{row.id}}</a></td>
+                        <td class="col-md-11" style="vertical-align: middle;"><a href="#/dashboard/solr/{{row.id}}?server={{ getBananaServer(row.server) }}">{{row.id}}</a></td>
                         <td class="col-md-1" ng-show="dashboard.current.loader.save_elasticsearch">
-                            <a class="btn btn-danger" confirm-click="elasticsearch_delete(row.id)"
-                               confirmation="Are you sure you want to delete {{row.id}} dashboard?">
-                                <i class="icon-remove"></i></a>
+                            <a class="btn btn-sm btn-danger " confirm-click="elasticsearch_delete(row.id)"
+                            confirmation="Are you sure you want to delete {{row.id}} dashboard?">
+                            <i class="icon-remove"></i></a>
                         </td>
                     </tr>
                 </table>
