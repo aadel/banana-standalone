@@ -29,7 +29,7 @@
             </div>
         </div>
         <div ng-show="!panel.foundResults" style="text-align:center"> <strong>Empty Results</strong></div>
-        <div style="{{panel.overflow}}:{{panel.height || row.height}};" ng-class="{'col-md-8':panel.fields.length>0&&panel.field_list ,'col-md-12':panel.fields.length==0||!panel.field_list}" class="table-doc-table" ng-show="panel.foundResults">
+        <div style="{{panel.overflow}}:{{panel.height || row.height}};" ng-class="{'col-md-8':panel.fields.length>0&&panel.field_list ,'col-md-12':panel.fields.length==0||!panel.field_list}" ng-show="panel.foundResults">
             <i class="pull-left icon-chevron-sign-right pointer" ng-click="panel.field_list = !panel.field_list" bs-tooltip="'Show field list'" ng-show="!panel.field_list"></i>
             <div class="row" ng-show="panel.paging">
                 <div class="col-md-1 col-md-offset-1" style="text-align:right">
