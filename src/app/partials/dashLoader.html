@@ -1,5 +1,5 @@
 <!-- This file is responsible for nav bar of the dashboard -->
-<li class="dropdown" bs-tooltip="'Collections'" data-placement="bottom" style="padding-top:5px;"
+<li bs-tooltip="'Collections'" data-placement="bottom" style="padding-top:5px;"
     ng-show="dashboard.current.loader.dropdown_collections">
     <select class="form-control col-md-2" ng-model="dashboard.current.solr.core_name" ng-change="dashboard.refresh()"
             ng-options="c as c for c in dashboard.current.solr.core_list | orderBy:'toString()'"></select>
@@ -8,7 +8,7 @@
 <li><a  ng-show="showDropdown('home')" bs-tooltip="'Goto saved default'" data-placement="bottom" href='#/dashboard'><i class='icon-home'></i></a></li>
 
 <!-- New menu -->
-<li class="dropdown" bs-tooltip="'New'" data-placement="bottom" ng-show="showDropdown('new')">
+<li bs-tooltip="'New'" data-placement="bottom" ng-show="showDropdown('new')">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class='icon-file'></i>
     </a>
@@ -21,7 +21,7 @@
 </li>
 
 <!-- Load menu -->
-<li class="dropdown" bs-tooltip="'Load'" data-placement="bottom" ng-show="showDropdown('load')">
+<li bs-tooltip="'Load'" data-placement="bottom" ng-show="showDropdown('load')">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown"
         ng-click="elasticsearch_dblist(elasticsearch.query)">
         <i class='icon-folder-open'></i>
@@ -98,29 +98,30 @@
 </li>
 
 <!-- Save menu -->
-<li class="dropdown" bs-tooltip="'Save'" data-placement="bottom" ng-show="showDropdown('save')">
+<li bs-tooltip="'Save'" data-placement="bottom" ng-show="showDropdown('save')">
     <a  alt="Save" title="Save" href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class='icon-save'></i>
     </a>
     <ul class="dropdown-menu" style="padding:10px">
         <li ng-show="dashboard.current.loader.save_default || dashboard.current.loader.save_local">
             <h5>Locally</h5>
-            <ul class="list-unstyled">
-                <li ng-show="dashboard.current.loader.save_local">
-                  <a href="" alt="Export to File" title="Export to File" class="link" ng-click="dashboard.to_file()">
-                    <i class="icon-download"></i> Export to File</a>
-                    <tip>Export layout, not data, to file</tip>
-                </li>
-                <li ng-show="dashboard.current.loader.save_default">
-                  <a href="" alt="Set as Browser Default" title="Set as Browser Default" class="link" ng-click="set_default()">
+            <div class="list-group">
+                <div ng-show="dashboard.current.loader.save_local">
+                  <a href="" class="list-group-item active" alt="Export to File" title="Export to File" ng-click="dashboard.to_file()">
+                    <i class="icon-download"></i><div>Export to File<div><div><tip>Export layout, not data, to file</tip></div></a>
+                </div>
+                <div ng-show="dashboard.current.loader.save_default">
+                  <a href="" class="list-group-item active" alt="Set as Browser Default" title="Set as Browser Default" ng-click="set_default()">
                     <i class="icon-bookmark"></i> Set as Browser Default</a>
                     <tip>Store dashboard preference to browser's localStorage</tip>
-                </li>
-                <li ng-show="dashboard.current.loader.save_default">
-                  <a  alt="Clear Cache" title="Clear Cache" class="link" ng-click="purge_default()">
-                    <i class="icon-ban-circle"></i> Clear Browser Default</a></li>
-            </ul>
+                </div>
+                <div ng-show="dashboard.current.loader.save_default">
+                  <a href="" class="list-group-item active" alt="Clear Cache" title="Clear Cache" ng-click="purge_default()">
+                    <i class="icon-ban-circle"></i> Clear Browser Default</a>
+                </div>
+            </div>
         </li>
+  
         <li ng-show="dashboard.current.loader.save_gist">
             <h6>Gist</h6>
             <form class="form-inline">

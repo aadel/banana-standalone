@@ -43,13 +43,6 @@
                         class="col-md-{{panel.span}} nospace" style="min-height:{{row.height}};"
                         data-drop="true" ng-model="row.panels" data-jqyoui-options
                         jqyoui-droppable="{index:$index,mutate:false,onDrop:'panelMoveDrop',onOver:'panelMoveOver(true)',onOut:'panelMoveOut'}">
-                        <!-- Error Panel -->
-                        <div class="row">
-                            <div class="col-md-12 alert alert-danger panel-error" ng-hide="!panel.error">
-                                <a class="close" ng-click="panel.error=false">&times;</a>
-                                <i class="icon-exclamation-sign"></i> <strong>Oops!</strong> {{panel.error}}
-                            </div>
-                        </div>
                         <!-- Content Panel -->
                         <div ng-class="{'dragInProgress':dashboard.panelDragging}">
                             <kibana-panel type="panel.type" ng-cloak></kibana-panel>
@@ -63,7 +56,6 @@
                         <span bs-modal="modal" data-container="body" data-template-url="app/partials/roweditor.html" ng-show="row.editable && !dashboard.panelDragging">
                             <i ng-hide="rowSpan(row) == 0" class="pointer icon-plus-sign" ng-click="rowEditorTabs.activePane = 1"
                                 bs-tooltip="'Add a panel to this row'" data-placement="right"></i>
-                            <div>{{rowEditorTabs.activePane}}</div>
                             <span ng-click="rowEditorTabs.activePane = 1" style="margin-top: 8px; margin-left: 3px" ng-show="rowSpan(row) == 0"
                                 class="btn btn-default btn-xs">Add panel to empty row</span>
                         </span>

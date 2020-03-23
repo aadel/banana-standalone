@@ -1,3 +1,8 @@
+<!-- Error Panel -->
+<div class="alert alert-danger panel-error" ng-hide="!panel.error">
+    <a class="close" ng-click="panel.error=false">&times;</a>
+    <i class="icon-exclamation-sign"></i> <strong>Oops!</strong> {{panel.error}}
+</div>
 <div class="panel-heading">
 
         <span class="extra row-button" ng-hide="panel.draggable == false">

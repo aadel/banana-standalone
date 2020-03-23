@@ -23,11 +23,11 @@ function (angular) {
             /* jshint indent:false */
             $compile(elem.contents())($scope);
             // inject panel-body !fragile!
-            if ($(elem[0].querySelector('.panel-heading')).siblings().length === 0) {
+            if ($(elem[0].querySelector('.panel-heading')).siblings().not(".alert").length === 0) {
               $('<div class="panel-body"></div>')
                 .insertAfter(elem[0].querySelector('.panel-heading'));
             } else {
-              $(elem[0].querySelector('.panel-heading')).siblings()
+              $(elem[0].querySelector('.panel-heading')).siblings().not(".alert")
                 .wrapAll('<div class="panel-body"></div>');
             }
             $(elem[0].querySelector('.panel-body'))
