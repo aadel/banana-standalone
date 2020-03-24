@@ -38,3 +38,9 @@
 .query-panel .pinned {
   margin-right: 5px;
 }
+.input-query-alias {
+  margin-bottom: 5px !important;
+}
+.panel-query-meta .pin {
+  text-decoration: underline;
+}

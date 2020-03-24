@@ -42,13 +42,13 @@
     <div class="row">
         <!-- Validation error messages -->
         <div class="col-md-12">
-            <ul>
-                <li ng-show="solrForm.solrServer.$error.pattern"><span class="input-error">Solr Server
-                        needs to end with a trailing forward slash (/).</span></li>
-                <li ng-show="solrForm.solrServer.$error.required"><span class="input-error">Please input
-                        Solr Server address.</span></li>
-                <li ng-show="solrForm.solrCollection.$error.required"><span class="input-error">Please
-                        input Collection name.</span></li>
+            <ul class="list-group">
+                <li ng-show="solrForm.solrServer.$error.pattern" class="list-group-item list-group-item-danger">
+                    Solr Server needs to end with a trailing forward slash (/).</span></li>
+                <li ng-show="solrForm.solrServer.$error.required" class="list-group-item list-group-item-danger">
+                    Please input Solr Server address.</span></li>
+                <li ng-show="solrForm.solrCollection.$error.required" class="list-group-item list-group-item-danger">
+                    Please input Collection name.</span></li>
             </ul>
         </div>
     </div>
