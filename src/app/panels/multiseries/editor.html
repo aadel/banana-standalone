@@ -30,13 +30,13 @@
 <div class="row">
   <div class="col-md-4">
     <h6>Show Legend <tip>Shows legend for this series when checked</tip></h6>
-    <input type="checkbox" class="form-control" ng-model="panel.showLegend" ng-checked="panel.showLegend">
+    <input type="checkbox" ng-model="panel.showLegend" ng-checked="panel.showLegend">
   </div>
 </div>
 <div class="row">
   <div class="col-md-4">
     <label>Add another Y-Axis <tip>Add another y-axis to the right</tip></label>
-    <input type="checkbox" class="form-control" ng-model="panel.rightYEnabled" ng-checked="panel.rightYEnabled">
+    <input type="checkbox" ng-model="panel.rightYEnabled" ng-checked="panel.rightYEnabled">
   </div>
 </div>
 <h4 ng-show="panel.rightYEnabled">Right Y-Axis (Optional)</h4>
@@ -59,7 +59,7 @@
 <div class="row" ng-show="panel.rightYEnabled">
   <div class="col-md-3">
     <h6>Show Legend <tip>Shows legend for this series when checked</tip></h6>
-    <input type="checkbox" class="form-control" ng-model="panel.showRightLegend" ng-checked="panel.showRightLegend">
+    <input type="checkbox" ng-model="panel.showRightLegend" ng-checked="panel.showRightLegend">
   </div>  
 </div>
 <div class="row">
@@ -67,7 +67,7 @@
 </div>
 <div class="row">
   <div class="col-md-2">
-    <label>Enable</label><input type="checkbox" class="form-control" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">
+    <label><input type="checkbox" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">Enable</label>
   </div>
   <div class="col-md-4">
     <label>Interval (seconds) <tip>The minimum value is 2.</tip></label>

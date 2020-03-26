@@ -28,7 +28,7 @@
           <td><i ng-click="panel.panels = _.without(panel.panels,app)" class="pointer icon-remove"></i></td>
           <td><i ng-click="_.move(panel.panels,$index,$index-1)" ng-hide="$first" class="pointer icon-arrow-up"></i></td>
           <td><i ng-click="_.move(panel.panels,$index,$index+1)" ng-hide="$last" class="pointer icon-arrow-down"></i></td>
-          <td><input type="checkbox" class="form-control" ng-model="app.hide" ng-checked="app.hide"></td>
+          <td><input type="checkbox" ng-model="app.hide" ng-checked="app.hide"></td>
         </tr>
       </table>
     </div>

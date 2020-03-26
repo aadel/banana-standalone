@@ -12,18 +12,25 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-md-2">
-        <label> Editable </label><input type="checkbox" class="form-control"
-            ng-model="dashboard.current.editable" ng-checked="dashboard.current.editable" />
+    <div class="col-md-3">
+        <div class="checkbox">
+            <label> <input type="checkbox"
+                ng-model="dashboard.current.editable" ng-checked="dashboard.current.editable" />
+                Editable </label>
+        </div>
     </div>
     <div class="col-md-2">
-        <label> Home </label><input type="checkbox" class="form-control" ng-model="dashboard.current.home"
-            ng-checked="dashboard.current.home" />
+        <div class="checkbox">
+            <label> <input type="checkbox" ng-model="dashboard.current.home"
+                ng-checked="dashboard.current.home" /> Home </label>
+        </div>
     </div>
     <div class="col-md-2">
-        <label> Hints
-            <tip>Show 'Add panel' hints in empty spaces</tip>
-        </label><input type="checkbox" class="form-control" ng-model="dashboard.current.panel_hints"
-            ng-checked="dashboard.current.panel_hints" />
+        <div class="checkbox">
+            <label> <input type="checkbox" ng-model="dashboard.current.panel_hints"
+                ng-checked="dashboard.current.panel_hints" /> Hints
+                <tip>Show 'Add panel' hints in empty spaces</tip>
+            </label>
+        </div>
     </div>
 </div>

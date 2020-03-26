@@ -1,4 +1,4 @@
-<form class="form-inline">
+<form>
   <div class="row">
     <div class="col-md-4">
       <label for="row_title">Title</label>
@@ -12,14 +12,15 @@
 
   <div class="row">
     <div class="col-md-2">
-      <label for="row_editable">Editable</label>
-      <input type="checkbox" class="form-control" id="row_editable" ng-model="row.editable"
-        ng-checked="row.editable" />
+      <div class="checkbox">
+        <label for="row_editable"><input type="checkbox" id="row_editable" ng-model="row.editable"
+          ng-checked="row.editable" />Editable</label>
+      </div>
     </div>
     <div class="col-md-2">
-      <label for="row_collapsable">Collapsable</label>
-      <input type="checkbox" class="form-control" id="row_collapsable"
-        ng-model="row.collapsable" ng-checked="row.collapsable" />
+      <div class="checkbox">
+        <label for="row_collapsable"><input type="checkbox" id="row_collapsable"
+          ng-model="row.collapsable" ng-checked="row.collapsable" /> Collapsable</label>
       </div>
     </div>
   </div>

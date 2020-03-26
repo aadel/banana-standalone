@@ -23,7 +23,7 @@
   </div>
   <div class="col-md-4">
     <label>Use field values as chart's colors <tip placement="bottom">If the field values are not valid HTML colors (either color names or hexadecimal colors), the default colors for chart will be used for the data series instead.</tip></label>
-    <input type="checkbox" class="form-control" ng-model="panel.useColorFromField" ng-checked="panel.useColorFromField" ng-change="set_refresh(true)">
+    <input type="checkbox" ng-model="panel.useColorFromField" ng-checked="panel.useColorFromField" ng-change="set_refresh(true)">
   </div>
  
   <div class="col-md-4">
@@ -49,22 +49,22 @@
     <select class="form-control input-small" ng-model="panel.arrangement" ng-options="f for f in ['horizontal','vertical']"></select></span>
   </div>
   <div class="col-md-1">
-    <label>Missing</label><input type="checkbox" class="form-control" ng-model="panel.missing" ng-checked="panel.missing">
+    <label><input type="checkbox" ng-model="panel.missing" ng-checked="panel.missing">Missing</label>
   </div>
   <div class="col-md-1">
-    <label>Other</label><input type="checkbox" class="form-control" ng-model="panel.other" ng-checked="panel.other">
+    <label><input type="checkbox" ng-model="panel.other" ng-checked="panel.other">Other</label>
   </div>
   <div class="col-md-1" ng-show="panel.chart == 'pie'">
-    <label>Donut</label><input type="checkbox" class="form-control" ng-model="panel.donut" ng-checked="panel.donut">
+    <label><input type="checkbox" ng-model="panel.donut" ng-checked="panel.donut">Donut</label>
   </div>
   <div class="col-md-1" ng-show="panel.chart == 'pie'">
-    <label>Tilt</label><input type="checkbox" class="form-control" ng-model="panel.tilt" ng-checked="panel.tilt">
+    <label><input type="checkbox" ng-model="panel.tilt" ng-checked="panel.tilt">Tilt</label>
   </div>
   <div class="col-md-1" ng-show="panel.chart == 'pie'">
-    <label>Labels</label><input type="checkbox" class="form-control" ng-model="panel.labels" ng-checked="panel.labels">
+    <label><input type="checkbox" ng-model="panel.labels" ng-checked="panel.labels">Labels</label>
   </div>
   <div class="col-md-2" ng-show="panel.chart == 'bar'">
-    <label>Log axis</label><input type="checkbox" class="form-control" ng-model="panel.logAxis" ng-checked="panel.logAxis">
+    <label><input type="checkbox" ng-model="panel.logAxis" ng-checked="panel.logAxis">Log axis</label>
   </div>
 </div>
 <div class="row">
@@ -96,7 +96,7 @@
 <div class="row">
   <h5>Real-time (Auto-refresh)</h5>  
   <div class="col-md-2">
-    <label>Enable</label><input type="checkbox" class="form-control" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">
+    <label><input type="checkbox" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">Enable</label>
   </div>
   <div class="col-md-4">
     <label>Interval (seconds) <tip>The minimum value is 2.</tip></label>

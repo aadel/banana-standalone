@@ -33,10 +33,10 @@
 <h5>Options</h5>
 <div class="row">
   <div class="col-md-1">
-    <h6>Header</h6><input type="checkbox" class="form-control" ng-model="panel.header" ng-checked="panel.header">
+    <h6>Header</h6><input type="checkbox" ng-model="panel.header" ng-checked="panel.header">
   </div>
   <div class="col-md-1">
-    <h6>Sorting</h6><input type="checkbox" class="form-control" ng-model="panel.sortable" ng-checked="panel.sortable" ng-change="get_data();">
+    <h6>Sorting</h6><input type="checkbox" ng-model="panel.sortable" ng-checked="panel.sortable" ng-change="get_data();">
   </div>
   <div class="col-md-3" style="white-space:nowrap" ng-show="panel.sortable">
     <h6>Sort</h6>
@@ -63,7 +63,7 @@
         the sub-row to show a <pre>message_txt</pre> field which contains long text, making it easier to look through the data.
       </tip>
     </h6>
-    <input type="checkbox" class="form-control" ng-model="panel.enableSubrow" ng-checked="panel.enableSubrow">
+    <input type="checkbox" ng-model="panel.enableSubrow" ng-checked="panel.enableSubrow">
   </div>
   <div class="col-md-3" ng-show="panel.enableSubrow">
     <h6>Field for sub-row <tip>This field value will be shown in the sub-row of each event.</tip></h6>
@@ -88,7 +88,7 @@
 <div class="row">
   <div class="col-md-3">
     <h6>Add Hyperlink Column <tip>Add a column that will contain hyperlinks to access another resources such as URLs.</tip></h6>
-    <input type="checkbox" class="form-control" ng-model="panel.enableHyperlink" ng-checked="panel.enableHyperlink">
+    <input type="checkbox" ng-model="panel.enableHyperlink" ng-checked="panel.enableHyperlink">
   </div>
   <div class="col-md-3" ng-show="panel.enableHyperlink">
     <h6>Link Column Header</h6>
@@ -96,7 +96,7 @@
   </div>
   <div class="col-md-3" ng-show="panel.enableHyperlink">
     <h6>Display Links as Icons</h6>
-    <input type="checkbox" class="form-control" ng-model="panel.displayLinkIcon" ng-checked="panel.displayLinkIcon">
+    <input type="checkbox" ng-model="panel.displayLinkIcon" ng-checked="panel.displayLinkIcon">
   </div>
   <div class="col-md-3" ng-show="panel.enableHyperlink">
     <h6>Column for Links</h6>
@@ -108,7 +108,7 @@
 <div class="row">
   <div class="col-md-3">
     <h6>Display Images <tip>Display images in column(s) that contain URLs to images.</tip></h6>
-    <input type="checkbox" class="form-control" ng-model="panel.enableImageField" ng-checked="panel.enableImageField">
+    <input type="checkbox" ng-model="panel.enableImageField" ng-checked="panel.enableImageField">
   </div>
   <div class="col-md-4" ng-show="panel.enableImageField">
     <h6>Image Field(s) <tip>Comma separated list of fields that contain image URL.</tip></h6>
@@ -128,7 +128,7 @@
 <div class="row">
   <h5>Real-time (Auto-refresh)</h5>  
   <div class="col-md-2">
-    <label>Enable</label><input type="checkbox" class="form-control" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">
+    <label><input type="checkbox" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">Enable</label>
   </div>
   <div class="col-md-4">
     <label>Interval (seconds) <tip>The minimum value is 2.</tip></label>

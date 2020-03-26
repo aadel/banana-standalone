@@ -30,8 +30,10 @@
             <input type="text" class="form-control input-mini" ng-model='row.height'>
         </div>
         <div class="col-md-1">
-            <label> Editable </label>
-            <input type="checkbox" class="form-control" ng-model="row.editable" ng-checked="row.editable" />
+            <div class="checkbox">
+                <label> <input type="checkbox" ng-model="row.editable" ng-checked="row.editable" />
+                    Editable </label>
+            </div>
         </div>
     </form>
 </div>

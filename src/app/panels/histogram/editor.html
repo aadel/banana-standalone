@@ -26,7 +26,7 @@
     </div>
     <div class="col-md-4">
       <label>SUM the group's values <tip>The point value (Y) is the sum of value field in the group</tip></label>
-      <input type="checkbox" class="form-control" ng-model="panel.sum_value" ng-checked="panel.sum_value">
+      <input type="checkbox" ng-model="panel.sum_value" ng-checked="panel.sum_value">
     </div>
     <!-- <div class="col-md-3">
       <label>Max Rows/Group <tip>Specify the number of results to return for each group.</tip></label>
@@ -36,17 +36,17 @@
 
   <h5>Chart Settings</h5>
   <div class="row" style="text-align:center;margin-bottom:10px;">
-    <div class="col-md-1"> <label>Bars</label><input type="checkbox" class="form-control" ng-model="panel.bars" ng-checked="panel.bars"></div>
-    <div class="col-md-1"> <label>Lines</label><input type="checkbox" class="form-control" ng-model="panel.lines" ng-checked="panel.lines"></div>
-    <div class="col-md-1"> <label>Points</label><input type="checkbox" class="form-control" ng-model="panel.points" ng-checked="panel.points"></div>
-    <div class="col-md-1"> <label>Stack</label><input type="checkbox" class="form-control" ng-model="panel.stack" ng-checked="panel.stack"></div>
+    <div class="col-md-1"> <label><input type="checkbox" ng-model="panel.bars" ng-checked="panel.bars">Bars</label></div>
+    <div class="col-md-1"> <label><input type="checkbox" ng-model="panel.lines" ng-checked="panel.lines">Lines</label></div>
+    <div class="col-md-1"> <label><input type="checkbox" ng-model="panel.points" ng-checked="panel.points">Points</label></div>
+    <div class="col-md-1"> <label><input type="checkbox" ng-model="panel.stack" ng-checked="panel.stack">Stack</label></div>
     <div class="col-md-2" ng-show="panel.stack">
       <label style="white-space:nowrap">Percent <tip>Stack as a percentage of total</tip></label>
-      <input type="checkbox" class="form-control"  ng-model="panel.percentage" ng-checked="panel.percentage">
+      <input type="checkbox" ng-model="panel.percentage" ng-checked="panel.percentage">
     </div>
-    <div class="col-md-2"> <label>Legend</label><input type="checkbox" class="form-control" ng-model="panel.legend" ng-checked="panel.legend"></div>
-    <div class="col-md-2"> <label>xAxis</label><input type="checkbox" class="form-control" ng-model="panel['x-axis']" ng-checked="panel['x-axis']"></div>
-    <div class="col-md-2"> <label>yAxis</label><input type="checkbox" class="form-control" ng-model="panel['y-axis']" ng-checked="panel['y-axis']"></div>
+    <div class="col-md-2"> <label><input type="checkbox" ng-model="panel.legend" ng-checked="panel.legend">Legend</label></div>
+    <div class="col-md-2"> <label><input type="checkbox" ng-model="panel['x-axis']" ng-checked="panel['x-axis']">xAxis</label></div>
+    <div class="col-md-2"> <label><input type="checkbox" ng-model="panel['y-axis']" ng-checked="panel['y-axis']">yAxis</label></div>
   </div>
 
   <div class="row" style="text-align:center;">
@@ -60,7 +60,7 @@
     </div>
     <div class="col-md-2" ng-show="panel.lines" style="width:60px;">
       <label>Smooth <tip>Smooth the lines by removing zero values.</tip></label>
-      <input type="checkbox" class="form-control" ng-model="panel.lines_smooth" ng-checked="panel.lines_smooth">
+      <input type="checkbox" ng-model="panel.lines_smooth" ng-checked="panel.lines_smooth">
     </div>
   </div>
 
@@ -69,17 +69,17 @@
       <label>Time correction</label>
       <select ng-model="panel.timezone" class='form-control input-small' ng-options="f for f in ['browser','utc']"></select>
     </div>
-    <div class="col-md-2"> <label>Selectable</label><input type="checkbox" class="form-control" ng-model="panel.interactive" ng-checked="panel.interactive"></div>
+    <div class="col-md-2"> <label><input type="checkbox" ng-model="panel.interactive" ng-checked="panel.interactive">Selectable</label></div>
     <div class="col-md-3">
-      <label>Zoom Links</label><input type="checkbox" class="form-control" ng-model="panel.zoomlinks" ng-checked="panel.zoomlinks" />
+      <label><input type="checkbox" ng-model="panel.zoomlinks" ng-checked="panel.zoomlinks" />Zoom Links</label>
     </div>
         <div class="col-md-3">
-      <label>View Options</label><input type="checkbox" class="form-control" ng-model="panel.options" ng-checked="panel.options" />
+      <label><input type="checkbox" ng-model="panel.options" ng-checked="panel.options" />View Options</label>
     </div>
   </div>
   <div class="row">
     <div class="col-md-3">
-      <label>Auto-interval</label><input type="checkbox" class="form-control" ng-model="panel.auto_int" ng-checked="panel.auto_int" />
+      <label><input type="checkbox" ng-model="panel.auto_int" ng-checked="panel.auto_int" />Auto-interval</label>
     </div>
     <div class="col-md-3" ng-show='panel.auto_int'>
       <label>Resolution <tip>Shoot for this many data points, rounding to sane intervals</tip></label>
@@ -99,7 +99,7 @@
     </div>
     <div class="col-md-6">
       <label>Display Query <tip>If an alias is set, it will be shown in the tooltip. If not, should it show the query?</tip></label>
-      <input type="checkbox" class="form-control" ng-model="panel.tooltip.query_as_alias" />
+      <input type="checkbox" ng-model="panel.tooltip.query_as_alias" />
     </div>
   </div>
 
@@ -110,7 +110,7 @@
   </div>
   <div class="row">
       <div class="col-md-2">
-          <label>Enable</label><input type="checkbox" class="form-control" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">
+          <label><input type="checkbox" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">Enable</label>
       </div>
       <div class="col-md-4">
           <label>Interval (seconds) <tip>The minimum value is 2.</tip></label>

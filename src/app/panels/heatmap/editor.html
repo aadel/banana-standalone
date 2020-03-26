@@ -22,6 +22,6 @@
         <select class="form-control input-medium" ng-model="panel.color" ng-options="c as v for (c, v) in {'blue': 'Blues', 'red': 'Reds', 'gray': 'Grays', 'lime': 'Greens', 'brown': 'Browns'}" ng-change="render()"></select>
     </div>
     <div class="col-md-1">
-        <label>Transposed</label><input type="checkbox" class="form-control" ng-model="panel.transposed" ng-checked="panel.transposed">
+        <label><input type="checkbox" ng-model="panel.transposed" ng-checked="panel.transposed">Transposed</label>
     </div>
 </div>
