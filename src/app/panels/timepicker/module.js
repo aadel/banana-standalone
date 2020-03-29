@@ -309,7 +309,7 @@ function (angular, app, _, moment, kbn, $) {
             break;
         }
         filterTime.from = 'NOW-' + timeNumber + timeUnit;
-        filterTime.to   = 'NOW%2B1' + timeUnit;
+        filterTime.to   = 'NOW';
         // Add Date objects representation of from and to, for use with histogram panel
         // where it needs Date objects for plotting x-axis on a chart.
         filterTime.fromDateObj = moment().subtract(timeShorthand,timeNumber).toDate();
