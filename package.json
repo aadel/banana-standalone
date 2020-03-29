@@ -56,7 +56,7 @@
     "ejs": "^3.0.1",
     "express": "^4.17.1",
     "grunt-contrib-uglify-es": "github:gruntjs/grunt-contrib-uglify#harmony",
-    "http-proxy": "~1.11.1",
+    "http-proxy": "~1.18.0",
     "morgan": ">=1.9.1",
     "serve-favicon": "^2.5.0",
     "uglify-js": "github:mishoo/UglifyJS2#harmony"
