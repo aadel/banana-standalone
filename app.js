@@ -15,9 +15,9 @@ var app = module.exports = express();
 // Read settings from config.json
 var config = JSON.parse(fs.readFileSync('config.json', 'utf8'));
 var couchbaseUrl = url.parse(config.couchbaseUrl);
-var proxyConf = {target: solrSettings.solrUrl}
+var proxyConf = {target: solrSettings.solrUrl};
 if (solrSettings.basicAuth) {
-    proxyConf.auth = solrSettings.username + ':' + proxyConf.password;
+    proxyConf.auth = solrSettings.username + ':' + solrSettings.password;
 }
 
 app.set('serverPort', config.serverPort);
