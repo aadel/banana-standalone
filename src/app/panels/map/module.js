@@ -98,6 +98,7 @@ function (angular, app, _, $, worldmap) {
         $scope.get_data();
       }
       $scope.refresh = false;
+      $scope.$emit('render');
     };
 
     $scope.get_data = function() {
