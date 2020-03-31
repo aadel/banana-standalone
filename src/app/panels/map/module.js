@@ -271,21 +271,15 @@ function (angular, app, _, $, worldmap) {
                 regions: [{
                   values: scope.data,
                   scale: scope.panel.colors,
-                  normalizeFunction: 'polynomial'
+                  normalizeFunction: 'polynomial',
+                  legend: {
+                    horizontal: true
+                  }
                 }]
               },
-              onRegionLabelShow: function(event, label, code){
-                elem.children('.map-legend').show();
+              onRegionTipShow: function(e, el, code) {
                 var count = _.isUndefined(scope.data[code]) ? 0 : scope.data[code];
-                // if (scope.panel.mode === 'count') {
-                //   count = count.toFixed(0);
-                // } else {
-                //   count = count.toFixed(scope.panel.decimal_points);
-                // }
-                elem.children('.map-legend').text(label.text() + ": " + count.toFixed(scope.panel.decimal_points));
-              },
-              onRegionOut: function() {
-                $('.map-legend').hide();
+                el.html(el.html() + ": " + count.toFixed(scope.panel.decimal_points));
               },
               onRegionClick: function(event, code) {
                 var count = _.isUndefined(scope.data[code]) ? 0 : scope.data[code];
@@ -299,8 +293,6 @@ function (angular, app, _, $, worldmap) {
                 }
               }
             });
-            elem.prepend('<span class="map-legend"></span>');
-            $('.map-legend').hide();
           });
         }
       }

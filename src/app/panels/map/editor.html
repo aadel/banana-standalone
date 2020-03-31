@@ -29,9 +29,11 @@
 </div>
 <div class="row">
   <div class="col-md-4" ng-show="panel.map == 'world'">
-    <label>Country Names
-    <tip> Coutry Names in the World Map would be detected, if checked</tip>
-    </label>
-    <input class="form-control input-small" ng-disabled="panel.map != 'world'" ng-model="panel.useNames" type="checkbox" ng-change="set_refresh(true)"></inpt>
+    <div class="checkbox">
+      <label><input ng-disabled="panel.map != 'world'" ng-model="panel.useNames" type="checkbox" ng-change="set_refresh(true)"></inpt>
+          Country Names
+        <tip> Coutry Names in the World Map would be detected, if checked</tip>
+      </label>
+  </div>
   </div>
 </div>

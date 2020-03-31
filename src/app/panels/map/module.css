@@ -75,7 +75,7 @@ svg {
 
 .jvectormap-legend-cnt-h {
     bottom: 0;
-    right: 0;
+    left: 0;
 }
 
 .jvectormap-legend-cnt-v {
