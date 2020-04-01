@@ -69,6 +69,14 @@ define([
       return !!foundDup; // Return boolean value of foundDup
     }
 
+    var nextId = function() {
+      if(_f.idQueue.length > 0) {
+        return _f.idQueue.shift();
+      } else {
+        return self.ids.length;
+      }
+    };
+    
     // This is used both for adding filters and modifying them.
     // If an id is passed, the filter at that id is updated.
     this.set = function(filter,id) {
@@ -199,7 +207,7 @@ define([
       var filter_fq = '';
       var filter_either = [];
 
-      if (sep) {} else { sep = '&'; }
+      if (_.isUndefined(sep)) { sep = '&'; }
 
       // Loop through the list to find the time field, usually it should be in self.list[0]
       _.each(self.list, function(v, k) {
@@ -451,14 +459,6 @@ define([
         return true;
       } else {
         return false;
-      }
-    };
-
-    var nextId = function() {
-      if(_f.idQueue.length > 0) {
-        return _f.idQueue.shift();
-      } else {
-        return self.ids.length;
       }
     };
 

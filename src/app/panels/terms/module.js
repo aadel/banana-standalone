@@ -387,16 +387,6 @@ function (angular, app, _, $, kbn) {
       restrict: 'A',
       link: function(scope, elem) {
 
-        // Receive render events
-        scope.$on('render',function(){
-          render_panel();
-        });
-
-        // Re-render if the window is resized
-        angular.element(window).bind('resize', function(){
-          render_panel();
-        });
-
         // Function for rendering panel
         function render_panel() {
           var plot, chartData;
@@ -548,6 +538,16 @@ function (angular, app, _, $, kbn) {
             }
           });
         }
+        
+        // Receive render events
+        scope.$on('render',function(){
+          render_panel();
+        });
+
+        // Re-render if the window is resized
+        angular.element(window).bind('resize', function(){
+          render_panel();
+        });
 
         elem.bind("plotclick", function (event, pos, object) {
           if(object) {

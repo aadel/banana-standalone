@@ -126,15 +126,7 @@ function (angular, app, _, $, d3) {
     return {
       restrict: 'E',
       link: function(scope, element) {
-        scope.$on('render',function(){
-          render_panel();
-        });
-
-        // Render the panel when resizing browser window
-        angular.element(window).bind('resize', function() {
-          render_panel();
-        });
-
+        
         // Function for rendering panel
         function render_panel() {
           // Clear the panel
@@ -170,6 +162,15 @@ function (angular, app, _, $, d3) {
             .attr('dy', '.35em')
             .text(function(d) { return d; });
         }
+        
+        scope.$on('render',function(){
+          render_panel();
+        });
+
+        // Render the panel when resizing browser window
+        angular.element(window).bind('resize', function() {
+          render_panel();
+        });
       }
     };
   });

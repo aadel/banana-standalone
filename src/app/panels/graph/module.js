@@ -215,7 +215,7 @@ function (angular, app, _, $, vis, X2JS) {
           $scope.graphML = x2js.xml_str2json(graph_response);
 
           base_reponse['result-set'].docs.filter(d => d[$scope.panel.label_field] !== undefined).map(d => {
-            var node = $scope.graphML.graphml.graph.node.filter(n => n._id === d[$scope.panel.join_field])
+            $scope.graphML.graphml.graph.node.filter(n => n._id === d[$scope.panel.join_field])
               .map(n => n.title = d[$scope.panel.label_field]);
           });
 
@@ -261,23 +261,13 @@ function (angular, app, _, $, vis, X2JS) {
     return {
       restrict: 'E',
       link: function(scope, element) {
-        scope.$on('render',function(){
-          render_panel();
-        });
-
-        // Render the panel when resizing browser window
-        angular.element(window).bind('resize', function() {
-          render_panel();
-        });
 
         // Function for rendering panel
         function render_panel() {
           // Clear the panel
           element.html('');
 
-          var parent_width = element.parent().width(),
-            height = scope.row.height,
-            width = parent_width - 20;
+          var height = scope.row.height;
 
           var nodes = new vis.DataSet();
 
@@ -293,7 +283,7 @@ function (angular, app, _, $, vis, X2JS) {
             nodes: {widthConstraint: {maximum: 75}}};
 
           // initialize your network!
-          var network = new vis.Network(element[0], data, options);
+          vis.Network(element[0], data, options);
 
           if (scope.graphML.graphml.graph.node) {
             if (!(scope.graphML.graphml.graph.node instanceof Array)) {
@@ -320,6 +310,15 @@ function (angular, app, _, $, vis, X2JS) {
             }
           }
         }
+        
+        scope.$on('render',function(){
+          render_panel();
+        });
+
+        // Render the panel when resizing browser window
+        angular.element(window).bind('resize', function() {
+          render_panel();
+        });
       }
     };
   });

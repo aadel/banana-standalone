@@ -265,14 +265,6 @@ define([
                 restrict: 'E',
                 link: function (scope, element) {
 
-                    scope.$on('render', function () {
-                        render_panel();
-                    });
-
-                    angular.element(window).bind('resize', function () {
-                        render_panel();
-                    });
-
                     // Function for rendering panel
                     function render_panel() {
 
@@ -342,8 +334,72 @@ define([
 
                         var $tooltip = $('<div>');
 
-                        var svg = d3.select("#_" + scope.generated_id).append("svg")
-                            .attr("width", "98%")
+                        var svg = d3.select("#_" + scope.generated_id).append("svg");
+                        
+                        // Function to sort the cells with respect to selected row or column
+                        function sortbylabel(rORc, i, sortOrder) {
+                            // rORc .. r for row, c for column
+                            var t = svg.transition().duration(1200);
+
+                            var values = []; // holds the values in this specific row
+                            for(var j = 0; j < col_number; j++) { values.push(-Infinity); }
+
+                            var sorted; // sorted is zero-based index
+                            d3.selectAll(".c" + rORc + i + "_" + scope.generated_id)
+                            .filter(function (ce) {
+                                if(rORc === "r") {
+                                    values[ce.col - 1] = ce.value;
+                                } else {
+                                    values[ce.row - 1] = ce.value;
+                                }
+                            });
+                            if (rORc === "r") { // sorting by rows
+                                // can't be col_number
+                                // must select from already there coluns (rows)
+                                sorted = d3.range(col_number).sort(function (a, b) {
+                                    var value;
+                                    if (sortOrder) {
+                                        value = values[b] - values[a];
+                                        value = isNaN(value) ? Infinity : value;
+                                    } else {
+                                        value = values[a] - values[b];
+                                        value = isNaN(value) ? Infinity : value;
+                                    }
+                                    return value;
+                                });
+
+                                t.selectAll(".cell_" + scope.generated_id)
+                                .attr("x", function (d) {
+                                    return sorted.indexOf(d.col - 1) * cell_width;
+                                });
+                                t.selectAll(".colLabel_" + scope.generated_id)
+                                .attr("y", function (d, i) {
+                                    return 100 + sorted.indexOf(i) * cell_width;
+                                });
+                            } else { // sorting by columns
+                                sorted = d3.range(row_number).sort(function (a, b) {
+                                    var value;
+                                    if (sortOrder) {
+                                        value = values[b] - values[a];
+                                        value = isNaN(value) ? Infinity : value;
+                                    } else {
+                                        value = values[a] - values[b];
+                                        value = isNaN(value) ? Infinity : value;
+                                    }
+                                    return value;
+                                });
+                                t.selectAll(".cell_" + scope.generated_id)
+                                .attr("y", function (d) {
+                                    return sorted.indexOf(d.row - 1) * cell_height;
+                                });
+                                t.selectAll(".rowLabel_" + scope.generated_id)
+                                .attr("y", function (d, i) {
+                                    return labels.top + MARGIN + sorted.indexOf(i) * cell_height;
+                                });
+                            }
+                        }
+                        
+                        svg.attr("width", "98%")
                             .attr("height", "98%")
                             .append("g");
 
@@ -610,69 +666,15 @@ define([
                             .attr("text-anchor", "middle")
                             .attr("class", "axis-label");
 
-                        // Function to sort the cells with respect to selected row or column
-                        function sortbylabel(rORc, i, sortOrder) {
-                            // rORc .. r for row, c for column
-                            var t = svg.transition().duration(1200);
-
-                            var values = []; // holds the values in this specific row
-                            for(var j = 0; j < col_number; j++) { values.push(-Infinity); }
-
-                            var sorted; // sorted is zero-based index
-                            d3.selectAll(".c" + rORc + i + "_" + scope.generated_id)
-                            .filter(function (ce) {
-                                if(rORc === "r") {
-                                    values[ce.col - 1] = ce.value;
-                                } else {
-                                    values[ce.row - 1] = ce.value;
-                                }
-                            });
-                            if (rORc === "r") { // sorting by rows
-                                // can't be col_number
-                                // must select from already there coluns (rows)
-                                sorted = d3.range(col_number).sort(function (a, b) {
-                                    var value;
-                                    if (sortOrder) {
-                                        value = values[b] - values[a];
-                                        value = isNaN(value) ? Infinity : value;
-                                    } else {
-                                        value = values[a] - values[b];
-                                        value = isNaN(value) ? Infinity : value;
-                                    }
-                                    return value;
-                                });
-
-                                t.selectAll(".cell_" + scope.generated_id)
-                                .attr("x", function (d) {
-                                    return sorted.indexOf(d.col - 1) * cell_width;
-                                });
-                                t.selectAll(".colLabel_" + scope.generated_id)
-                                .attr("y", function (d, i) {
-                                    return 100 + sorted.indexOf(i) * cell_width;
-                                });
-                            } else { // sorting by columns
-                                sorted = d3.range(row_number).sort(function (a, b) {
-                                    var value;
-                                    if (sortOrder) {
-                                        value = values[b] - values[a];
-                                        value = isNaN(value) ? Infinity : value;
-                                    } else {
-                                        value = values[a] - values[b];
-                                        value = isNaN(value) ? Infinity : value;
-                                    }
-                                    return value;
-                                });
-                                t.selectAll(".cell_" + scope.generated_id)
-                                .attr("y", function (d) {
-                                    return sorted.indexOf(d.row - 1) * cell_height;
-                                });
-                                t.selectAll(".rowLabel_" + scope.generated_id)
-                                .attr("y", function (d, i) {
-                                    return labels.top + MARGIN + sorted.indexOf(i) * cell_height;
-                                });
-                            }
-                        }
                     }
+
+                    scope.$on('render', function () {
+                        render_panel();
+                    });
+
+                    angular.element(window).bind('resize', function () {
+                        render_panel();
+                    });
                 }
             };
         });

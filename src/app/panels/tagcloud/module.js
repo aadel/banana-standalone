@@ -179,19 +179,13 @@ define([
         restrict: 'A',
         link: function(scope, element) {
 
-          // Receive render events
-          scope.$on('render', function() {
-            render_panel();
-          });
-
-          // Re-render if the window is resized
-          angular.element(window).bind('resize', function() {
-            render_panel();
-          });
-
           // Function for rendering panel
           function render_panel() {
             
+            var el = element[0];
+            var width = element.parent().width();
+            var height = parseInt(scope.row.height);
+
             function draw(words) {
               var fill = d3.schemeCategory10;
               
@@ -225,10 +219,6 @@ define([
 
             element.html("");
 
-            var el = element[0];
-            var width = element.parent().width();
-            var height = parseInt(scope.row.height);
-
             var scale = d3.scaleLinear().domain([0, scope.maxRatio]).range([0, 30]);
             var randomRotate = d3.scaleLinear().domain([0, 1]).range([-90, 90]);
 
@@ -261,6 +251,16 @@ define([
               .on("end", draw)
               .start();
           }
+          
+          // Receive render events
+          scope.$on('render', function() {
+            render_panel();
+          });
+
+          // Re-render if the window is resized
+          angular.element(window).bind('resize', function() {
+            render_panel();
+          });
         }
       };
     });

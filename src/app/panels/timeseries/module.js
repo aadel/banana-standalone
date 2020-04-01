@@ -295,7 +295,7 @@ define([
               }
 
               // Solr timeseries counts response is in one big array.
-              var entry_time, entries, entry_value;
+              var entry_time, entries;
               // Filter out EOF
               entries = results[index]['result-set'].docs;
               entries.pop();
@@ -390,16 +390,6 @@ define([
         template: '<div></div>',
         link: function (scope, elem) {
 
-          // Receive render events
-          scope.$on('render', function () {
-            render_panel();
-          });
-
-          // Re-render if the window is resized
-          angular.element(window).bind('resize', function () {
-            render_panel();
-          });
-
           // Function for rendering panel
           function render_panel() {
             // IE doesn't work without this
@@ -420,6 +410,21 @@ define([
 
             var stack = scope.panel.stack ? true : null;
 
+            function time_format(interval) {
+              var _int = kbn.interval_to_seconds(interval);
+              if (_int >= 2628000) {
+                return "%m/%y";
+              }
+              if (_int >= 86400) {
+                return "%m/%d/%y";
+              }
+              if (_int >= 60) {
+                return "%H:%M<br>%m/%d";
+              }
+  
+              return "%H:%M:%S";
+            }
+            
             // Populate element
             try {
               var options = {
@@ -519,21 +524,16 @@ define([
               console.log(e);
             }
           }
+          
+          // Receive render events
+          scope.$on('render', function () {
+            render_panel();
+          });
 
-          function time_format(interval) {
-            var _int = kbn.interval_to_seconds(interval);
-            if (_int >= 2628000) {
-              return "%m/%y";
-            }
-            if (_int >= 86400) {
-              return "%m/%d/%y";
-            }
-            if (_int >= 60) {
-              return "%H:%M<br>%m/%d";
-            }
-
-            return "%H:%M:%S";
-          }
+          // Re-render if the window is resized
+          angular.element(window).bind('resize', function () {
+            render_panel();
+          });
 
           var $tooltip = $('<div>');
           elem.bind("plothover", function (event, pos, item) {

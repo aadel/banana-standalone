@@ -173,15 +173,7 @@ define([
       return {
         restrict: 'A',
         link: function(scope, element) {
-          // Receive render events
-          scope.$on('render', function() {
-            render_panel();
-          });
-
-          // Re-render if the window is resized
-          angular.element(window).bind('resize', function() {
-            render_panel();
-          });
+          
           // Function for rendering panel
           function render_panel() {
             element.html("");
@@ -256,6 +248,17 @@ define([
                   .on('mouseout', tip.hide)
                   .on('click', function(d){ tip.hide(); scope.build_search(d.letter);});
           }
+
+          // Receive render events
+          scope.$on('render', function() {
+            render_panel();
+          });
+
+          // Re-render if the window is resized
+          angular.element(window).bind('resize', function() {
+            render_panel();
+          });
+
         }
       };
     });

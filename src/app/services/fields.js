@@ -16,6 +16,17 @@ function (angular, _, config) {
         self.mapping = {};
         self.typeList = {};
 
+        var mapFields = function (m) {
+            var fields = [];
+            _.each(m, function (types) {
+                _.each(types, function (v) {
+                    self.typeList = v;
+                    fields = _.union(fields, _.keys(v));
+                });
+            });
+            return fields;
+        };
+        
         $rootScope.$watch(function () {
             return dashboard.indices;
         }, function (n) {
@@ -34,17 +45,6 @@ function (angular, _, config) {
                 }
             }
         });
-
-        var mapFields = function (m) {
-            var fields = [];
-            _.each(m, function (types) {
-                _.each(types, function (v) {
-                    self.typeList = v;
-                    fields = _.union(fields, _.keys(v));
-                });
-            });
-            return fields;
-        };
 
         // This function is for getting the list of fields from a collection.
         this.map = function (collection_name) {

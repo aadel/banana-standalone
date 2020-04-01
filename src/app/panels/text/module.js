@@ -43,9 +43,6 @@ function (angular, app, _, require) {
     return {
       restrict: 'E',
       link: function(scope, element) {
-        scope.$on('render', function() {
-          render_panel();
-        });
 
         function render_panel() {
           require(['./lib/showdown'], function (Showdown) {
@@ -63,6 +60,10 @@ function (angular, app, _, require) {
             }
           });
         }
+
+        scope.$on('render', function() {
+          render_panel();
+        });
 
         render_panel();
       }

@@ -29,6 +29,34 @@ function (angular, _, config) {
             self.GROUP_FIELD = 'banana_group_s';
         }
 
+        function parseDashboardList(dashboardList) {
+            var docs = [];
+            for (var i=0; i < dashboardList.length; i++) {
+                var doc = {};
+                if (config.USE_FUSION) {
+                  // strip out the '/' prefix
+                  if (dashboardList[i].id.indexOf('/') !== -1) {
+                    doc.id = dashboardList[i].id.substring(1);
+                  } else {
+                    doc.id = dashboardList[i].id;
+                  }
+                  // Don't need doc.server for Fusion Blob Store API.
+                  doc.server = '';
+                } else {
+                  doc.id = dashboardList[i].id;
+                  // Handle a case where the dashboard field is a multi-valued field (array).
+                  if (dashboardList[i][self.DASHBOARD_FIELD] instanceof Array) {
+                    doc.server = angular.fromJson(dashboardList[i][self.DASHBOARD_FIELD][0]).solr.server;
+                  } else {
+                    doc.server = angular.fromJson(dashboardList[i][self.DASHBOARD_FIELD]).solr.server;
+                  }
+                }
+                docs.push(doc);
+            }
+    
+            return docs;
+        }
+        
         $scope.getTitleField = function getTitleField() {
             return self.TITLE_FIELD;
         };
@@ -119,7 +147,7 @@ function (angular, _, config) {
                 // Reset new dashboard defaults
                 $scope.resetNewDefaults();
             },
-            response => {
+            () => {
                 alertSrv.set('Error', 'Unable to load default dashboard', 'danger');
             });
         };
@@ -325,34 +353,6 @@ function (angular, _, config) {
                     }
                 });
         };
-
-        function parseDashboardList(dashboardList) {
-            var docs = [];
-            for (var i=0; i < dashboardList.length; i++) {
-                var doc = {};
-                if (config.USE_FUSION) {
-                  // strip out the '/' prefix
-                  if (dashboardList[i].id.indexOf('/') !== -1) {
-                    doc.id = dashboardList[i].id.substring(1);
-                  } else {
-                    doc.id = dashboardList[i].id;
-                  }
-                  // Don't need doc.server for Fusion Blob Store API.
-                  doc.server = '';
-                } else {
-                  doc.id = dashboardList[i].id;
-                  // Handle a case where the dashboard field is a multi-valued field (array).
-                  if (dashboardList[i][self.DASHBOARD_FIELD] instanceof Array) {
-                    doc.server = angular.fromJson(dashboardList[i][self.DASHBOARD_FIELD][0]).solr.server;
-                  } else {
-                    doc.server = angular.fromJson(dashboardList[i][self.DASHBOARD_FIELD]).solr.server;
-                  }
-                }
-                docs.push(doc);
-            }
-
-            return docs;
-        }
 
         // If banana_server url is configured in config.js, then use it to load or save dashboards.
         // This will allow the saved dashboards to be loaded from another Solr server correctly.

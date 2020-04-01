@@ -14,6 +14,22 @@ function (angular, _) {
 
     var notices = [];
 
+    var cleanup = function () {
+      _.each(notices, function(n){
+        alertSrv.clear(n);
+      });
+      _.each(dashboard.current.rows, function(row) {
+        row.panels = _.without(row.panels,{});
+        row.panels = _.compact(row.panels);
+      });
+    };
+
+    var clearNotices = function(options) {
+      _.each(_.where(notices,options), function(n) {
+        alertSrv.clear(n);
+      });
+    };
+    
     this.onStart = function() {
       dashboard.panelDragging =  true;
       notices.push(alertSrv.set('Moving','Drop this panel into an available space, or on top of another panel','info'));
@@ -41,7 +57,7 @@ function (angular, _) {
         dragIndex = data.dragSettings.index,
         dropIndex =  data.dropSettings.index;
 
-
+        
       // Remove panel from source row
       dragRow.splice(dragIndex,1);
 
@@ -61,22 +77,6 @@ function (angular, _) {
       dashboard.panelDragging = false;
       cleanup();
       $rootScope.$apply();
-    };
-
-    var cleanup = function () {
-      _.each(notices, function(n){
-        alertSrv.clear(n);
-      });
-      _.each(dashboard.current.rows, function(row) {
-        row.panels = _.without(row.panels,{});
-        row.panels = _.compact(row.panels);
-      });
-    };
-
-    var clearNotices = function(options) {
-      _.each(_.where(notices,options), function(n) {
-        alertSrv.clear(n);
-      });
     };
 
   });

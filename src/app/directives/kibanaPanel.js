@@ -1,9 +1,10 @@
 "use strict";
 
 define([
-  'angular'
+  'angular',
+  'jquery'
 ],
-function (angular) {
+function (angular, $) {
 
   angular
     .module('kibana.directives')

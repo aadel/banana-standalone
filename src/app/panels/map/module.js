@@ -254,11 +254,6 @@ function (angular, app, _, $, worldmap) {
 
         elem.html('<center><img src="img/load_big.gif"></center>');
 
-        // Receive render events
-        scope.$on('render',function(){
-          render_panel();
-        });
-
         function render_panel() {
           elem.text('');
           $('.jvectormap-zoomin,.jvectormap-zoomout,.jvectormap-label').remove();
@@ -296,6 +291,11 @@ function (angular, app, _, $, worldmap) {
             });
           });
         }
+        
+        // Receive render events
+        scope.$on('render',function(){
+          render_panel();
+        });
       }
     };
   });

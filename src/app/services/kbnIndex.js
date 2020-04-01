@@ -15,32 +15,6 @@ function (angular, _, config, moment) {
   // TODO: add solr support to query indices
 
   module.service('kbnIndex', function($http, alertSrv) {
-    // returns a promise containing an array of all indices matching the index
-    // pattern that exist in a given range
-    this.indices = function(from,to,pattern,interval) {
-      var possible = [];
-      _.each(expand_range(fake_utc(from),fake_utc(to),interval),function(d){
-        possible.push(d.format(pattern));
-      });
-
-      return all_indices().then(function(p) {
-        var indices = _.intersection(possible,p);
-        indices.reverse();
-        return indices;
-      });
-    };
-
-    /**
-     * Get an array of all collections in Solr or Fusion.
-     * @param hostUrl
-     * @returns promise
-     */
-    // param: solr_server (e.g. http://localhost:8983/solr/)
-    this.collections = function(solrServer) {
-      return all_collections(solrServer).then(function (p) {
-        return p;
-      });
-    };
 
     function all_collections(solrServer) {
       var collectionApi;
@@ -83,8 +57,8 @@ function (angular, _, config, moment) {
               collections.push(v.id);
             });
           } else {
-            _.each(p.data.collections, function(v,k) {
-              collections.push(v);
+            _.each(p.data.collections, function(k/*, v*/) {
+              collections.push(k);
             });
           }
         }
@@ -94,7 +68,7 @@ function (angular, _, config, moment) {
         alertSrv.set('Error', "Could not retrieve collections from Solr (error status = " + error.status + ")", 'danger');
       });
     }
-
+    
     // returns a promise containing an array of all indices in an elasticsearch
     // cluster
     function all_indices() {
@@ -203,6 +177,33 @@ function (angular, _, config, moment) {
         return false;
       }
     }
+    
+    // returns a promise containing an array of all indices matching the index
+    // pattern that exist in a given range
+    this.indices = function(from,to,pattern,interval) {
+      var possible = [];
+      _.each(expand_range(fake_utc(from),fake_utc(to),interval),function(d){
+        possible.push(d.format(pattern));
+      });
+
+      return all_indices().then(function(p) {
+        var indices = _.intersection(possible,p);
+        indices.reverse();
+        return indices;
+      });
+    };
+
+    /**
+     * Get an array of all collections in Solr or Fusion.
+     * @param hostUrl
+     * @returns promise
+     */
+    // param: solr_server (e.g. http://localhost:8983/solr/)
+    this.collections = function(solrServer) {
+      return all_collections(solrServer).then(function (p) {
+        return p;
+      });
+    };
   });
 
 });

@@ -24,6 +24,18 @@ function (angular, app, _) {
   app.useModule(module);
 
   module.controller('derivequeries', function($scope, $rootScope, querySrv, fields, dashboard, filterSrv) {
+
+    var update_history = function(query) {
+      query = _.isArray(query) ? query : [query];
+      if($scope.panel.remember > 0) {
+        $scope.panel.history = _.union(query.reverse(),$scope.panel.history);
+        var _length = $scope.panel.history.length;
+        if(_length > $scope.panel.remember) {
+          $scope.panel.history = $scope.panel.history.slice(0,$scope.panel.remember);
+        }
+      }
+    };
+
     $scope.panelMeta = {
       modals : [
         {
@@ -146,17 +158,6 @@ function (angular, app, _) {
 
     $scope.populate_modal = function(request) {
       $scope.inspector = angular.toJson(JSON.parse(request.toString()),true);
-    };
-
-    var update_history = function(query) {
-      query = _.isArray(query) ? query : [query];
-      if($scope.panel.remember > 0) {
-        $scope.panel.history = _.union(query.reverse(),$scope.panel.history);
-        var _length = $scope.panel.history.length;
-        if(_length > $scope.panel.remember) {
-          $scope.panel.history = $scope.panel.history.slice(0,$scope.panel.remember);
-        }
-      }
     };
   });
 });

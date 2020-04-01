@@ -222,7 +222,7 @@ function (angular, app, _, $) {
             
             var term = v.term;
             if (term === null) {
-              missing = count;
+              missing = count; // jshint ignore:line
             } else {
               // if count = 0, do not add it to the chart, just skip it
               if (v.score === 0) { return; }

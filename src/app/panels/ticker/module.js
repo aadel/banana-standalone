@@ -56,6 +56,52 @@ define([
       };
       _.defaults($scope.panel, _d);
 
+      function processSolrResults(results_new, results_old, id,i) {
+        $scope.panelMeta.loading = false;
+
+        // Check for error and abort if found
+        if (!(_.isUndefined(results_new.error))) {
+          $scope.panel.error = results_new.error.msg;
+          return;
+        }
+
+        if (!(_.isUndefined(results_old.error))) {
+          $scope.panel.error = results_old.error.msg;
+          return;
+        }
+
+        $scope.hits = {};
+
+        var hits = {
+          new: results_new.facet_counts.facet_ranges[filterSrv.getTimeField()]['between'],
+          old: results_old.facet_counts.facet_ranges[filterSrv.getTimeField()]['between']
+        };
+        $scope.hits = hits;
+
+        function percentage(x, y) {
+          return x === 0 ? null : 100 * (y - x) / x;
+        }
+        
+        var percent = percentage(hits.old, hits.new) == null ?
+          '?' : Math.round(percentage(hits.old, hits.new) * 100) / 100;
+        // Create series
+        $scope.data[i] = {
+          info: querySrv.list[id],
+          hits: {
+            new: hits.new,
+            old: hits.old
+          },
+          percent: percent
+        };
+        $scope.trends = $scope.data;
+      }
+
+      function diffDays(date1, date2) {
+        // calculate the number of days between two dates
+        var oneDay = 24 * 60 * 60 * 1000;
+        return (Math.round(Math.abs((date2.getTime() - date1.getTime()) / (oneDay))) + 1);
+      }
+      
       $scope.init = function() {
         $scope.hits = 0;
 
@@ -205,53 +251,6 @@ define([
         }
 
       };
-
-
-      function processSolrResults(results_new, results_old, id,i) {
-        $scope.panelMeta.loading = false;
-
-        // Check for error and abort if found
-        if (!(_.isUndefined(results_new.error))) {
-          $scope.panel.error = results_new.error.msg;
-          return;
-        }
-
-        if (!(_.isUndefined(results_old.error))) {
-          $scope.panel.error = results_old.error.msg;
-          return;
-        }
-
-        $scope.hits = {};
-
-        var hits = {
-          new: results_new.facet_counts.facet_ranges[filterSrv.getTimeField()]['between'],
-          old: results_old.facet_counts.facet_ranges[filterSrv.getTimeField()]['between']
-        };
-        $scope.hits = hits;
-
-        var percent = percentage(hits.old, hits.new) == null ?
-          '?' : Math.round(percentage(hits.old, hits.new) * 100) / 100;
-        // Create series
-        $scope.data[i] = {
-          info: querySrv.list[id],
-          hits: {
-            new: hits.new,
-            old: hits.old
-          },
-          percent: percent
-        };
-        $scope.trends = $scope.data;
-      }
-
-      function diffDays(date1, date2) {
-        // calculate the number of days between two dates
-        var oneDay = 24 * 60 * 60 * 1000;
-        return (Math.round(Math.abs((date2.getTime() - date1.getTime()) / (oneDay))) + 1);
-      }
-
-      function percentage(x, y) {
-        return x === 0 ? null : 100 * (y - x) / x;
-      }
 
       $scope.set_refresh = function(state) {
         $scope.refresh = state;

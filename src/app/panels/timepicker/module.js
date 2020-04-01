@@ -58,6 +58,100 @@ function (angular, app, _, moment, kbn, $) {
     };
     _.defaults($scope.panel,_d);
 
+    // Prefer to pass around Date() objects since interacting with
+    // moment objects in libraries that are expecting Date()s can be tricky
+    function compile_time(time) {
+      // Clone time obj
+      var filterTime = $.extend(true, {}, time);
+      if ($scope.panel.mode === 'relative') {
+        // Get the time suffix (ie.s/m/h/d/w/M/y)
+        var timeShorthand = $scope.panel.timespan.substr(-1);
+        var timeNumber = $scope.panel.timespan.substr(0, $scope.panel.timespan.length-1);
+        var timeUnit;
+        switch (timeShorthand) {
+          case 's':
+            timeUnit = 'SECOND';
+            break;
+          case 'm':
+            timeUnit = 'MINUTE';
+            break;
+          case 'h':
+            timeUnit = 'HOUR';
+            break;
+          case 'd':
+            timeUnit = 'DAY';
+            break;
+          case 'w':
+            // Convert weeks into days
+            timeNumber = timeNumber * 7;
+            timeUnit = 'DAY';
+            break;
+          case 'y':
+            timeUnit = 'YEAR';
+            break;
+        }
+        filterTime.from = 'NOW-' + timeNumber + timeUnit;
+        filterTime.to   = 'NOW';
+        // Add Date objects representation of from and to, for use with histogram panel
+        // where it needs Date objects for plotting x-axis on a chart.
+        filterTime.fromDateObj = moment().subtract(timeShorthand,timeNumber).toDate();
+        filterTime.toDateObj = new Date();
+      } else if ($scope.panel.mode === 'since') {
+        // Add Date objects representation of from and to, for use with histogram panel
+        // where it needs Date objects for plotting x-axis on a chart.
+        filterTime.fromDateObj = filterTime.from.toDate();
+        filterTime.toDateObj = new Date();
+        filterTime.from = filterTime.from.toDate().toISOString() + '/SECOND';
+        filterTime.to   = '*';
+      } else if ($scope.panel.mode === 'absolute') {
+        filterTime.from = filterTime.from.toDate();
+        filterTime.to   = filterTime.to.toDate();
+      }
+
+      return filterTime;
+    }
+
+    // No need to automatically call time_apply() when changing time mode,
+    // because it will mess up the timepicker.
+    // $scope.$watch('panel.mode', $scope.time_apply);
+
+    function set_time_filter(time) {
+      time.type = 'time';
+      // Clear all time filters, set a new one
+      filterSrv.removeByType('time');
+      $scope.panel.filter_id = filterSrv.set(compile_time(time));
+      return $scope.panel.filter_id;
+    }
+
+    function set_timepicker(from,to) {
+      // Janky 0s timeout to get around $scope queue processing view issue
+      $scope.timepicker = {
+        from : {
+          time : from.format("HH:mm:ss"),
+          date : from.format("MM/DD/YYYY")
+        },
+        to : {
+          time : to.format("HH:mm:ss"),
+          date : to.format("MM/DD/YYYY")
+        }
+      };
+    }
+
+    var update_panel = function() {
+      // Update panel's string representation of the time object. Don't update if
+      // we're in relative mode since we dont want to store the time object in the
+      // json for relative periods
+      if($scope.panel.mode !== 'relative') {
+
+        $scope.panel.time = {
+          from : $scope.time.from.format("MM/DD/YYYY HH:mm:ss"),
+          to : $scope.time.to.format("MM/DD/YYYY HH:mm:ss"),
+        };
+      } else {
+        delete $scope.panel.time;
+      }
+    };
+
     $scope.init = function() {
       // Private refresh interval that we can use for view display without causing
       // unnecessary refreshes during changes
@@ -139,21 +233,6 @@ function (angular, app, _, moment, kbn, $) {
         },$scope.panel.refresh.interval*1000));
       } else {
         timer.cancel($scope.refresh_timer);
-      }
-    };
-
-    var update_panel = function() {
-      // Update panel's string representation of the time object. Don't update if
-      // we're in relative mode since we dont want to store the time object in the
-      // json for relative periods
-      if($scope.panel.mode !== 'relative') {
-
-        $scope.panel.time = {
-          from : $scope.time.from.format("MM/DD/YYYY HH:mm:ss"),
-          to : $scope.time.to.format("MM/DD/YYYY HH:mm:ss"),
-        };
-      } else {
-        delete $scope.panel.time;
       }
     };
 
@@ -263,85 +342,6 @@ function (angular, app, _, moment, kbn, $) {
       set_time_filter($scope.time);
       dashboard.refresh();
     };
-
-    // No need to automatically call time_apply() when changing time mode,
-    // because it will mess up the timepicker.
-    // $scope.$watch('panel.mode', $scope.time_apply);
-
-    function set_time_filter(time) {
-      time.type = 'time';
-      // Clear all time filters, set a new one
-      filterSrv.removeByType('time');
-      $scope.panel.filter_id = filterSrv.set(compile_time(time));
-      return $scope.panel.filter_id;
-    }
-
-    // Prefer to pass around Date() objects since interacting with
-    // moment objects in libraries that are expecting Date()s can be tricky
-    function compile_time(time) {
-      // Clone time obj
-      var filterTime = $.extend(true, {}, time);
-      if ($scope.panel.mode === 'relative') {
-        // Get the time suffix (ie.s/m/h/d/w/M/y)
-        var timeShorthand = $scope.panel.timespan.substr(-1);
-        var timeNumber = $scope.panel.timespan.substr(0, $scope.panel.timespan.length-1);
-        var timeUnit;
-        switch (timeShorthand) {
-          case 's':
-            timeUnit = 'SECOND';
-            break;
-          case 'm':
-            timeUnit = 'MINUTE';
-            break;
-          case 'h':
-            timeUnit = 'HOUR';
-            break;
-          case 'd':
-            timeUnit = 'DAY';
-            break;
-          case 'w':
-            // Convert weeks into days
-            timeNumber = timeNumber * 7;
-            timeUnit = 'DAY';
-            break;
-          case 'y':
-            timeUnit = 'YEAR';
-            break;
-        }
-        filterTime.from = 'NOW-' + timeNumber + timeUnit;
-        filterTime.to   = 'NOW';
-        // Add Date objects representation of from and to, for use with histogram panel
-        // where it needs Date objects for plotting x-axis on a chart.
-        filterTime.fromDateObj = moment().subtract(timeShorthand,timeNumber).toDate();
-        filterTime.toDateObj = new Date();
-      } else if ($scope.panel.mode === 'since') {
-        // Add Date objects representation of from and to, for use with histogram panel
-        // where it needs Date objects for plotting x-axis on a chart.
-        filterTime.fromDateObj = filterTime.from.toDate();
-        filterTime.toDateObj = new Date();
-        filterTime.from = filterTime.from.toDate().toISOString() + '/SECOND';
-        filterTime.to   = '*';
-      } else if ($scope.panel.mode === 'absolute') {
-        filterTime.from = filterTime.from.toDate();
-        filterTime.to   = filterTime.to.toDate();
-      }
-
-      return filterTime;
-    }
-
-    function set_timepicker(from,to) {
-      // Janky 0s timeout to get around $scope queue processing view issue
-      $scope.timepicker = {
-        from : {
-          time : from.format("HH:mm:ss"),
-          date : from.format("MM/DD/YYYY")
-        },
-        to : {
-          time : to.format("HH:mm:ss"),
-          date : to.format("MM/DD/YYYY")
-        }
-      };
-    }
 
   });
 });

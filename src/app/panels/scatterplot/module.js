@@ -219,14 +219,6 @@ define([
             restrict: 'E',
             link: function (scope, element) {
 
-                scope.$on('render', function () {
-                    render_panel();
-                });
-
-                angular.element(window).bind('resize', function () {
-                    render_panel();
-                });
-
                 // Function for rendering panel
                 function render_panel() {
                     element.html("");
@@ -415,6 +407,14 @@ define([
                         .style("text-anchor", "end")
                         .text(yaxisLabel);
                 }
+                
+                scope.$on('render', function () {
+                    render_panel();
+                });
+
+                angular.element(window).bind('resize', function () {
+                    render_panel();
+                });
             }
         };
     });

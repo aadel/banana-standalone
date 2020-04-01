@@ -271,15 +271,6 @@ define([
       return {
         restrict: 'A',
         link: function (scope, element) {
-          // Receive render events
-          scope.$on('render', function () {
-            render_panel();
-          });
-
-          // Re-render if the window is resized
-          angular.element(window).bind('resize', function () {
-            render_panel();
-          });
 
           // Function for rendering panel
           function render_panel() {
@@ -427,11 +418,30 @@ define([
                   .on("end", dragended)
               );
 
-            function dofocus() {
-              var index = d3.select(d3.event.target).datum().index;
+              var labelDisplay = function (d) {
+                return (scope.selList["n" + d.node] || !!scope.hoverList["n" + d.node]) ? "block" : "none";
+              };
+              var labelOpacity = function (d) {
+                return (!scope.selList["n" + d.node] && !!scope.hoverList["n" + d.node]) ? 0.5 : 1;
+              };
+  
+              var label = container.append("g")
+                .attr("class", "labels")
+                .selectAll("text")
+                .data(scope.data.nodes)
+                .enter()
+                .append("text")
+                .text(function (d) {
+                  return d.name;
+                })
+                .attr("display", labelDisplay).attr("opacity", labelOpacity)
+                .style("pointer-events", "none");
 
-              node.transition(t()).attr("r", function (o) {
-                return nodeSize(o) * (o.node === index ? 1.2 : 1);
+              function dofocus() {
+                var index = d3.select(d3.event.target).datum().index;
+
+                node.transition(t()).attr("r", function (o) {
+                  return nodeSize(o) * (o.node === index ? 1.2 : 1);
               });
 
               scope.hoverList["n" + index] = true;
@@ -454,25 +464,6 @@ define([
               scope.selListCopy["n" + d.node] = scope.selList["n" + d.node];
               label.attr("display", labelDisplay).attr("opacity", labelOpacity);
             });
-
-            var labelDisplay = function (d) {
-              return (scope.selList["n" + d.node] || !!scope.hoverList["n" + d.node]) ? "block" : "none";
-            };
-            var labelOpacity = function (d) {
-              return (!scope.selList["n" + d.node] && !!scope.hoverList["n" + d.node]) ? 0.5 : 1;
-            };
-
-            var label = container.append("g")
-              .attr("class", "labels")
-              .selectAll("text")
-              .data(scope.data.nodes)
-              .enter()
-              .append("text")
-              .text(function (d) {
-                return d.name;
-              })
-              .attr("display", labelDisplay).attr("opacity", labelOpacity)
-              .style("pointer-events", "none");
 
             simulation.on("tick", function () {
               node
@@ -525,6 +516,16 @@ define([
 
             scope.panelMeta.loading = false;
           }
+
+          // Receive render events
+          scope.$on('render', function () {
+            render_panel();
+          });
+
+          // Re-render if the window is resized
+          angular.element(window).bind('resize', function () {
+            render_panel();
+          });
         }
       };
     });

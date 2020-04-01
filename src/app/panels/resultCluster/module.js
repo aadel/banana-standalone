@@ -150,22 +150,14 @@ define([
       return {
         restrict: 'A',
         link: function(scope, element) {
-          // Receive render events
-          scope.$on('render', function() {
-            render_panel();
-          });
 
-          // Re-render if the window is resized
-          angular.element(window).bind('resize', function() {
-            render_panel();
-          });
           // Function for rendering panel
           function render_panel() {
             element.html("");
             var el = element[0];
             var parent_width = element.parent().width(),
-            height = parseInt(scope.row.height),
-            padding = 50;
+            height = parseInt(scope.row.height);
+
             var margin = {
               top: 20,
               right: 20,
@@ -175,8 +167,6 @@ define([
             width = parent_width - margin.left - margin.right;
             
             height = height - margin.top - margin.bottom;
-            
-            var formatPercent = d3.format(".0");
             
             var highlighterClusterId = d => "cluster-" + d.id;
             var highlight = (clusterId, highlight) => {
@@ -237,6 +227,16 @@ define([
             
             attachMouseListener(scope.data.clusters);
           }
+          
+          // Receive render events
+          scope.$on('render', function() {
+            render_panel();
+          });
+
+          // Re-render if the window is resized
+          angular.element(window).bind('resize', function() {
+            render_panel();
+          });
         }
       };
     });

@@ -218,15 +218,6 @@ define([
       return {
         restrict: 'A',
         link: function (scope, element) {
-          // Receive render events
-          scope.$on('render', function () {
-            render_panel();
-          });
-
-          // Re-render if the window is resized
-          angular.element(window).bind('resize', function () {
-            render_panel();
-          });
 
           // Function for rendering panel
           function render_panel() {
@@ -239,7 +230,7 @@ define([
               width = width - margin.left - margin.right;
               height = height - margin.top - margin.bottom;
 
-
+              
             var svg = d3.select(element[0]).append("svg")
               .attr("width", width + margin.left + margin.right)
               .attr("height", height + margin.top + margin.bottom);
@@ -362,6 +353,16 @@ define([
 
             scope.panelMeta.loading = false;
           }
+          
+          // Receive render events
+          scope.$on('render', function () {
+            render_panel();
+          });
+
+          // Re-render if the window is resized
+          angular.element(window).bind('resize', function () {
+            render_panel();
+          });
         }
       };
     });

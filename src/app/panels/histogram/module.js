@@ -517,16 +517,21 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
       template: '<div></div>',
       link: function(scope, elem) {
 
-        // Receive render events
-        scope.$on('render',function(){
-          render_panel();
-        });
+        function time_format(interval) {
+          var _int = kbn.interval_to_seconds(interval);
+          if(_int >= 2628000) {
+            return "%m/%y";
+          }
+          if(_int >= 86400) {
+            return "%m/%d/%y";
+          }
+          if(_int >= 60) {
+            return "%H:%M<br>%m/%d";
+          }
 
-        // Re-render if the window is resized
-        angular.element(window).bind('resize', function(){
-          render_panel();
-        });
-
+          return "%H:%M:%S";
+        }
+        
         // Function for rendering panel
         function render_panel() {
           // IE doesn't work without this
@@ -646,21 +651,16 @@ function (angular, app, $, _, kbn, moment, timeSeries) {
             console.log(e);
           }
         }
+        
+        // Receive render events
+        scope.$on('render',function(){
+          render_panel();
+        });
 
-        function time_format(interval) {
-          var _int = kbn.interval_to_seconds(interval);
-          if(_int >= 2628000) {
-            return "%m/%y";
-          }
-          if(_int >= 86400) {
-            return "%m/%d/%y";
-          }
-          if(_int >= 60) {
-            return "%H:%M<br>%m/%d";
-          }
-
-          return "%H:%M:%S";
-        }
+        // Re-render if the window is resized
+        angular.element(window).bind('resize', function(){
+          render_panel();
+        });
 
         var $tooltip = $('<div>');
         elem.bind("plothover", function (event, pos, item) {

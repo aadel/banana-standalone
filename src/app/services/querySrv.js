@@ -44,6 +44,18 @@ function (angular, _, config) {
     // Save a reference to this
     var self = this;
 
+    var nextId = function() {
+      if(_q.idQueue.length > 0) {
+        return _q.idQueue.shift();
+      } else {
+        return self.ids.length;
+      }
+    };
+
+    var colorAt = function(id) {
+      return self.colors[id % self.colors.length];
+    };
+    
     this.init = function() {
       _q = dashboard.current.services.query;
       self.list = dashboard.current.services.query.list;
@@ -153,18 +165,6 @@ function (angular, _, config) {
       default:
         return self.ids;
       }
-    };
-
-    var nextId = function() {
-      if(_q.idQueue.length > 0) {
-        return _q.idQueue.shift();
-      } else {
-        return self.ids.length;
-      }
-    };
-
-    var colorAt = function(id) {
-      return self.colors[id % self.colors.length];
     };
 
     self.init();

@@ -43,6 +43,16 @@ define([
 
     $scope.querySrv = querySrv;
 
+    var update_history = function(query) {
+      if($scope.panel.remember > 0) {
+        $scope.panel.history = _.union(query.reverse(),$scope.panel.history);
+        var _length = $scope.panel.history.length;
+        if(_length > $scope.panel.remember) {
+          $scope.panel.history = $scope.panel.history.slice(0,$scope.panel.remember);
+        }
+      }
+    };
+    
     $scope.init = function() {
       querySrv.operator = $scope.panel.operator;
     };
@@ -68,16 +78,6 @@ define([
 
     $scope.close_edit = function() {
       $scope.refresh();
-    };
-
-    var update_history = function(query) {
-      if($scope.panel.remember > 0) {
-        $scope.panel.history = _.union(query.reverse(),$scope.panel.history);
-        var _length = $scope.panel.history.length;
-        if(_length > $scope.panel.remember) {
-          $scope.panel.history = $scope.panel.history.slice(0,$scope.panel.remember);
-        }
-      }
     };
 
     $scope.init();

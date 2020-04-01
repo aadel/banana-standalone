@@ -234,22 +234,10 @@ function (angular, app, _, L, localRequire) {
     return {
       restrict: 'A',
       link: function(scope, elem, attrs) {
+        
+        var map, layerGroup;
 
         elem.html('<center><img src="img/load_big.gif"></center>');
-
-        // Receive render events
-        scope.$on('draw',function(){
-          render_panel();
-        });
-
-        scope.$on('render', function(){
-          if(!_.isUndefined(map)) {
-            map.invalidateSize();
-            map.getPanes();
-          }
-        });
-
-        var map, layerGroup;
 
         function render_panel() {
           scope.require(['./lib/leaflet/plugins'], function () {
@@ -293,6 +281,18 @@ function (angular, app, _, L, localRequire) {
             }
           });
         }
+        
+        // Receive render events
+        scope.$on('draw',function(){
+          render_panel();
+        });
+
+        scope.$on('render', function(){
+          if(!_.isUndefined(map)) {
+            map.invalidateSize();
+            map.getPanes();
+          }
+        });
       }
     };
   });
