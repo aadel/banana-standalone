@@ -6,27 +6,26 @@
       <select ng-change="set_refresh(true)" class="form-control input-small" ng-model="panel.mode" ng-options="f for f in ['count','values']"></select>
     </div>
     <div class="col-md-3" ng-show="panel.mode != 'count'">
-      <label>Value Field</label>
+      <label>Value Field <tip>This field <strong>must</strong> be a numeric type.</tip></label>
         <input ng-change="set_refresh(true)" placeholder="Start typing" bs-typeahead bs-options="field for field in fields.list" type="text" class="form-control input-small" ng-model="panel.value_field">
     </div>
     <div class="col-md-3" ng-show="panel.mode != 'count'">
       <label>Max Rows <tip>Maximum number of rows to retrieve for the result set.</tip></label>
       <input ng-change="set_refresh(true)" placeholder="100000" type="number" class="form-control input-small" ng-model="panel.max_rows">
     </div>
-    <div class="col-md-3" ng-show="panel.mode != 'count'">
-      <label>Note</label><small> In <strong>{{panel.mode}}</strong> mode the configured field <strong>must</strong> be a numeric type.</small>
-    </div>
   </div>
   <!-- Row for Group By field when Mode is values -->
   <div class="row" ng-show="panel.mode == 'values'">
-    <div class="col-md-4"></div>
     <div class="col-md-4">
       <label>Group By Field <tip>This field must be a single value field. Leave blank if you do not want to group the result.</tip></label>
       <input ng-change="set_refresh(true)" placeholder="Optional" bs-typeahead bs-options="field for field in fields.list" type="text" class="form-control input-small" ng-model="panel.group_field">
     </div>
-    <div class="col-md-4">
-      <label>SUM the group's values <tip>The point value (Y) is the sum of value field in the group</tip></label>
-      <input type="checkbox" ng-model="panel.sum_value" ng-checked="panel.sum_value">
+    <div class="col-md-5">
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="panel.sum_value" ng-checked="panel.sum_value">
+          SUM the group's values <tip>The point value (Y) is the sum of value field in the group</tip>
+        </label>
+      </div>
     </div>
     <!-- <div class="col-md-3">
       <label>Max Rows/Group <tip>Specify the number of results to return for each group.</tip></label>
@@ -35,32 +34,39 @@
   </div>
 
   <h5>Chart Settings</h5>
-  <div class="row" style="text-align:center;margin-bottom:10px;">
-    <div class="col-md-1"> <label><input type="checkbox" ng-model="panel.bars" ng-checked="panel.bars">Bars</label></div>
-    <div class="col-md-1"> <label><input type="checkbox" ng-model="panel.lines" ng-checked="panel.lines">Lines</label></div>
-    <div class="col-md-1"> <label><input type="checkbox" ng-model="panel.points" ng-checked="panel.points">Points</label></div>
-    <div class="col-md-1"> <label><input type="checkbox" ng-model="panel.stack" ng-checked="panel.stack">Stack</label></div>
-    <div class="col-md-2" ng-show="panel.stack">
-      <label style="white-space:nowrap">Percent <tip>Stack as a percentage of total</tip></label>
-      <input type="checkbox" ng-model="panel.percentage" ng-checked="panel.percentage">
+  <div class="row">
+    <div class="col-md-2"> <div class="checkbox"><label><input type="checkbox" ng-model="panel.bars" ng-checked="panel.bars">Bars</label></div></div>
+    <div class="col-md-2"> <div class="checkbox"><label><input type="checkbox" ng-model="panel.lines" ng-checked="panel.lines">Lines</label></div></div>
+    <div class="col-md-2"> <div class="checkbox"><label><input type="checkbox" ng-model="panel.points" ng-checked="panel.points">Points</label></div></div>
+    <div class="col-md-2"> <div class="checkbox"><label><input type="checkbox" ng-model="panel.stack" ng-checked="panel.stack">Stack</label></div></div>
+    <div class="col-md-3" ng-show="panel.stack">
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="panel.percentage" ng-checked="panel.percentage">
+          Percent <tip>Stack as a percentage of total</tip></label>
+      </div>
     </div>
-    <div class="col-md-2"> <label><input type="checkbox" ng-model="panel.legend" ng-checked="panel.legend">Legend</label></div>
-    <div class="col-md-2"> <label><input type="checkbox" ng-model="panel['x-axis']" ng-checked="panel['x-axis']">xAxis</label></div>
-    <div class="col-md-2"> <label><input type="checkbox" ng-model="panel['y-axis']" ng-checked="panel['y-axis']">yAxis</label></div>
+  </div>
+  
+  <div class="row">
+    <div class="col-md-2"> <div class="checkbox"><label><input type="checkbox" ng-model="panel.legend" ng-checked="panel.legend">Legend</label></div></div>
+    <div class="col-md-2"> <div class="checkbox"><label><input type="checkbox" ng-model="panel['x-axis']" ng-checked="panel['x-axis']">xAxis</label></div></div>
+    <div class="col-md-2"> <div class="checkbox"><label><input type="checkbox" ng-model="panel['y-axis']" ng-checked="panel['y-axis']">yAxis</label></div></div>
   </div>
 
-  <div class="row" style="text-align:center;">
-    <div class="col-md-2" ng-show="panel.lines" style="width:65px;">
+  <div class="row">
+    <div class="col-md-2" ng-show="panel.lines">
       <label>Line Fill</label>
       <select class="form-control input-mini" ng-model="panel.fill" ng-options="f for f in [0,1,2,3,4,5,6,7,8,9,10]"></select>
     </div>
-    <div class="col-md-2" ng-show="panel.lines" style="width:65px;">
+    <div class="col-md-3" ng-show="panel.lines">
       <label>Line Width</label>
       <select class="form-control input-mini" ng-model="panel.linewidth" ng-options="f for f in [0,1,2,3,4,5,6,7,8,9,10]"></select>
     </div>
-    <div class="col-md-2" ng-show="panel.lines" style="width:60px;">
-      <label>Smooth <tip>Smooth the lines by removing zero values.</tip></label>
-      <input type="checkbox" ng-model="panel.lines_smooth" ng-checked="panel.lines_smooth">
+    <div class="col-md-3" ng-show="panel.lines">
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="panel.lines_smooth" ng-checked="panel.lines_smooth">
+          Smooth <tip>Smooth the lines by removing zero values.</tip></label>
+      </div>
     </div>
   </div>
 
@@ -69,17 +75,26 @@
       <label>Time correction</label>
       <select ng-model="panel.timezone" class='form-control input-small' ng-options="f for f in ['browser','utc']"></select>
     </div>
-    <div class="col-md-2"> <label><input type="checkbox" ng-model="panel.interactive" ng-checked="panel.interactive">Selectable</label></div>
     <div class="col-md-3">
-      <label><input type="checkbox" ng-model="panel.zoomlinks" ng-checked="panel.zoomlinks" />Zoom Links</label>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="panel.interactive" ng-checked="panel.interactive">Selectable</label></div>
+      </div>
+    <div class="col-md-3">
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="panel.zoomlinks" ng-checked="panel.zoomlinks" />Zoom Links</label>
+      </div>
     </div>
-        <div class="col-md-3">
-      <label><input type="checkbox" ng-model="panel.options" ng-checked="panel.options" />View Options</label>
+      <div class="col-md-3">
+        <div class="checkbox">
+          <label><input type="checkbox" ng-model="panel.options" ng-checked="panel.options" />View Options</label>
+        </div>
     </div>
   </div>
   <div class="row">
     <div class="col-md-3">
-      <label><input type="checkbox" ng-model="panel.auto_int" ng-checked="panel.auto_int" />Auto-interval</label>
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="panel.auto_int" ng-checked="panel.auto_int" />Auto-interval</label>
+      </div>
     </div>
     <div class="col-md-3" ng-show='panel.auto_int'>
       <label>Resolution <tip>Shoot for this many data points, rounding to sane intervals</tip></label>
@@ -98,8 +113,10 @@
       <select class="form-control input-medium" ng-model="panel.tooltip.value_type" ng-options="f for f in ['cumulative','individual']"></select>
     </div>
     <div class="col-md-6">
-      <label>Display Query <tip>If an alias is set, it will be shown in the tooltip. If not, should it show the query?</tip></label>
-      <input type="checkbox" ng-model="panel.tooltip.query_as_alias" />
+      <div class="checkbox">
+        <label><input type="checkbox" ng-model="panel.tooltip.query_as_alias" />
+          Display Query <tip>If an alias is set, it will be shown in the tooltip. If not, should it show the query?</tip></label>
+      </div>
     </div>
   </div>
 
@@ -110,7 +127,9 @@
   </div>
   <div class="row">
       <div class="col-md-2">
+        <div class="checkbox">
           <label><input type="checkbox" ng-model="panel.refresh.enable" ng-checked="panel.refresh.enable">Enable</label>
+        </div>
       </div>
       <div class="col-md-4">
           <label>Interval (seconds) <tip>The minimum value is 2.</tip></label>
