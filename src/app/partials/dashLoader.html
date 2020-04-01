@@ -102,23 +102,16 @@
     <a  alt="Save" title="Save" href="#" class="dropdown-toggle" data-toggle="dropdown">
         <i class='icon-save'></i>
     </a>
-    <ul class="dropdown-menu" style="padding:10px">
+    <ul class="dropdown-menu" style="padding:10px;width:240px;">
         <li ng-show="dashboard.current.loader.save_default || dashboard.current.loader.save_local">
             <h5>Locally</h5>
             <div class="list-group">
-                <div ng-show="dashboard.current.loader.save_local">
-                  <a href="" class="list-group-item active" alt="Export to File" title="Export to File" ng-click="dashboard.to_file()">
-                    <i class="icon-download"></i><div>Export to File<div><div><tip>Export layout, not data, to file</tip></div></a>
-                </div>
-                <div ng-show="dashboard.current.loader.save_default">
-                  <a href="" class="list-group-item active" alt="Set as Browser Default" title="Set as Browser Default" ng-click="set_default()">
-                    <i class="icon-bookmark"></i> Set as Browser Default</a>
-                    <tip>Store dashboard preference to browser's localStorage</tip>
-                </div>
-                <div ng-show="dashboard.current.loader.save_default">
-                  <a href="" class="list-group-item active" alt="Clear Cache" title="Clear Cache" ng-click="purge_default()">
+                <a class="list-group-item" ng-show="dashboard.current.loader.save_local" href="" class="list-group-item active" alt="Export to File" title="Export to File" ng-click="dashboard.to_file()">
+                    <i class="icon-download"></i> Export to File <tip>Export layout, not data, to file</tip></a>
+                <a class="list-group-item" ng-show="dashboard.current.loader.save_default" href="" class="list-group-item active" alt="Set as Browser Default" title="Set as Browser Default" ng-click="set_default()">
+                    <i class="icon-bookmark"></i> Set as Browser Default <tip>Store dashboard preference to browser's localStorage</tip></a>
+                <a class="list-group-item" ng-show="dashboard.current.loader.save_default" href="" class="list-group-item active" alt="Clear Cache" title="Clear Cache" ng-click="purge_default()">
                     <i class="icon-ban-circle"></i> Clear Browser Default</a>
-                </div>
             </div>
         </li>
   
