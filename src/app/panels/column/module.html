@@ -3,7 +3,7 @@
   <div ng-repeat="(name, panel) in panel.panels" ng-hide="panel.height == '0px' || panel.hide" class="row panel" style="min-height:{{panel.height}}; position:relative">
     <!-- Error Panel -->
     <div class="row">
-      <div class="class="col-md-12" alert alert-danger panel-error" ng-hide="!panel.error">
+      <div class="col-md-12 alert alert-danger panel-error" ng-hide="!panel.error">
         <a class="close" ng-click="panel.error=false">&times;</a>
         <i class="icon-exclamation-sign"></i> <strong>Oops!</strong> {{panel.error}}
       </div>
