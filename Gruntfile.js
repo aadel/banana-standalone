@@ -14,11 +14,6 @@ module.exports = function (grunt) {
     destDir: 'dist',
     tempDir: 'tmp',
     meta: {
-      // banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
-      //   '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
-      //   '<%= pkg.homepage ? " * " + pkg.homepage + "\\n" : "" %>' +
-      //   ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
-      //   ' Licensed <%= pkg.license %> */\n\n'
       banner: '/*! <%= pkg.name %> - v<%= pkg.version %> - ' +
         '<%= grunt.template.today("yyyy-mm-dd") %>\n' +
         ' * Copyright (c) <%= grunt.template.today("yyyy") %> <%= pkg.author.name %>;' +
@@ -180,19 +175,23 @@ module.exports = function (grunt) {
         }
       }
     },
-    uglify: {
+    terser: {
+      options: {
+        warnings: true,
+        compress: {},
+        output: {
+          comments: "some",
+          // banner: '<%= meta.banner %>'
+        },
+      },
       dest: {
         expand: true,
-        src: ['**/*.js', '!config.js', '!app/dashboards/*.js'],
+        src: ['src/app/controlelrs/**/*.js', 'src/app/directives/**/*.js',
+          'src/app/filters/**/*.js', 'src/app/panels/**/*.js', 'src/app/services/**/*.js',
+          'app.js', '!config.js'],
         dest: '<%= destDir %>',
         cwd: '<%= destDir %>',
         filter: 'isFile',
-        options: {
-          quite: true,
-          compress: {},
-          preserveComments: false,
-          banner: '<%= meta.banner %>'
-        }
       }
     },
     'git-describe': {
@@ -258,11 +257,11 @@ module.exports = function (grunt) {
         'timepicker',
         'datepicker',
         'underscore',
-        'filters/all',
+        'all-filters',
         'jquery.flot',
-        'services/all',
+        'all-services',
         'angular-strap',
-        'directives/all',
+        'all-directives',
         'jquery.flot.pie',
         'angular-sanitize',
         'angular-dragdrop',
@@ -305,7 +304,7 @@ module.exports = function (grunt) {
     'copy:everything_to_dist',
     'clean:temp',
     'build:write_revision',
-    'uglify:dest'
+    'terser:dest'
   ]);
 
   // run a string replacement on the require config, using the latest revision number as the cache buster
@@ -356,7 +355,7 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-clean');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
-  grunt.loadNpmTasks('grunt-contrib-uglify-es');
+  grunt.loadNpmTasks('grunt-terser');
   grunt.loadNpmTasks('grunt-string-replace');
   grunt.loadNpmTasks('grunt-contrib-htmlmin');
   grunt.loadNpmTasks('grunt-contrib-requirejs');
