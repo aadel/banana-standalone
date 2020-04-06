@@ -20,8 +20,18 @@ install:
     - wget https://s3.amazonaws.com/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -O $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2
     - tar -xvf $PWD/travis-phantomjs/phantomjs-2.0.0-ubuntu-12.04.tar.bz2 -C $PWD/travis-phantomjs
     - export PATH=$PWD/travis-phantomjs:$PATH
-    - npm install -g bower
     - npm install
-    - bower install
+    - npm install -g grunt
+    - grunt build
+    - cd dist && tar -cvzf banana-dist.tar.gz *
 script:
     - npm run test-single-run
+
+deploy:
+  provider: s3
+  access_key_id: $ACESS_KEY_ID
+  secret_access_key: $SECRET_ACCESS_KEY
+  bucket: "io.aadel.banana"
+  skip_cleanup: true
+  upload-dir: $TRAVIS_BRANCH
+  glob: banana-dist.tar.gz
