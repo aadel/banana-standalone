@@ -35,3 +35,5 @@ deploy:
   skip_cleanup: true
   upload-dir: $TRAVIS_BRANCH
   glob: banana-dist.tar.gz
+  on:
+    branch: latest
