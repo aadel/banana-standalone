@@ -23,7 +23,7 @@ install:
     - npm install
     - npm install -g grunt
     - grunt build
-    - cd dist && tar -cvzf banana-dist.tar.gz *
+    - mkdir $TRAVIS_BRANCH && cd dist && tar -cvzf ../$TRAVIS_BRANCH/banana-dist.tar.gz *
 script:
     - npm run test-single-run
 
@@ -33,9 +33,7 @@ deploy:
   secret_access_key: $AWS_SECRET_ACCESS_KEY
   bucket: "io.aadel.banana"
   skip_cleanup: true
-  upload-dir: $TRAVIS_BRANCH
   acl: public_read
-  file_glob: true
-  glob: banana-dist.tar.gz
+  local_dir: $TRAVIS_BRANCH
   on:
     branch: $TRAVIS_BRANCH
