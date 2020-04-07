@@ -23,7 +23,7 @@ install:
     - npm install
     - npm install -g grunt
     - grunt build
-    - mkdir $TRAVIS_BRANCH && cd dist && tar -cvzf ../$TRAVIS_BRANCH/banana-dist.tar.gz *
+    - mkdir $TRAVIS_BRANCH && cd dist && tar -cvzf banana-$TRAVIS_BRANCH.tar.gz * && cd ..
 script:
     - npm run test-single-run
 
