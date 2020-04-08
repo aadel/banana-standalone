@@ -162,7 +162,7 @@ module.exports = function (grunt) {
           skipPragmas: true,
 
           done: function (done, output) {
-            var duplicates = require('rjs-build-analysis').duplicates(output);
+            var duplicates = require('./src/vendor/rjs-build-analysis').duplicates(output);
 
             if (duplicates.length > 0) {
               grunt.log.subhead('Duplicates found in requirejs build:');
