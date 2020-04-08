@@ -21,7 +21,6 @@
     "grunt-contrib-less": "^2.0.0",
     "grunt-contrib-requirejs": "^1.0.0",
     "grunt-git-describe": "^2.4.4",
-    "grunt-ng-annotate": "^4.0.0",
     "grunt-string-replace": "^1.0.0",
     "grunt-terser": "^1.0.0",
     "jshint": "^2.11.0",
