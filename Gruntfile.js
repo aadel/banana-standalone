@@ -125,23 +125,6 @@ module.exports = function (grunt) {
         ]
       }
     },
-    ngAnnotate: {
-      build: {
-        expand:true,
-        cwd:'<%= tempDir %>/src',
-        src: [
-          'app/controllers/**/*.js',
-          'app/directives/**/*.js',
-          'app/services/**/*.js',
-          'app/filters/**/*.js',
-          'app/panels/**/*.js',
-          'app/app.js',
-          'vendor/angular/**/*.js',
-          'vendor/solrjs/solr-angular-client.js'
-        ],
-        dest: '<%= tempDir %>/src'
-      }
-    },
     requirejs: {
       build: {
         options: {
@@ -299,7 +282,6 @@ module.exports = function (grunt) {
     'htmlmin:build',
     'cssmin:dist',
     'clean:build',
-    'ngAnnotate:build',
     'requirejs:build',
     'copy:everything_to_dist',
     'clean:temp',
@@ -348,7 +330,6 @@ module.exports = function (grunt) {
   });
 
   // load plugins
-  grunt.loadNpmTasks('grunt-ng-annotate');
   grunt.loadNpmTasks('grunt-contrib-copy');
   grunt.loadNpmTasks('grunt-contrib-less');
   grunt.loadNpmTasks('grunt-git-describe');
