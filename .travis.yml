@@ -28,7 +28,7 @@ script:
     - npm run test-single-run
 
 deploy:
-  - provider: s3
+  provider: s3
   access_key_id: $AWS_ACCESS_KEY_ID
   secret_access_key: $AWS_SECRET_ACCESS_KEY
   region: ca-central-1
@@ -37,8 +37,3 @@ deploy:
   local_dir: $TRAVIS_BRANCH
   on:
     branch: $TRAVIS_BRANCH
-  
-  - provider: script
-  script: bash curl -H 'Content-Type: application/json' -X POST -d '{"docker_tag": "$TRAVIS_BRANCH"}' 'https://hub.docker.com/api/build/v1/source/f3ae180f-58a9-4799-80ba-b5dd128ac905/trigger/8cb4e293-28bb-4646-8fe6-30232f31d05a/call/'
-  on:
-      branch: $TRAVIS_BRANCH
