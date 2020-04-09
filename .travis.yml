@@ -34,7 +34,6 @@ deploy:
   region: ca-central-1
   bucket: "io.aadel.banana"
   skip_cleanup: true
-  acl: public_read
   local_dir: $TRAVIS_BRANCH
   on:
     branch: $TRAVIS_BRANCH
