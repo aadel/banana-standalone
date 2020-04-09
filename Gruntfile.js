@@ -66,6 +66,8 @@ module.exports = function (grunt) {
           'app.js',
           'index.html',
           'config.json',
+          'package.json',
+          'npm-shrinkwrap.json',
           '!**/*.less'
         ],
         dest: '<%= tempDir %>'
