@@ -162,6 +162,7 @@ module.exports = function (grunt) {
       options: {
         warnings: true,
         compress: {},
+        mangle: false,
         output: {
           comments: "some",
           // banner: '<%= meta.banner %>'
