@@ -208,7 +208,7 @@ define([
 
                     // Check for error and abort if found
                     if (!(_.isUndefined(results[i].error))) {
-                        $scope.panel.error = $scope.parse_error(results[i].error);
+                        $scope.panel.error = $scope.parse_error(results[i].error.msg);
                         return;
                     }
 
