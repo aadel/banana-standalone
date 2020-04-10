@@ -84,6 +84,24 @@ function (angular, app, _, $, kbn) {
     };
     _.defaults($scope.panel,_d);
 
+    /**
+     * Parse the custom query into a proper query string to be used in a filter.
+     * For example, if we have this custom query, "&fq=cat:electronics&fq=inStock:true",
+     * then it will be parsed into this query string, "cat:electronics AND inStock:true".
+     *
+     * @param query - The custom query string.
+     * @return {string} - The query string that can be used in a filter.
+     */
+    function parseCustomQueriesToString(query) {
+      if (!query) { return ''; }
+
+      return query
+        .split('&')
+        .filter(q => q && q.startsWith('fq='))
+        .map(q => q.slice(3))
+        .join(' AND ');
+    }
+    
     $scope.init = function () {
       $scope.hits = 0;
       //$scope.testMultivalued();
@@ -397,23 +415,6 @@ function (angular, app, _, $, kbn) {
       return ($scope.panel.chart === 'bar' && $scope.panel.bar_chart_arrangement === 'horizontal') ? data[0][0] : data[0][1];
     };
 
-    /**
-     * Parse the custom query into a proper query string to be used in a filter.
-     * For example, if we have this custom query, "&fq=cat:electronics&fq=inStock:true",
-     * then it will be parsed into this query string, "cat:electronics AND inStock:true".
-     *
-     * @param query - The custom query string.
-     * @return {string} - The query string that can be used in a filter.
-     */
-    function parseCustomQueriesToString(query) {
-      if (!query) { return ''; }
-
-      return query
-        .split('&')
-        .filter(q => q && q.startsWith('fq='))
-        .map(q => q.slice(3))
-        .join(' AND ');
-    }
   });
 
   module.directive('termsChart', function(querySrv,dashboard,filterSrv) {
