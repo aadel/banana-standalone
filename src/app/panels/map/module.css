@@ -1,5 +1,5 @@
 svg {
-    touch-action: none;
+    touch-action: manipulation;
 }
 
 .jvectormap-container {
@@ -7,7 +7,7 @@ svg {
     height: 100%;
     position: relative;
     overflow: hidden;
-    touch-action: none;
+    touch-action: manipulation;
 }
 
 .jvectormap-tip {
