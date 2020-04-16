@@ -198,6 +198,12 @@ define([
                 _.each(dashboard.current.services.query.ids, function (id, i) {
                     $scope.panelMeta.loading = false;
 
+                    // Check for error and abort if found
+                    if (!(_.isUndefined(results[i].error))) {
+                        $scope.panel.error = $scope.parse_error(results[i].error.msg);
+                        return;
+                    }
+                    
                     _.each(results[i].stats.stats_fields, function(metricValues, metricField) {
                         _.each($scope.panel.metrics, function(metric) {
                             if (metric.field === metricField) {
@@ -205,12 +211,6 @@ define([
                             }
                         });
                     });
-
-                    // Check for error and abort if found
-                    if (!(_.isUndefined(results[i].error))) {
-                        $scope.panel.error = $scope.parse_error(results[i].error.msg);
-                        return;
-                    }
 
                     $scope.updateFlow();
                 });
