@@ -1,20 +1,28 @@
 <div class="modal" tabindex="0" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="editor-title modal-header pull-right">Row settings</div>
+      <div class="modal-header tab-content">
+        <div class="editor-title pull-right">Row Settings</div>
+          <ul class="nav nav-tabs">
+              <li ng-class="{active: rowControllerEditor.index == $index}" 
+                  ng-repeat="tab in rowEditorTabs">
+                    <a data-toggle="tab"
+                      ng-click="rowControllerEditor.index=$index">{{tab.title}}</a>
+            </li>
+        </ul>
+      </div>
       <div class="modal-body">
-        <div bs-tabs data-bs-active-pane="rowEditorTabs.activePane">
-          <div ng-repeat="tab in rowEditorTabs" data-title="{{tab.title}}" bs-pane>
-            <div ng-include src="tab.src"></div>
-          </div>  
-        </div>
+        <div ng-repeat="tab in rowEditorTabs">
+          <div ng-include src="tab.src" 
+              ng-show="rowControllerEditor.index == $index"></div>
+          </div>
       </div>
       <div class="modal-footer">
-        <button id="rowEditorAddPanelButton" ng-show="panel.type &amp;&amp; rowEditorTabs.activePane == 2"
-          ng-click="add_panel(row,panel); reset_panel(); rowEditorTabs.activePane = 0;" class="btn btn-success"
+        <button id="rowEditorAddPanelButton" ng-show="panel.type &amp;&amp; rowControllerEditor.index == 2"
+          ng-click="add_panel(row,panel); reset_panel(); rowControllerEditor.index = 0;" class="btn btn-success"
           ng-disabled="panel.loadingEditor">Add Panel</button>
         <button id="rowEditorCloseButton" type="button" class="btn btn-danger"
-          ng-click="rowEditorTabs.activePane=0;$hide();reset_panel();close_edit()">Close</button>
+          ng-click="$hide();reset_panel();close_edit()">Close</button>
       </div>
     </div>
   </div>

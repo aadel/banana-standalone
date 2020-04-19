@@ -12,9 +12,7 @@ function (angular, config, _) {
     var module = angular.module('kibana.controllers');
 
     module.controller('DashCtrl', function ($scope, $route, ejsResource, sjsResource, fields, dashboard, alertSrv, panelMove) {
-        $scope.editor = {
-            index: 0
-        };
+        $scope.dashControllerEditor = { index: 0 };
 
         $scope.editor_tabs = {
             general: {

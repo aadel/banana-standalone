@@ -20,7 +20,7 @@
         </span>
 
         <span ng-show="panel.editable != false">
-            <span bs-modal="modal" data-container="body" data-template-url="app/partials/paneleditor.html" class="pointer">
+            <span bs-modal="panelEditorModal" data-container="body" data-template-url="app/partials/paneleditor.html" class="pointer">
                 <a title="Configure" alt="Configure" href="" class="icon-cog pointer btn btn-default btn-sm"
                     bs-tooltip="'Configure'"></a></span>
         </span>
@@ -32,7 +32,7 @@
         </span>
 
         <span ng-repeat="task in panelMeta.modals" ng-show="panel.spyable">
-            <span bs-modal="modal" data-template-url="{{task.partial}}" class="pointer">
+            <span bs-modal="panelEditorModal" data-template-url="{{task.partial}}" class="pointer">
                 <a title="Inspect" alt="Inspect" href="" bs-tooltip="Inspect" ng-class="task.icon"
                     class="pointer btn btn-default btn-sm"></a>
             </span>
