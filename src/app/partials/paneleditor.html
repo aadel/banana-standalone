@@ -3,7 +3,7 @@
     <div class="modal-content">
       <div class="editor-title modal-header pull-right">{{panel.type}} settings</div>
       <div class="modal-body">
-        <div bs-tabs data-bs-active-pane="editor.index">
+        <div bs-tabs data-bs-active-pane="panelEditor.index">
           <div ng-repeat="tab in setEditorTabs(panelMeta, panel)" data-title="{{tab.title}}" 
             bs-pane>
             <div ng-include src="tab.src"></div>
@@ -13,7 +13,7 @@
       
       <div class="modal-footer">
         <!-- close_edit() is provided here to allow for a scope to perform action on $hide() -->
-        <button type="button" class="btn btn-danger" ng-click="editor.index=0;close_edit();$hide()">Close</button>
+        <button type="button" class="btn btn-danger" ng-click="panelEditor.index=0;close_edit();$hide()">Close</button>
       </div>
     </div>
   </div>

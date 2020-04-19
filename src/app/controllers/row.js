@@ -11,6 +11,8 @@ function (angular, app, _) {
 
     module.controller('RowCtrl', function ($scope, $rootScope, $timeout, ejsResource, sjsResource, querySrv) {
         
+        $scope.rowControllerEditor = { index: 0 };
+        
         $scope.rowEditorTabs = {
             general: {
                 title: "General",
@@ -25,8 +27,6 @@ function (angular, app, _) {
                 src: 'app/partials/roweditor/addPanel.html'
             }
         };
-
-        $scope.rowEditorTabs.activePane = 0;
         
         var _d = {
             title: "Row",

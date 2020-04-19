@@ -13,9 +13,9 @@
         <i class='icon-file'></i>
     </a>
     <ul class="dropdown-menu" style="padding:10px">
-        <li><a href="" alt="Time-series dashboard" title="Time-series dashboard" class="link" bs-modal="modal" data-template-url="app/partials/solrSettings.html" data-container="body" ng-click="$scope.type='default-ts'"><i
+        <li><a href="" alt="Time-series dashboard" title="Time-series dashboard" class="link" bs-modal="solrSettingsModal" data-template-url="app/partials/solrSettings.html" data-container="body" ng-click="$scope.type='default-ts'"><i
             class="icon-time"></i> Time-series dashboard </a></li>
-        <li><a href="" alt="Non time-series dashboard" title="Non time-series dashboard" class="link" bs-modal="modal" data-template-url="app/partials/solrSettings.html" data-container="body" ng-click="$scope.type='default-nts'"><i
+        <li><a href="" alt="Non time-series dashboard" title="Non time-series dashboard" class="link" bs-modal="solrSettingsModal" data-template-url="app/partials/solrSettings.html" data-container="body" ng-click="$scope.type='default-nts'"><i
             class="icon-th-large"></i> Non time-series dashboard </a></li>
     </ul>
 </li>
@@ -161,7 +161,7 @@
 <!-- Configure menu -->
 <li ng-show="dashboard.current.editable">
     <span></span>
-    <a title="Configuration" alt="Configuration" bs-modal="modal"
+    <a title="Configuration" alt="Configuration" bs-modal="dashEditorModal"
         data-template-url="app/partials/dasheditor.html" data-container="body">
         <i class='icon-cog pointer' bs-tooltip data-title="Configure dashboard" data-placement="bottom"></i>
     </a>
