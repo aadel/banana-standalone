@@ -27,6 +27,10 @@ function (angular, app, _) {
                 src: 'app/partials/roweditor/addPanel.html'
             }
         };
+
+        $scope.resetDefaultTab = function () {
+            $scope.rowControllerEditor.index = 0;
+        }
         
         var _d = {
             title: "Row",
