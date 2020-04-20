@@ -33,6 +33,10 @@ function (angular, config, _) {
             }
         };
 
+        $scope.resetDefaultTab = function() {
+            $scope.dashControllerEditor.index = 0;
+        }
+
         $scope.panelsTabs = {};
 
         // For moving stuff around the dashboard. Needs better names

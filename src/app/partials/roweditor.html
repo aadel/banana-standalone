@@ -19,7 +19,7 @@
       </div>
       <div class="modal-footer">
         <button id="rowEditorAddPanelButton" ng-show="panel.type &amp;&amp; rowControllerEditor.index == 2"
-          ng-click="add_panel(row,panel); reset_panel(); rowControllerEditor.index = 0;" class="btn btn-success"
+          ng-click="add_panel(row,panel); reset_panel();" class="btn btn-success"
           ng-disabled="panel.loadingEditor">Add Panel</button>
         <button id="rowEditorCloseButton" type="button" class="btn btn-danger"
           ng-click="$hide();reset_panel();close_edit()">Close</button>
