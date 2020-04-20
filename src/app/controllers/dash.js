@@ -35,7 +35,7 @@ function (angular, config, _) {
 
         $scope.resetDefaultTab = function() {
             $scope.dashControllerEditor.index = 0;
-        }
+        };
 
         $scope.panelsTabs = {};
 
