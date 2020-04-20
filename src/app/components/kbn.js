@@ -298,14 +298,6 @@ function($, _) {
     return Math.floor((number/outof)*10000)/100 + "%";
   };
 
-  kbn.addslashes = function(str) {
-    str = str.replace(/\\/g, '\\\\');
-    str = str.replace(/\'/g, '\\\'');
-    str = str.replace(/\"/g, '\\"');
-    str = str.replace(/\0/g, '\\0');
-    return str;
-  };
-
   kbn.interval_regex = /(\d+(?:\.\d+)?)([Mwdhmsy])/;
 
   // histogram & trends
