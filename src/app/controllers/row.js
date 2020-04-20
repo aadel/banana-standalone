@@ -30,7 +30,7 @@ function (angular, app, _) {
 
         $scope.resetDefaultTab = function () {
             $scope.rowControllerEditor.index = 0;
-        }
+        };
         
         var _d = {
             title: "Row",
