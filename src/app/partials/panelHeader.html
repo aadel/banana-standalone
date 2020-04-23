@@ -1,7 +1,9 @@
 <div class="panel-heading clearfix">
-    <span class="row-text pull-left" ng-show="panel.title">
-        {{panel.title}}
-    </span>
+    <div class="pull-left">
+        <span class="row-text" ng-show="panel.title">
+            {{panel.title}}
+        </span>
+    </div>
     <div class="pull-right">
         <span ng-show="panelMeta.loading == true">
             <span>
@@ -15,18 +17,18 @@
 
         <span ng-show="panel.editable != false">
             <span confirm-click="row.panels = _.without(row.panels,panel)" confirmation="Are you sure you want to remove this {{panel.type}} panel?" class="pointer">
-                <a title="Remove" alt="Remove" href="" class="icon-remove pointer btn btn-default btn-sm" bs-tooltip="'Remove'"></a>
+                <a title="Remove" alt="Remove" href="" class="icon-remove pointer btn btn-default btn-xs" bs-tooltip="'Remove'"></a>
             </span>
         </span>
 
         <span ng-show="panel.editable != false">
             <span bs-modal="panelEditorModal" data-container="body" data-template-url="app/partials/paneleditor.html" class="pointer">
-                <a title="Configure" alt="Configure" href="" class="icon-cog pointer btn btn-default btn-sm"
+                <a title="Configure" alt="Configure" href="" class="icon-cog pointer btn btn-default btn-xs"
                     bs-tooltip="'Configure'"></a></span>
         </span>
 
         <span ng-show="panel.transpose_show != undefined && !transpose_show">
-            <a ng-click="flip()" bs-tooltip="'Transpose rows and columns'" class="btn btn-default btn-sm">
+            <a ng-click="flip()" bs-tooltip="'Transpose rows and columns'" class="btn btn-default btn-xs">
                 <i class="pointer icon-repeat"></i>
             </a>
         </span>
@@ -34,13 +36,13 @@
         <span ng-repeat="task in panelMeta.modals" ng-show="panel.spyable">
             <span bs-modal="panelEditorModal" data-template-url="{{task.partial}}" class="pointer">
                 <a title="Inspect" alt="Inspect" href="" bs-tooltip="Inspect" ng-class="task.icon"
-                    class="pointer btn btn-default btn-sm"></a>
+                    class="pointer btn btn-default btn-xs"></a>
             </span>
         </span>
 
         <!-- bettermap fitBound action -->
         <span ng-show="panel.fitBoundsAuto != undefined && !panel.fitBoundsAuto">
-            <a ng-click="fitBounds()" class="btn btn-default btn-sm"><i tooltip="'fit bound'" class="pointer icon-fire"></i></a>
+            <a ng-click="fitBounds()" class="btn btn-default btn-xs"><i tooltip="'fit bound'" class="pointer icon-fire"></i></a>
         </span>
 
         <span class="dropdown" bs-tooltip="'Export'" data-placement="bottom"
