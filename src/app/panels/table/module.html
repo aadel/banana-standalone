@@ -52,7 +52,7 @@
         <tbody ng-repeat="event in data | slice:panel.offset:panel.offset+panel.size" ng-class-odd="'odd'">
           <!-- Main Row -->
           <tr ng-click="toggle_details(event)" class="pointer">
-            <td ng-show="panel.fields.length<1">{{event.kibana._source|stringify|tableTruncate:panel.trimFactor:1}}</td>
+            <td ng-show="panel.fields.length<1" class="cell-wrap">{{event.kibana._source|stringify|tableTruncate:panel.trimFactor:1}}</td>
 
             <!-- Column Values -->
             <td ng-show="panel.fields.length>0" ng-repeat="field in panel.fields"
