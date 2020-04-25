@@ -24,7 +24,10 @@ module.exports = function (grunt) {
       temp: ['<%= tempDir %>'],
       build: {
         src: ['<%= tempDir %>/css/**/*.css', '!<%= tempDir %>/css/**/*.min.css']
-      }      
+      },
+      src: {
+        src: ['<%= srcDir %>/css/bootstrap.light.css', '<%= srcDir %>/css/bootstrap.dark.css']
+      }
     },
     less: {
       // this is the only task, other than copy, that runs on the src directory, since we don't really need
