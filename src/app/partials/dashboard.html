@@ -20,20 +20,24 @@
             <div>
                 <div class="row-open">
                     <span ng-show="row.collapsable">
-                        <a alt="Expand row" href="" bs-tooltip="'Hide row'" data-placement="right"  class="nolink small icon-collapse-top" ng-click="toggle_row(row)"></a>
+                        <button type="button" class="btn btn-xs btn-link" bs-tooltip="'Hide row'" data-placement="right">
+                            <span class="glyphicon glyphicon-collapse-up" ng-click="toggle_row(row)"></span>
+                        </button>
                         <br>
                     </span>
                     <span bs-modal="rowEditorModal" data-container="body" data-template-url="app/partials/roweditor.html" ng-show="row.editable">
-                        <a href="" title="Configure Row" alt="Configure Row"  bs-tooltip="'Configure row'" data-placement="right" class="nolink small icon-cog pointer"></a>
+                        <button type="button" class="btn btn-xs btn-link" bs-tooltip="'Configure Row'" data-placement="right">
+                            <span class="glyphicon glyphicon-cog"></span>
+                        </button>
                         <br>
                     </span>
                     <span ng-show="rowSpan(row) == 12 && row.editable">
-                        <a href="" alt='Row Full' bs-tooltip="'Row full. Create a new row to add more panels'" data-placement="right" class="nolink small icon-trello"></a> 
+                        <span class="glyphicon glyphicon-tasks" bs-tooltip="'Row full. Create a new row to add more panels'" data-placement="right"></span>
                         <br>
                     </span>
                     <span ng-show="rowSpan(row) > 12">
-                        <i bs-tooltip="'Total span > 12. This row may format poorly'" data-placement="right"
-                            class="icon-warning-sign text-warning"></i>
+                        <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"
+                            bs-tooltip="'Total span > 12. This row may format poorly'" data-placement="right"></span>
                         <br>
                     </span>
                 </div>

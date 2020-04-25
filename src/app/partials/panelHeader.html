@@ -17,38 +17,47 @@
 
         <span ng-show="panel.editable != false">
             <span confirm-click="row.panels = _.without(row.panels,panel)" confirmation="Are you sure you want to remove this {{panel.type}} panel?" class="pointer">
-                <a title="Remove" alt="Remove" href="" class="icon-remove pointer btn btn-xs" bs-tooltip="'Remove'"></a>
+                <button class="btn btn-xs btn-link" bs-tooltip="'Remove'">
+                    <span class="glyphicon glyphicon-remove"></span>
+                </button>
             </span>
         </span>
 
         <span ng-show="panel.editable != false">
-            <span bs-modal="panelEditorModal" data-container="body" data-template-url="app/partials/paneleditor.html" class="pointer">
-                <a title="Configure" alt="Configure" href="" class="icon-cog pointer btn btn-xs"
-                    bs-tooltip="'Configure'"></a></span>
+            <span bs-modal="panelEditorModal" data-container="body" data-template-url="app/partials/paneleditor.html">
+                <button class="btn btn-xs btn-link" bs-tooltip="'Configure'">
+                    <span class="glyphicon glyphicon-cog"></span>
+                </button>
+            </span>
         </span>
 
         <span ng-show="panel.transpose_show != undefined && !transpose_show">
-            <a ng-click="flip()" bs-tooltip="'Transpose rows and columns'" class="btn btn-xs">
-                <i class="pointer icon-repeat"></i>
-            </a>
+            <button class="btn btn-xs btn-link" bs-tooltip="'Transpose rows and columns'">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>
         </span>
 
         <span ng-repeat="task in panelMeta.modals" ng-show="panel.spyable">
             <span bs-modal="panelEditorModal" data-template-url="{{task.partial}}" class="pointer">
-                <a title="Inspect" alt="Inspect" href="" bs-tooltip="Inspect" ng-class="task.icon"
-                    class="pointer btn btn-xs"></a>
+                <button class="btn btn-xs btn-link" bs-tooltip="'Inspect'">
+                    <span class="glyphicon glyphicon-eye-open"></span>
+                </button>
             </span>
         </span>
 
         <!-- bettermap fitBound action -->
         <span ng-show="panel.fitBoundsAuto != undefined && !panel.fitBoundsAuto">
-            <a ng-click="fitBounds()" class="btn btn-xs"><i tooltip="'fit bound'" class="pointer icon-fire"></i></a>
+            <button class="btn btn-xs btn-link" ng-click="fitBounds()" bs-tooltip="'fit bound'">
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>
         </span>
 
         <span class="dropdown" bs-tooltip="'Export'" data-placement="bottom"
             ng-show="panelMeta.exportfile">
-            <span class="pointer" class="dropdown-toggle" data-toggle="dropdown">
-                <a title="Save" alt="Save" href="" class="icon-save btn btn-xs" class="pointer"></a>
+            <span class="dropdown-toggle" data-toggle="dropdown">
+                <button class="btn btn-xs btn-link">
+                    <span class="glyphicon glyphicon-save"></span>
+                </button>
             </span>
             <ul class="dropdown-menu" style="padding:10px; left:-150px;">
                 <h5>Number of Rows</h5>
