@@ -13,6 +13,7 @@ function (angular, config, _) {
 
     module.controller('DashCtrl', function ($scope, $route, ejsResource, sjsResource, fields, dashboard, alertSrv, panelMove) {
         $scope.dashControllerEditor = { index: 0 };
+        $scope.panelEditor = { index: 0 };
 
         $scope.editor_tabs = {
             general: {
@@ -96,7 +97,7 @@ function (angular, config, _) {
             }
         };
 
-        $scope.setEditorTabs = function (panelMeta, panel) {
+        $scope.setPanelEditorTabs = function (panelMeta, panel) {
             if (_.isUndefined($scope.panelsTabs[panel.type])) {
                 let editorTabs = [{title: 'General', src: 'app/partials/panelgeneral.html'},
                 {title: 'Panel', src: $scope.edit_path(panel.type)},

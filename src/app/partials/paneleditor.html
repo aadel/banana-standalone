@@ -1,16 +1,22 @@
 <div class="modal" tabindex="0" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <div class="editor-title modal-header pull-right">{{panel.type}} settings</div>
-      <div class="modal-body">
-        <div bs-tabs data-bs-active-pane="panelEditor.index">
-          <div ng-repeat="tab in setEditorTabs(panelMeta, panel)" data-title="{{tab.title}}" 
-            bs-pane>
-            <div ng-include src="tab.src"></div>
-          </div>
+      <div class="modal-header tab-content">
+        <div class="editor-title pull-right">{{panel.type}} Settings</div>
+        <ul class="nav nav-tabs">
+            <li ng-class="{active: panelEditor.index == $index}" 
+                ng-repeat="tab in setPanelEditorTabs(panelMeta, panel)">
+                    <a data-toggle="tab"
+                      ng-click="panelEditor.index=$index">{{tab.title}}</a>
+            </li>
+        </ul>
+    </div>
+    <div class="modal-body">
+      <div ng-repeat="tab in setPanelEditorTabs(panelMeta, panel)">
+          <div ng-include src="tab.src" 
+              ng-show="panelEditor.index == $index"></div>
         </div>
-      </div>
-      
+    </div>
       <div class="modal-footer">
         <!-- close_edit() is provided here to allow for a scope to perform action on $hide() -->
         <button type="button" class="btn btn-danger" ng-click="panelEditor.index=0;close_edit();$hide()">Close</button>
