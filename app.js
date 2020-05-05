@@ -1,5 +1,7 @@
 'use strict';
 
+const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
+
 var express = require('express');
 var path = require('path');
 var favicon = require('serve-favicon');
@@ -33,6 +35,24 @@ app.set('proxy',
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+app.use(expressCspHeader({
+    directives: {
+        'default-src': [NONE],
+        'base-uri': [NONE],
+        'connect-src': [SELF],
+        'form-action': [SELF],
+        'font-src': [SELF],
+        'frame-ancestors': [NONE],
+        'script-src': [SELF],
+        'img-src': [SELF],
+        'media-src': [SELF],
+        'style-src': [SELF, INLINE],
+        'worker-src': [SELF],
+        'block-all-mixed-content': true
+    }
+}));
+
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
 app.use(logger('dev'));
