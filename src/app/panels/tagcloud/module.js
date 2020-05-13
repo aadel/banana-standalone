@@ -129,7 +129,7 @@ define([
               sum += count;
 
               // if ignoreStopWords is enabled, skip this term.
-              if ($scope.panel.ignoreStopWords && stopwords.indexOf(term.toLowerCase()) > -1) {
+              if ($scope.panel.ignoreStopWords && stopwords.getStopwords().indexOf(term.toLowerCase()) > -1) {
                 continue;
               }
 
