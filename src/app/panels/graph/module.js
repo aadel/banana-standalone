@@ -140,7 +140,7 @@ function (angular, app, _, $, vis, X2JS) {
         .replace(/%%FL%%/g, $scope.panel.join_field + ($scope.panel.root_nodes_sort? ',' + 
           $scope.panel.root_nodes_sort : ''))
         .replace(/%%FROM_FIELD%%/g, $scope.panel.from_field)
-        .replace(/%%QUERY%%/, querySrv.getOPQuery().substring(2))
+        .replace(/%%QUERY%%/, querySrv.getQuery(0).substring(2))
         /* + fq ? + ')' */;
 
       return graph_expression;

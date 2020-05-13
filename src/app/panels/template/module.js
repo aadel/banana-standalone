@@ -92,7 +92,7 @@ function (angular, app, _, $, d3) {
       var fl = '&fl=' + $scope.panel.field;
       var rows_limit = '&rows=' + $scope.panel.max_rows;
 
-      $scope.panel.queries.query = querySrv.getOPQuery() + fq + fl + wt + rows_limit;
+      $scope.panel.queries.query = querySrv.getQuery(0) + fq + fl + wt + rows_limit;
 
       // Set the additional custom query
       if ($scope.panel.queries.custom != null) {

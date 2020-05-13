@@ -110,7 +110,7 @@ function (angular, app, kbn, _/*, $*/) {
       hl += '&hl.fragsize=' + $scope.panel.fragsize;
       hl += '&hl.simple.pre=' + $scope.panel.simplePre + '&hl.simple.post=' + $scope.panel.simplePost;
 
-      $scope.panel.queries.query = querySrv.getOPQuery() + fq + fl + wt + rows_limit + hl;
+      $scope.panel.queries.query = querySrv.getQuery(0) + fq + fl + wt + rows_limit + hl;
 
       // Set the additional custom query
       if ($scope.panel.queries.custom != null) {
