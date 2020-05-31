@@ -4,7 +4,7 @@ define([
   'angular',
   'kbn'
 ],
-function (angular, kbn) {
+function (angular) {
 
   angular
     .module('kibana.directives')
