@@ -1,6 +1,5 @@
 'use strict';
 
-const { expressCspHeader, INLINE, NONE, SELF } = require('express-csp-header');
 
 var express = require('express');
 var path = require('path');
@@ -11,6 +10,12 @@ var fs = require("fs");
 var httpProxy = require('http-proxy');
 var url = require('url');
 var solrSettings = require('./modules/solrSettings');
+
+const csp = require('helmet-csp');
+
+const NONE = "'none'", 
+      SELF = "'self'", 
+      INLINE = "'unsafe-inline'";
 
 var app = module.exports = express();
 
@@ -36,7 +41,7 @@ app.set('proxy',
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.use(expressCspHeader({
+app.use(csp({
     directives: {
         'default-src': [NONE],
         'base-uri': [NONE],
