@@ -147,19 +147,7 @@ module.exports = function (grunt) {
           findNestedDependencies: true,
           normalizeDirDefines: 'all',
           inlineText: true,
-          skipPragmas: true,
-
-          done: function (done, output) {
-            var duplicates = require('./src/vendor/rjs-build-analysis').duplicates(output);
-
-            if (duplicates.length > 0) {
-              grunt.log.subhead('Duplicates found in requirejs build:');
-              grunt.log.warn(duplicates);
-              done(new Error('r.js built duplicate modules, please check the excludes option.'));
-            }
-
-            done();
-          }
+          skipPragmas: true
         }
       }
     },

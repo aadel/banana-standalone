@@ -31,7 +31,6 @@
     "karma-junit-reporter": "^0.2.2",
     "karma-requirejs": "^1.1.0",
     "requirejs": "^2.1.14",
-    "rjs-build-analysis": "file:src/vendor/rjs-build-analysis",
     "shelljs": "^0.2.6",
     "tmp": "0.0.23"
   },
